@@ -2,8 +2,8 @@ package io.github.charlietap.chasm.decoder.decoder.section.custom
 
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
-import io.github.charlietap.chasm.ast.module.NameAssociation
-import io.github.charlietap.chasm.ast.module.NameMap
+import io.github.charlietap.chasm.ast.name.NameAssociation
+import io.github.charlietap.chasm.ast.name.NameMap
 import io.github.charlietap.chasm.decoder.context.DecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.vector.VectorDecoder

@@ -1,5 +1,7 @@
 package io.github.charlietap.chasm.ast.module
 
+import io.github.charlietap.chasm.ast.name.IndirectNameMap
+import io.github.charlietap.chasm.ast.name.NameMap
 import io.github.charlietap.chasm.ast.value.NameValue
 
 sealed interface Custom
@@ -15,14 +17,6 @@ data class Uninterpreted(val name: NameValue, val data: UByteArray) : Custom {
 
     override fun hashCode(): Int = name.hashCode()
 }
-
-data class NameAssociation(val idx: UInt, val name: NameValue)
-
-typealias NameMap = List<NameAssociation>
-
-data class IndirectNameAssociation(val idx: UInt, val nameMap: NameMap)
-
-typealias IndirectNameMap = List<IndirectNameAssociation>
 
 sealed interface NameSubsection
 
