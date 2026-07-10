@@ -22,8 +22,8 @@ import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.section.code.FunctionBody
 import io.github.charlietap.chasm.decoder.decoder.section.function.FunctionHeader
 import io.github.charlietap.chasm.decoder.error.ModuleDecodeError
-import io.github.charlietap.chasm.decoder.error.ModuleDecoderError
 import io.github.charlietap.chasm.decoder.error.SectionDecodeError
+import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 import io.github.charlietap.chasm.type.DefinedType
 
 internal class ModuleBuilder(private val version: Version) {
@@ -77,7 +77,7 @@ internal class ModuleBuilder(private val version: Version) {
 
     fun dataCount(count: UInt) = apply { dataCount = count }
 
-    fun build(context: ModuleDecoderContext): Result<Module, ModuleDecoderError> = binding {
+    fun build(context: ModuleDecoderContext): Result<Module, WasmDecodeError> = binding {
 
         if (functionHeaders.size != functionBodies.size) {
             Err(ModuleDecodeError.ModuleMalformed).bind<Unit>()

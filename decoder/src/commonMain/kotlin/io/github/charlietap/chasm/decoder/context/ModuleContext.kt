@@ -6,8 +6,3 @@ internal interface ModuleContext {
     var imports: List<Import>
     var requiresDataCount: Boolean
 }
-
-internal data class ModuleContextImpl(
-    override var imports: List<Import> = [],
-    override var requiresDataCount: Boolean = false,
-) : ModuleContext

@@ -3,6 +3,7 @@ package io.github.charlietap.chasm.decoder.decoder.vector
 import com.github.michaelbull.result.Ok
 import io.github.charlietap.chasm.ast.value.NameValue
 import io.github.charlietap.chasm.decoder.decoder.Decoder
+import io.github.charlietap.chasm.decoder.fixture.assertWasmDecodeError
 import io.github.charlietap.chasm.decoder.fixture.decoderContext
 import io.github.charlietap.chasm.decoder.fixture.ioError
 import io.github.charlietap.chasm.decoder.reader.FakeUIntReader
@@ -44,8 +45,8 @@ class BinaryGenericVectorDecoderTest {
             Ok(NameValue(""))
         }
 
-        val actual = VectorDecoder(context, subDecoder)
-
-        assertEquals(expected, actual)
+        assertWasmDecodeError(expected) {
+            VectorDecoder(context, subDecoder)
+        }
     }
 }

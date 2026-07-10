@@ -29,7 +29,7 @@ internal inline fun ParametricInstructionDecoder(
     crossinline vectorDecoder: VectorDecoder<ValueType>,
     noinline valueTypeDecoder: Decoder<ValueType>,
 ): Result<ParametricInstruction, WasmDecodeError> = binding {
-    when (val opcode = context.reader.ubyte().bind()) {
+    when (val opcode = context.reader.ubyte()) {
         DROP -> {
             ParametricInstruction.Drop
         }

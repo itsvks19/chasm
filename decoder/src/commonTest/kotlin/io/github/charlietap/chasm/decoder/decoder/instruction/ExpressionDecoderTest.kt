@@ -4,8 +4,9 @@ import com.github.michaelbull.result.Ok
 import io.github.charlietap.chasm.ast.instruction.Expression
 import io.github.charlietap.chasm.ast.instruction.Instruction
 import io.github.charlietap.chasm.ast.instruction.NumericInstruction
-import io.github.charlietap.chasm.decoder.context.scope.Scope
+import io.github.charlietap.chasm.decoder.context.scope.ScopedDecoder
 import io.github.charlietap.chasm.decoder.decoder.Decoder
+import io.github.charlietap.chasm.decoder.fixture.assertWasmDecodeError
 import io.github.charlietap.chasm.decoder.fixture.decoderContext
 import io.github.charlietap.chasm.decoder.fixture.ioError
 import io.github.charlietap.chasm.decoder.reader.IOErrorWasmFileReader
@@ -18,10 +19,10 @@ class ExpressionDecoderTest {
     fun `can decode an expression`() {
 
         val context = decoderContext()
-        val scope: Scope<UByte> = { ctx, opcode ->
+        val scope: ScopedDecoder<UByte, List<Instruction>> = { ctx, opcode, decoder ->
             assertEquals(END, opcode)
             assertEquals(context, ctx)
-            Ok(context)
+            decoder(ctx)
         }
         val instructionBlockDecoder: Decoder<List<Instruction>> = { ctx ->
             assertEquals(context, ctx)
@@ -45,8 +46,8 @@ class ExpressionDecoderTest {
         val reader = IOErrorWasmFileReader(err)
         val context = decoderContext(reader)
 
-        val actual = ExpressionDecoder(context)
-
-        assertEquals(err, actual)
+        assertWasmDecodeError(err) {
+            ExpressionDecoder(context)
+        }
     }
 }

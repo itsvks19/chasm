@@ -5,7 +5,7 @@ import com.github.michaelbull.result.Ok
 import io.github.charlietap.chasm.ast.instruction.ControlInstruction
 import io.github.charlietap.chasm.ast.instruction.Instruction
 import io.github.charlietap.chasm.ast.module.Index
-import io.github.charlietap.chasm.decoder.context.scope.Scope
+import io.github.charlietap.chasm.decoder.context.scope.ScopedDecoder
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.instruction.BLOCK
 import io.github.charlietap.chasm.decoder.decoder.instruction.BR
@@ -77,10 +77,10 @@ class ControlInstructionDecoderTest {
         val context = decoderContext(
             reader = FakeUByteReader { Ok(opcode) },
         )
-        val scope: Scope<UByte> = { ctx, blockEndOpcode ->
+        val scope: ScopedDecoder<UByte, List<Instruction>> = { ctx, blockEndOpcode, decoder ->
             assertEquals(context, ctx)
             assertEquals(END, blockEndOpcode)
-            Ok(context)
+            decoder(ctx)
         }
         val expectedBlockType = BlockType.Empty
         val expectedInstructions = emptyList<Instruction>()
@@ -121,10 +121,10 @@ class ControlInstructionDecoderTest {
         val context = decoderContext(
             reader = FakeUByteReader { Ok(opcode) },
         )
-        val scope: Scope<UByte> = { ctx, blockEndOpcode ->
+        val scope: ScopedDecoder<UByte, List<Instruction>> = { ctx, blockEndOpcode, decoder ->
             assertEquals(context, ctx)
             assertEquals(END, blockEndOpcode)
-            Ok(context)
+            decoder(ctx)
         }
         val expectedBlockType = BlockType.Empty
         val expectedInstructions = emptyList<Instruction>()
@@ -673,10 +673,10 @@ class ControlInstructionDecoderTest {
             reader = FakeUByteReader { Ok(opcode) },
         )
 
-        val scope: Scope<UByte> = { ctx, blockEndOpcode ->
+        val scope: ScopedDecoder<UByte, List<Instruction>> = { ctx, blockEndOpcode, decoder ->
             assertEquals(context, ctx)
             assertEquals(END, blockEndOpcode)
-            Ok(context)
+            decoder(ctx)
         }
 
         val blockType = blockType()
@@ -738,7 +738,7 @@ class ControlInstructionDecoderTest {
     }
 
     private companion object {
-        private val neverScope: Scope<UByte> = { _, _ ->
+        private val neverScope: ScopedDecoder<UByte, List<Instruction>> = { _, _, _ ->
             fail("scope should not be called in this scenario")
         }
         private val neverBlockTypeDecoder: Decoder<BlockType> = { _ ->

@@ -5,6 +5,7 @@ import com.github.michaelbull.result.Result
 import io.github.charlietap.chasm.ast.module.Index
 import io.github.charlietap.chasm.ast.module.Index.TypeIndex
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
+import io.github.charlietap.chasm.decoder.fixture.assertWasmDecodeError
 import io.github.charlietap.chasm.decoder.fixture.decoderContext
 import io.github.charlietap.chasm.decoder.fixture.ioError
 import io.github.charlietap.chasm.decoder.reader.FakeWasmBinaryReader
@@ -201,8 +202,8 @@ class IndexDecoderTest {
         val reader = IOErrorWasmFileReader(err)
         val context = decoderContext(reader)
 
-        val actual = IndexDecoder(context, ::TypeIndex)
-
-        assertEquals(err, actual)
+        assertWasmDecodeError(err) {
+            IndexDecoder(context, ::TypeIndex)
+        }
     }
 }

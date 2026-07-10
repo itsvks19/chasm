@@ -26,7 +26,7 @@ internal inline fun CatchHandlerDecoder(
     crossinline tagIndexDecoder: Decoder<Index.TagIndex>,
 ): Result<ControlInstruction.CatchHandler, WasmDecodeError> = binding {
 
-    val handler = context.reader.ubyte().bind()
+    val handler = context.reader.ubyte()
 
     when (handler) {
         CATCH_HANDLER_CATCH -> {

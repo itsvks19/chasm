@@ -27,16 +27,14 @@ internal inline fun ReferenceTypeDecoder(
 ): Result<ReferenceType, WasmDecodeError> = binding {
     when (
         context.reader
-            .peek()
-            .ubyte()
-            .bind()
+            .peekUByte()
     ) {
         REFERENCE_TYPE_REF -> {
-            context.reader.ubyte().bind() // consume byte
+            context.reader.ubyte() // consume byte
             ReferenceType.Ref(heapTypeDecoder(context).bind())
         }
         REFERENCE_TYPE_REF_NULL -> {
-            context.reader.ubyte().bind() // consume byte
+            context.reader.ubyte() // consume byte
             ReferenceType.RefNull(heapTypeDecoder(context).bind())
         }
         else -> ReferenceType.RefNull(abstractHeapTypeDecoder(context).bind())

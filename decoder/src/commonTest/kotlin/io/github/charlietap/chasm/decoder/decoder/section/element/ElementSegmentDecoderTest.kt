@@ -11,6 +11,7 @@ import io.github.charlietap.chasm.decoder.decoder.type.reference.REFERENCE_TYPE_
 import io.github.charlietap.chasm.decoder.decoder.vector.Vector
 import io.github.charlietap.chasm.decoder.decoder.vector.VectorDecoder
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
+import io.github.charlietap.chasm.decoder.fixture.assertWasmDecodeError
 import io.github.charlietap.chasm.decoder.fixture.decoderContext
 import io.github.charlietap.chasm.decoder.fixture.ioError
 import io.github.charlietap.chasm.decoder.reader.FakeUIntReader
@@ -469,9 +470,9 @@ class ElementSegmentDecoderTest {
         val reader = IOErrorWasmFileReader(expected)
         val context = decoderContext(reader)
 
-        val actual = ElementSegmentDecoder(context)
-
-        assertEquals(expected, actual)
+        assertWasmDecodeError(expected) {
+            ElementSegmentDecoder(context)
+        }
     }
 
     internal companion object {

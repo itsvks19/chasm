@@ -3,6 +3,7 @@ package io.github.charlietap.chasm.decoder.decoder.section
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import io.github.charlietap.chasm.decoder.error.SectionDecodeError
+import io.github.charlietap.chasm.decoder.fixture.assertWasmDecodeError
 import io.github.charlietap.chasm.decoder.fixture.decoderContext
 import io.github.charlietap.chasm.decoder.fixture.ioError
 import io.github.charlietap.chasm.decoder.reader.FakeUByteReader
@@ -56,8 +57,8 @@ class SectionTypeDecoderTest {
         val reader = IOErrorWasmFileReader(err)
         val context = decoderContext(reader)
 
-        val actual = SectionTypeDecoder(context)
-
-        assertEquals(err, actual)
+        assertWasmDecodeError(err) {
+            SectionTypeDecoder(context)
+        }
     }
 }

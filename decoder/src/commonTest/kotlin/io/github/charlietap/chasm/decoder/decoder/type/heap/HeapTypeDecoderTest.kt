@@ -67,7 +67,7 @@ class HeapTypeDecoderTest {
             )
             val reader = FakeWasmBinaryReader(
                 fakeUByteReader = fakeUByteReader,
-                fakeS33Reader = { Ok(expectedTypeIndex) },
+                fakeS33Reader = { Ok(expectedTypeIndex.toLong()) },
                 fakePeekReader = { peekReader },
             )
             val context = decoderContext(reader)

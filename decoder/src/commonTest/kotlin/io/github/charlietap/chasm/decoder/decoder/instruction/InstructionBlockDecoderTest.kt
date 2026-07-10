@@ -4,6 +4,7 @@ import com.github.michaelbull.result.Ok
 import io.github.charlietap.chasm.ast.instruction.Instruction
 import io.github.charlietap.chasm.ast.instruction.NumericInstruction
 import io.github.charlietap.chasm.decoder.decoder.Decoder
+import io.github.charlietap.chasm.decoder.fixture.assertWasmDecodeError
 import io.github.charlietap.chasm.decoder.fixture.decoderContext
 import io.github.charlietap.chasm.decoder.fixture.ioError
 import io.github.charlietap.chasm.decoder.reader.FakeUByteReader
@@ -49,8 +50,8 @@ class InstructionBlockDecoderTest {
         val reader = IOErrorWasmFileReader(err)
         val context = decoderContext(reader)
 
-        val actual = InstructionBlockDecoder(context)
-
-        assertEquals(err, actual)
+        assertWasmDecodeError(err) {
+            InstructionBlockDecoder(context)
+        }
     }
 }

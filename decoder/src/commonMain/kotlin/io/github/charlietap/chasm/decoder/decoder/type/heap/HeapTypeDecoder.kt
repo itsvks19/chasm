@@ -24,15 +24,13 @@ internal inline fun HeapTypeDecoder(
 ): Result<HeapType, WasmDecodeError> = binding {
     when (
         context.reader
-            .peek()
-            .ubyte()
-            .bind()
+            .peekUByte()
     ) {
         in ABSTRACT_HEAP_TYPE_RANGE -> {
             abstractHeapTypeDecoder(context).bind()
         }
         else -> {
-            val typeIndex = Index.TypeIndex(context.reader.s33().bind())
+            val typeIndex = Index.TypeIndex(context.reader.s33().toUInt())
             ConcreteHeapType.TypeIndex(typeIndex.idx.toInt())
         }
     }

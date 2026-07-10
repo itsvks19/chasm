@@ -4,6 +4,7 @@ import com.github.michaelbull.result.Ok
 import io.github.charlietap.chasm.ast.module.Export
 import io.github.charlietap.chasm.ast.module.Index
 import io.github.charlietap.chasm.decoder.decoder.Decoder
+import io.github.charlietap.chasm.decoder.fixture.assertWasmDecodeError
 import io.github.charlietap.chasm.decoder.fixture.decoderContext
 import io.github.charlietap.chasm.decoder.fixture.ioError
 import io.github.charlietap.chasm.decoder.reader.FakeUByteReader
@@ -166,9 +167,9 @@ class ExportDescriptorDecoderTest {
         val reader = IOErrorWasmFileReader(err)
         val context = decoderContext(reader)
 
-        val actual = ExportDescriptorDecoder(context)
-
-        assertEquals(err, actual)
+        assertWasmDecodeError(err) {
+            ExportDescriptorDecoder(context)
+        }
     }
 
     companion object {

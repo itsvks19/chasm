@@ -9,7 +9,7 @@ import io.github.charlietap.chasm.ast.module.Index
 import io.github.charlietap.chasm.ast.module.Index.TagIndex
 import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.context.scope.BlockScope
-import io.github.charlietap.chasm.decoder.context.scope.Scope
+import io.github.charlietap.chasm.decoder.context.scope.ScopedDecoder
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.instruction.BLOCK
 import io.github.charlietap.chasm.decoder.decoder.instruction.BR
@@ -64,7 +64,7 @@ internal fun ControlInstructionDecoder(
 
 internal inline fun ControlInstructionDecoder(
     context: ModuleDecoderContext,
-    crossinline scope: Scope<UByte>,
+    crossinline scope: ScopedDecoder<UByte, List<Instruction>>,
     crossinline blockTypeDecoder: Decoder<BlockType>,
     crossinline instructionBlockDecoder: Decoder<List<Instruction>>,
     crossinline ifDecoder: Decoder<Pair<List<Instruction>, List<Instruction>?>>,
@@ -77,19 +77,21 @@ internal inline fun ControlInstructionDecoder(
     crossinline handlerVectorDecoder: VectorDecoder<ControlInstruction.CatchHandler>,
     crossinline labelVectorDecoder: VectorDecoder<Index.LabelIndex>,
 ): Result<ControlInstruction, WasmDecodeError> = binding {
-    when (val opcode = context.reader.ubyte().bind()) {
+    when (val opcode = context.reader.ubyte()) {
         UNREACHABLE -> ControlInstruction.Unreachable
         NOP -> ControlInstruction.Nop
         BLOCK -> {
             val blockType = blockTypeDecoder(context).bind()
-            val scopedContext = scope(context, END).bind()
-            val instructions = instructionBlockDecoder(scopedContext).bind()
+            val instructions = scope(context, END) { scopedContext ->
+                instructionBlockDecoder(scopedContext)
+            }.bind()
             ControlInstruction.Block(blockType, instructions)
         }
         LOOP -> {
             val blockType = blockTypeDecoder(context).bind()
-            val scopedContext = scope(context, END).bind()
-            val instructions = instructionBlockDecoder(scopedContext).bind()
+            val instructions = scope(context, END) { scopedContext ->
+                instructionBlockDecoder(scopedContext)
+            }.bind()
             ControlInstruction.Loop(blockType, instructions)
         }
         IF -> {
@@ -145,8 +147,9 @@ internal inline fun ControlInstructionDecoder(
         TRY_TABLE -> {
             val blockType = blockTypeDecoder(context).bind()
             val handlers = handlerVectorDecoder(context, handlerDecoder).bind()
-            val scopedContext = scope(context, END).bind()
-            val instructions = instructionBlockDecoder(scopedContext).bind()
+            val instructions = scope(context, END) { scopedContext ->
+                instructionBlockDecoder(scopedContext)
+            }.bind()
 
             ControlInstruction.TryTable(blockType, handlers.vector, instructions)
         }

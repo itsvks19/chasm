@@ -2,6 +2,7 @@ package io.github.charlietap.chasm.decoder.decoder.type.table
 
 import com.github.michaelbull.result.Ok
 import io.github.charlietap.chasm.decoder.decoder.Decoder
+import io.github.charlietap.chasm.decoder.fixture.assertWasmDecodeError
 import io.github.charlietap.chasm.decoder.fixture.decoderContext
 import io.github.charlietap.chasm.decoder.fixture.ioError
 import io.github.charlietap.chasm.decoder.reader.FakeUByteReader
@@ -61,8 +62,8 @@ class TableTypeDecoderTest {
         val reader = IOErrorWasmFileReader(expected)
         val context = decoderContext(reader)
 
-        val actual = TableTypeDecoder(context)
-
-        assertEquals(expected, actual)
+        assertWasmDecodeError(expected) {
+            TableTypeDecoder(context)
+        }
     }
 }

@@ -143,21 +143,21 @@ import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 internal fun NumericInstructionDecoder(
     context: ModuleDecoderContext,
 ): Result<NumericInstruction, WasmDecodeError> = binding {
-    when (val opcode = context.reader.ubyte().bind()) {
+    when (val opcode = context.reader.ubyte()) {
         I32_CONST -> {
-            val const = context.reader.int().bind()
+            val const = context.reader.int()
             NumericInstruction.I32Const(const)
         }
         I64_CONST -> {
-            val const = context.reader.long().bind()
+            val const = context.reader.long()
             NumericInstruction.I64Const(const)
         }
         F32_CONST -> {
-            val const = context.reader.float().bind()
+            val const = context.reader.float()
             NumericInstruction.F32Const(const, const.toRawBits())
         }
         F64_CONST -> {
-            val const = context.reader.double().bind()
+            val const = context.reader.double()
             NumericInstruction.F64Const(const, const.toRawBits())
         }
         I32_EQZ -> NumericInstruction.I32Eqz

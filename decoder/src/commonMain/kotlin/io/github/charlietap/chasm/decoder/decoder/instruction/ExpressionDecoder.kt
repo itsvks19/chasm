@@ -6,7 +6,7 @@ import io.github.charlietap.chasm.ast.instruction.Expression
 import io.github.charlietap.chasm.ast.instruction.Instruction
 import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.context.scope.BlockScope
-import io.github.charlietap.chasm.decoder.context.scope.Scope
+import io.github.charlietap.chasm.decoder.context.scope.ScopedDecoder
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 
@@ -21,12 +21,13 @@ internal fun ExpressionDecoder(
 
 internal inline fun ExpressionDecoder(
     context: ModuleDecoderContext,
-    crossinline scope: Scope<UByte>,
+    crossinline scope: ScopedDecoder<UByte, List<Instruction>>,
     crossinline instructionBlockDecoder: Decoder<List<Instruction>>,
 ): Result<Expression, WasmDecodeError> = binding {
 
-    val scopedContext = scope(context, END).bind()
-    val instructions = instructionBlockDecoder(scopedContext).bind()
+    val instructions = scope(context, END) { scopedContext ->
+        instructionBlockDecoder(scopedContext)
+    }.bind()
 
     Expression(instructions)
 }

@@ -23,7 +23,7 @@ internal inline fun AtomicMemoryInstructionDecoder(
     context: ModuleDecoderContext,
     crossinline memArgWithIndexDecoder: Decoder<MemArgWithIndex>,
 ): Result<AtomicMemoryInstruction, WasmDecodeError> = binding {
-    when (val opcode = context.reader.uint().bind()) {
+    when (val opcode = context.reader.uint()) {
         ATOMIC_NOTIFY -> {
             val memArgWithIndex = memArgWithIndexDecoder(context).bind()
             AtomicMemoryInstruction.Notify(memArgWithIndex.memoryIndex, memArgWithIndex.memArg)

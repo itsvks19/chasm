@@ -24,7 +24,7 @@ internal inline fun ReferenceInstructionDecoder(
     context: ModuleDecoderContext,
     crossinline heapTypeDecoder: Decoder<HeapType>,
 ): Result<ReferenceInstruction, WasmDecodeError> = binding {
-    when (val opcode = context.reader.ubyte().bind()) {
+    when (val opcode = context.reader.ubyte()) {
         REF_NULL -> {
             val heapType = heapTypeDecoder(context).bind()
             ReferenceInstruction.RefNull(heapType)
@@ -33,7 +33,7 @@ internal inline fun ReferenceInstructionDecoder(
             ReferenceInstruction.RefIsNull
         }
         REF_FUNC -> {
-            val idx = context.reader.uint().bind()
+            val idx = context.reader.uint()
             ReferenceInstruction.RefFunc(Index.FunctionIndex(idx))
         }
         REF_EQ -> {

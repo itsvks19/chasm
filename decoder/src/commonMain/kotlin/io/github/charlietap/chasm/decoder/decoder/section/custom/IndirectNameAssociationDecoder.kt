@@ -20,7 +20,7 @@ internal inline fun IndirectNameAssociationDecoder(
     crossinline nameMapDecoder: Decoder<NameMap>,
 ) = binding {
 
-    val index = context.reader.uint().bind()
+    val index = context.reader.uint()
     val nameMap = nameMapDecoder(context).bind()
 
     IndirectNameAssociation(

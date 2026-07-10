@@ -3,6 +3,7 @@ package io.github.charlietap.chasm.decoder.decoder.type.limits
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import io.github.charlietap.chasm.decoder.error.TypeDecodeError
+import io.github.charlietap.chasm.decoder.fixture.assertWasmDecodeError
 import io.github.charlietap.chasm.decoder.fixture.decoderContext
 import io.github.charlietap.chasm.decoder.fixture.ioError
 import io.github.charlietap.chasm.decoder.reader.FakeWasmBinaryReader
@@ -201,8 +202,8 @@ class LimitsDecoderTest {
         val reader = IOErrorWasmFileReader(expected)
         val context = decoderContext(reader)
 
-        val actual = LimitsDecoder(context)
-
-        assertEquals(expected, actual)
+        assertWasmDecodeError(expected) {
+            LimitsDecoder(context)
+        }
     }
 }

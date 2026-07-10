@@ -35,16 +35,14 @@ internal inline fun ValueTypeDecoder(
 ): Result<ValueType, WasmDecodeError> = binding {
     when (
         val byte = context.reader
-            .peek()
-            .ubyte()
-            .bind()
+            .peekUByte()
     ) {
         in NUMBER_TYPE_RANGE -> {
             val numberType = numberTypeDecoder(context).bind()
             ValueType.Number(numberType)
         }
         in VECTOR_TYPE_RANGE -> {
-            context.reader.ubyte().bind() // consume byte
+            context.reader.ubyte() // consume byte
             ValueType.Vector(VectorType.V128)
         }
         in REFERENCE_TYPE_RANGE -> {

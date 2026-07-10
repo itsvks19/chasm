@@ -1,19 +1,42 @@
 package io.github.charlietap.chasm.decoder.context
 
+import io.github.charlietap.chasm.ast.module.Import
+import io.github.charlietap.chasm.ast.module.Type
 import io.github.charlietap.chasm.config.ModuleConfig
 import io.github.charlietap.chasm.decoder.reader.WasmBinaryReader
+import io.github.charlietap.chasm.decoder.section.SectionSize
+import io.github.charlietap.chasm.decoder.section.SectionType
+import io.github.charlietap.chasm.type.DefinedType
 
-internal data class ModuleDecoderContext(
+internal class ModuleDecoderContext(
     val config: ModuleConfig,
-    val reader: WasmBinaryReader,
-    val blockContext: BlockContext = BlockContextImpl(),
-    val moduleContext: ModuleContext = ModuleContextImpl(),
-    val nameSectionContext: NameSectionContext = NameSectionContextImpl(),
-    val sectionContext: SectionContext = SectionContextImpl(),
-    val typeContext: TypeContext = TypeContextImpl(),
-    val vectorContext: VectorContext = VectorContextImpl(),
-) : BlockContext by blockContext,
-    ModuleContext by moduleContext,
-    SectionContext by sectionContext,
-    TypeContext by typeContext,
-    VectorContext by vectorContext
+    override var reader: WasmBinaryReader,
+    override var blockEndOpcode: UByte = 0u,
+    override var imports: List<Import> = emptyList(),
+    override var requiresDataCount: Boolean = false,
+    override var nameSectionSize: UInt = 0u,
+    override var sectionSize: SectionSize = SectionSize(0u),
+    override var sectionType: SectionType = SectionType.Custom,
+    override val types: MutableList<Type> = mutableListOf(),
+    override val definedTypes: MutableList<DefinedType> = mutableListOf(),
+    override var index: Int = 0,
+) : ReaderContext,
+    BlockContext,
+    ModuleContext,
+    NameSectionContext,
+    SectionContext,
+    TypeContext,
+    VectorContext {
+
+    internal fun reset() {
+        blockEndOpcode = 0u
+        imports = emptyList()
+        requiresDataCount = false
+        nameSectionSize = 0u
+        sectionSize = SectionSize(0u)
+        sectionType = SectionType.Custom
+        types.clear()
+        definedTypes.clear()
+        index = 0
+    }
+}

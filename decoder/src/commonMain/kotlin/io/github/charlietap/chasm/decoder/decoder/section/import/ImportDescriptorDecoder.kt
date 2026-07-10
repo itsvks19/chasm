@@ -40,7 +40,7 @@ internal inline fun ImportDescriptorDecoder(
     crossinline typeIndexDecoder: Decoder<Index.TypeIndex>,
 ): Result<Import.Descriptor, WasmDecodeError> = binding {
 
-    when (val descriptorType = context.reader.ubyte().bind()) {
+    when (val descriptorType = context.reader.ubyte()) {
         IMPORT_DESCRIPTOR_TYPE_FUNCTION -> {
             val typeIndex = typeIndexDecoder(context).bind()
             Import.Descriptor.Function(typeIndex)

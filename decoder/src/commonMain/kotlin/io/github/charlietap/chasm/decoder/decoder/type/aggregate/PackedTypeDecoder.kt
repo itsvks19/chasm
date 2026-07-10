@@ -11,7 +11,7 @@ import io.github.charlietap.chasm.type.PackedType
 internal fun PackedTypeDecoder(
     context: ModuleDecoderContext,
 ): Result<PackedType, WasmDecodeError> = binding {
-    when (val encoded = context.reader.ubyte().bind()) {
+    when (val encoded = context.reader.ubyte()) {
         PACKED_TYPE_I8 -> PackedType.I8
         PACKED_TYPE_I16 -> PackedType.I16
         else -> Err(TypeDecodeError.InvalidPackedType(encoded)).bind<PackedType>()

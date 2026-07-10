@@ -31,12 +31,10 @@ internal inline fun SubTypeDecoder(
 ): Result<SubType, WasmDecodeError> = binding {
     when (
         context.reader
-            .peek()
-            .ubyte()
-            .bind()
+            .peekUByte()
     ) {
         OPEN_SUB_TYPE -> {
-            context.reader.ubyte().bind() // consume byte
+            context.reader.ubyte() // consume byte
             val typeIndices = vectorDecoder(context, typeIndexDecoder).bind()
             val heapTypes = typeIndices.vector.map {
                 ConcreteHeapType.TypeIndex(it.idx.toInt())
@@ -45,7 +43,7 @@ internal inline fun SubTypeDecoder(
             SubType.Open(heapTypes, compositeType)
         }
         FINAL_SUB_TYPE -> {
-            context.reader.ubyte().bind() // consume byte
+            context.reader.ubyte() // consume byte
             val typeIndices = vectorDecoder(context, typeIndexDecoder).bind()
             val heapTypes = typeIndices.vector.map {
                 ConcreteHeapType.TypeIndex(it.idx.toInt())

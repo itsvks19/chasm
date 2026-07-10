@@ -3,6 +3,7 @@ package io.github.charlietap.chasm.decoder.decoder.section.element
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import io.github.charlietap.chasm.decoder.error.SectionDecodeError
+import io.github.charlietap.chasm.decoder.fixture.assertWasmDecodeError
 import io.github.charlietap.chasm.decoder.fixture.decoderContext
 import io.github.charlietap.chasm.decoder.fixture.ioError
 import io.github.charlietap.chasm.decoder.reader.FakeByteReader
@@ -54,8 +55,8 @@ class ElementKindDecoderTest {
         val reader = IOErrorWasmFileReader(expected)
         val context = decoderContext(reader)
 
-        val actual = ElementKindDecoder(context)
-
-        assertEquals(expected, actual)
+        assertWasmDecodeError(expected) {
+            ElementKindDecoder(context)
+        }
     }
 }

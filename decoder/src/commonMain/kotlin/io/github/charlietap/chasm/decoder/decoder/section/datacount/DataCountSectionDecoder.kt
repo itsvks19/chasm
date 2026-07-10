@@ -9,5 +9,5 @@ import io.github.charlietap.chasm.decoder.section.DataCountSection
 internal fun DataCountSectionDecoder(
     context: ModuleDecoderContext,
 ): Result<DataCountSection, WasmDecodeError> = binding {
-    DataCountSection(context.reader.uint().bind())
+    DataCountSection(context.reader.uint())
 }

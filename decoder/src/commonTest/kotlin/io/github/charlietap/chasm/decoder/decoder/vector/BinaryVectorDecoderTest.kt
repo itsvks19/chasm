@@ -3,6 +3,7 @@ package io.github.charlietap.chasm.decoder.decoder.vector
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
+import io.github.charlietap.chasm.decoder.fixture.assertWasmDecodeError
 import io.github.charlietap.chasm.decoder.fixture.ioError
 import io.github.charlietap.chasm.decoder.reader.FakeWasmBinaryReader
 import io.github.charlietap.chasm.decoder.reader.IOErrorWasmFileReader
@@ -31,9 +32,9 @@ class BinaryVectorDecoderTest {
         val expected = ioError()
         val reader = IOErrorWasmFileReader(expected)
 
-        val actual = BinaryByteVectorDecoder(reader)
-
-        assertEquals(expected, actual)
+        assertWasmDecodeError(expected) {
+            BinaryByteVectorDecoder(reader)
+        }
     }
 
     companion object {

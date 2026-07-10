@@ -34,7 +34,7 @@ internal inline fun DataSegmentDecoder(
 
     val dataIndexPlaceholder = Index.DataIndex(0u)
 
-    when (val segment = context.reader.uint().bind()) {
+    when (val segment = context.reader.uint()) {
         SEGMENT_ACTIVE_NO_MEM -> {
             val expression = expressionDecoder(context).bind()
             val data = byteVectorDecoder(context.reader).bind()

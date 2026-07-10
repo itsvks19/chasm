@@ -10,8 +10,9 @@ import io.github.charlietap.chasm.ast.module.Uninterpreted
 import io.github.charlietap.chasm.ast.value.NameValue
 import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.context.scope.NameScope
-import io.github.charlietap.chasm.decoder.context.scope.Scope
+import io.github.charlietap.chasm.decoder.context.scope.ScopedDecoder
 import io.github.charlietap.chasm.decoder.decoder.Decoder
+import io.github.charlietap.chasm.decoder.decoder.ReaderDecoder
 import io.github.charlietap.chasm.decoder.decoder.name.NameValueDecoder
 import io.github.charlietap.chasm.decoder.error.SectionDecodeError
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
@@ -31,8 +32,8 @@ internal fun CustomSectionDecoder(
 internal inline fun CustomSectionDecoder(
     context: ModuleDecoderContext,
     crossinline nameDataDecoder: Decoder<NameData>,
-    crossinline nameScope: Scope<UInt>,
-    crossinline nameValueDecoder: Decoder<NameValue>,
+    crossinline nameScope: ScopedDecoder<UInt, NameData>,
+    crossinline nameValueDecoder: ReaderDecoder<NameValue>,
 ) = binding {
 
     val (nameValue, bytesConsumed) = context.reader.trackBytes {
@@ -42,11 +43,12 @@ internal inline fun CustomSectionDecoder(
 
     val custom = when {
         nameValue.name == NAME_SECTION && context.config.decodeNameSection -> {
-            val scopedContext = nameScope(context, payloadSize).bind()
-            nameDataDecoder(scopedContext).bind()
+            nameScope(context, payloadSize) { scopedContext ->
+                nameDataDecoder(scopedContext)
+            }.bind()
         }
         else -> {
-            val payload = context.reader.ubytes(payloadSize).bind()
+            val payload = context.reader.ubytes(payloadSize)
             if (payloadSize != payload.size.toUInt()) {
                 Err(SectionDecodeError.SectionSizeMismatch).bind<Unit>()
             }

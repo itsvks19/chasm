@@ -7,6 +7,7 @@ import io.github.charlietap.chasm.decoder.decoder.type.value.NUMBER_TYPE_RANGE
 import io.github.charlietap.chasm.decoder.decoder.type.value.REFERENCE_TYPE_RANGE
 import io.github.charlietap.chasm.decoder.decoder.type.value.VECTOR_TYPE_RANGE
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
+import io.github.charlietap.chasm.decoder.fixture.assertWasmDecodeError
 import io.github.charlietap.chasm.decoder.fixture.decoderContext
 import io.github.charlietap.chasm.decoder.fixture.ioError
 import io.github.charlietap.chasm.decoder.reader.FakeUByteReader
@@ -83,7 +84,7 @@ class BlockTypeDecoderTest {
         }
         val reader = FakeWasmBinaryReader(
             fakePeekReader = { peekReader },
-            fakeS33Reader = { Ok(expectedInt) },
+            fakeS33Reader = { Ok(expectedInt.toLong()) },
         )
         val context = decoderContext(reader)
 
@@ -101,8 +102,8 @@ class BlockTypeDecoderTest {
         val reader = IOErrorWasmFileReader(err)
         val context = decoderContext(reader)
 
-        val actual = BlockTypeDecoder(context)
-
-        assertEquals(err, actual)
+        assertWasmDecodeError(err) {
+            BlockTypeDecoder(context)
+        }
     }
 }

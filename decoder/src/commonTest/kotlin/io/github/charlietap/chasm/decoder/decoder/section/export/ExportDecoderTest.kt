@@ -5,6 +5,7 @@ import io.github.charlietap.chasm.ast.module.Export
 import io.github.charlietap.chasm.ast.module.Index
 import io.github.charlietap.chasm.ast.value.NameValue
 import io.github.charlietap.chasm.decoder.decoder.Decoder
+import io.github.charlietap.chasm.decoder.decoder.ReaderDecoder
 import io.github.charlietap.chasm.decoder.fixture.decoderContext
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,7 +16,7 @@ class ExportDecoderTest {
     fun `can decode an export`() {
 
         val name = NameValue("name")
-        val nameValueDecoder: Decoder<NameValue> = { _ ->
+        val nameValueDecoder: ReaderDecoder<NameValue> = { _ ->
             Ok(name)
         }
 

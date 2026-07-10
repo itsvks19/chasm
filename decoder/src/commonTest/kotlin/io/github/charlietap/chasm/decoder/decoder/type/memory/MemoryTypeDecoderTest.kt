@@ -2,6 +2,7 @@ package io.github.charlietap.chasm.decoder.decoder.type.memory
 
 import com.github.michaelbull.result.Ok
 import io.github.charlietap.chasm.decoder.decoder.Decoder
+import io.github.charlietap.chasm.decoder.fixture.assertWasmDecodeError
 import io.github.charlietap.chasm.decoder.fixture.decoderContext
 import io.github.charlietap.chasm.decoder.fixture.ioError
 import io.github.charlietap.chasm.decoder.reader.IOErrorWasmFileReader
@@ -39,8 +40,8 @@ class MemoryTypeDecoderTest {
         val reader = IOErrorWasmFileReader(expected)
         val context = decoderContext(reader)
 
-        val actual = MemoryTypeDecoder(context)
-
-        assertEquals(expected, actual)
+        assertWasmDecodeError(expected) {
+            MemoryTypeDecoder(context)
+        }
     }
 }

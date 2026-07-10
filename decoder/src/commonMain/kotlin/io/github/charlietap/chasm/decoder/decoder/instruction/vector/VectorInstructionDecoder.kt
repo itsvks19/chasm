@@ -23,7 +23,7 @@ internal inline fun VectorInstructionDecoder(
     context: ModuleDecoderContext,
     crossinline memArgWithIndexDecoder: Decoder<MemArgWithIndex>,
 ): Result<VectorInstruction, WasmDecodeError> = binding {
-    val opcode = context.reader.uint().bind()
+    val opcode = context.reader.uint()
 
     when (opcode) {
         V128_LOAD -> {
@@ -83,11 +83,11 @@ internal inline fun VectorInstructionDecoder(
             VectorInstruction.V128Load64Zero(memArgWithIndex.memoryIndex, memArgWithIndex.memArg)
         }
         V128_CONST -> {
-            val bytes = context.reader.bytes(16).bind()
+            val bytes = context.reader.bytes(16)
             VectorInstruction.V128Const(bytes)
         }
         I8X16_SHUFFLE -> {
-            val laneIndices = context.reader.bytes(16).bind()
+            val laneIndices = context.reader.bytes(16)
             VectorInstruction.I8x16Shuffle(laneIndices)
         }
         I8X16_SWIZZLE -> VectorInstruction.I8x16Swizzle
@@ -98,99 +98,99 @@ internal inline fun VectorInstructionDecoder(
         F32X4_SPLAT -> VectorInstruction.F32x4Splat
         F64X2_SPLAT -> VectorInstruction.F64x2Splat
         I8X16_EXTRACT_LANE_S -> {
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.I8x16ExtractLaneS(laneIdx)
         }
         I8X16_EXTRACT_LANE_U -> {
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.I8x16ExtractLaneU(laneIdx)
         }
         I8X16_REPLACE_LANE -> {
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.I8x16ReplaceLane(laneIdx)
         }
         I16X8_EXTRACT_LANE_S -> {
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.I16x8ExtractLaneS(laneIdx)
         }
         I16X8_EXTRACT_LANE_U -> {
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.I16x8ExtractLaneU(laneIdx)
         }
         I16X8_REPLACE_LANE -> {
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.I16x8ReplaceLane(laneIdx)
         }
         I32X4_EXTRACT_LANE -> {
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.I32x4ExtractLane(laneIdx)
         }
         I32X4_REPLACE_LANE -> {
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.I32x4ReplaceLane(laneIdx)
         }
         I64X2_EXTRACT_LANE -> {
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.I64x2ExtractLane(laneIdx)
         }
         I64X2_REPLACE_LANE -> {
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.I64x2ReplaceLane(laneIdx)
         }
         F32X4_EXTRACT_LANE -> {
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.F32x4ExtractLane(laneIdx)
         }
         F32X4_REPLACE_LANE -> {
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.F32x4ReplaceLane(laneIdx)
         }
         F64X2_EXTRACT_LANE -> {
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.F64x2ExtractLane(laneIdx)
         }
         F64X2_REPLACE_LANE -> {
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.F64x2ReplaceLane(laneIdx)
         }
         V128_LOAD8_LANE -> {
             val memArgWithIndex = memArgWithIndexDecoder(context).bind()
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.V128Load8Lane(memArgWithIndex.memoryIndex, memArgWithIndex.memArg, laneIdx)
         }
         V128_LOAD16_LANE -> {
             val memArgWithIndex = memArgWithIndexDecoder(context).bind()
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.V128Load16Lane(memArgWithIndex.memoryIndex, memArgWithIndex.memArg, laneIdx)
         }
         V128_LOAD32_LANE -> {
             val memArgWithIndex = memArgWithIndexDecoder(context).bind()
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.V128Load32Lane(memArgWithIndex.memoryIndex, memArgWithIndex.memArg, laneIdx)
         }
         V128_LOAD64_LANE -> {
             val memArgWithIndex = memArgWithIndexDecoder(context).bind()
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.V128Load64Lane(memArgWithIndex.memoryIndex, memArgWithIndex.memArg, laneIdx)
         }
         V128_STORE8_LANE -> {
             val memArgWithIndex = memArgWithIndexDecoder(context).bind()
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.V128Store8Lane(memArgWithIndex.memoryIndex, memArgWithIndex.memArg, laneIdx)
         }
         V128_STORE16_LANE -> {
             val memArgWithIndex = memArgWithIndexDecoder(context).bind()
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.V128Store16Lane(memArgWithIndex.memoryIndex, memArgWithIndex.memArg, laneIdx)
         }
         V128_STORE32_LANE -> {
             val memArgWithIndex = memArgWithIndexDecoder(context).bind()
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.V128Store32Lane(memArgWithIndex.memoryIndex, memArgWithIndex.memArg, laneIdx)
         }
         V128_STORE64_LANE -> {
             val memArgWithIndex = memArgWithIndexDecoder(context).bind()
-            val laneIdx = context.reader.ubyte().bind().toByte()
+            val laneIdx = context.reader.ubyte().toByte()
             VectorInstruction.V128Store64Lane(memArgWithIndex.memoryIndex, memArgWithIndex.memArg, laneIdx)
         }
         I8X16_EQ -> VectorInstruction.I8x16Eq

@@ -36,7 +36,7 @@ internal inline fun ExportDescriptorDecoder(
     crossinline tagIndexDecoder: Decoder<Index.TagIndex>,
 ): Result<Export.Descriptor, WasmDecodeError> = binding {
 
-    when (val descriptorType = context.reader.ubyte().bind()) {
+    when (val descriptorType = context.reader.ubyte()) {
         EXPORT_DESCRIPTOR_TYPE_FUNCTION -> Export.Descriptor.Function(functionIndexDecoder(context).bind())
         EXPORT_DESCRIPTOR_TYPE_TABLE -> Export.Descriptor.Table(tableIndexDecoder(context).bind())
         EXPORT_DESCRIPTOR_TYPE_MEMORY -> Export.Descriptor.Memory(memIndexDecoder(context).bind())

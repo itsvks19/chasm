@@ -10,7 +10,7 @@ import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 internal fun ElementKindDecoder(
     context: ModuleDecoderContext,
 ): Result<ElementKind, WasmDecodeError> = binding {
-    when (val byte = context.reader.byte().bind()) {
+    when (val byte = context.reader.byte()) {
         ElementKind.FuncRef.byte -> ElementKind.FuncRef
         else -> Err(SectionDecodeError.UnknownElementKind(byte)).bind<ElementKind>()
     }

@@ -6,6 +6,7 @@ import io.github.charlietap.chasm.ast.module.Import
 import io.github.charlietap.chasm.ast.value.NameValue
 import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
+import io.github.charlietap.chasm.decoder.decoder.ReaderDecoder
 import io.github.charlietap.chasm.decoder.decoder.name.NameValueDecoder
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 
@@ -20,7 +21,7 @@ internal fun ImportDecoder(
 
 internal inline fun ImportDecoder(
     context: ModuleDecoderContext,
-    crossinline nameValueDecoder: Decoder<NameValue>,
+    crossinline nameValueDecoder: ReaderDecoder<NameValue>,
     crossinline importDescriptorDecoder: Decoder<Import.Descriptor>,
 ): Result<Import, WasmDecodeError> = binding {
 

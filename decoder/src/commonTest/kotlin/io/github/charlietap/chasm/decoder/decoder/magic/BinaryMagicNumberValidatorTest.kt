@@ -4,6 +4,7 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 import io.github.charlietap.chasm.decoder.ext.MAGIC_NUMBER
+import io.github.charlietap.chasm.decoder.fixture.assertWasmDecodeError
 import io.github.charlietap.chasm.decoder.fixture.ioError
 import io.github.charlietap.chasm.decoder.reader.FakeUBytesReader
 import io.github.charlietap.chasm.decoder.reader.IOErrorWasmFileReader
@@ -44,8 +45,8 @@ class BinaryMagicNumberValidatorTest {
         val err = ioError()
         val reader = IOErrorWasmFileReader(err)
 
-        val actual = BinaryMagicNumberValidator(reader)
-
-        assertEquals(err, actual)
+        assertWasmDecodeError(err) {
+            BinaryMagicNumberValidator(reader)
+        }
     }
 }

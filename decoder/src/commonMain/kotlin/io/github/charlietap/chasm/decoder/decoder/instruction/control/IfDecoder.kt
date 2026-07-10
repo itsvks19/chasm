@@ -27,17 +27,15 @@ internal inline fun IfDecoder(
     var activeInstructions = instructions
     do {
         val opcode = context.reader
-            .peek()
-            .ubyte()
-            .bind()
+            .peekUByte()
         if (opcode != ELSE) {
             if (opcode != END) {
                 activeInstructions += instructionDecoder(context).bind()
             } else {
-                context.reader.ubyte().bind() // consume end byte
+                context.reader.ubyte() // consume end byte
             }
         } else {
-            context.reader.ubyte().bind() // consume else byte
+            context.reader.ubyte() // consume else byte
             elseInstructions = mutableListOf()
             activeInstructions = elseInstructions
         }

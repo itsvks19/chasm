@@ -9,8 +9,8 @@ internal fun BinaryByteVectorDecoder(
     reader: WasmBinaryReader,
 ): Result<ByteVector, WasmDecodeError> = binding {
 
-    val vecLength = reader.uint().bind()
-    val vecBytes = reader.ubytes(vecLength).bind()
+    val vecLength = reader.uint()
+    val vecBytes = reader.ubytes(vecLength)
 
     ByteVector(vecBytes, vecLength)
 }

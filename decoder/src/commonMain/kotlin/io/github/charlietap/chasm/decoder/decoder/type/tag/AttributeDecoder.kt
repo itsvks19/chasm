@@ -11,7 +11,7 @@ import io.github.charlietap.chasm.type.TagType
 internal fun AttributeDecoder(
     context: ModuleDecoderContext,
 ): Result<TagType.Attribute, WasmDecodeError> = binding {
-    when (val attribute = context.reader.ubyte().bind()) {
+    when (val attribute = context.reader.ubyte()) {
         ATTRIBUTE_EXCEPTION -> TagType.Attribute.Exception
         else -> Err(SectionDecodeError.UnknownTagAttribute(attribute)).bind()
     }

@@ -36,7 +36,7 @@ internal inline fun PrefixFCInstructionDecoder(
     crossinline tableIndexDecoder: Decoder<Index.TableIndex>,
 ): Result<Instruction, WasmDecodeError> = binding {
 
-    when (val opcode = context.reader.uint().bind()) {
+    when (val opcode = context.reader.uint()) {
 
         I32_TRUNC_SAT_F32_S -> NumericInstruction.I32TruncSatF32S
         I32_TRUNC_SAT_F32_U -> NumericInstruction.I32TruncSatF32U

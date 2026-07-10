@@ -3,7 +3,7 @@ package io.github.charlietap.chasm.decoder.decoder.vector
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
-import io.github.charlietap.chasm.decoder.context.scope.Scope
+import io.github.charlietap.chasm.decoder.context.scope.ScopedDecoder
 import io.github.charlietap.chasm.decoder.context.scope.VectorScope
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
@@ -23,16 +23,18 @@ internal fun <T> VectorDecoder(
 internal inline fun <T> VectorDecoder(
     context: ModuleDecoderContext,
     crossinline subDecoder: Decoder<T>,
-    crossinline scope: Scope<Int>,
-): Result<Vector<T>, WasmDecodeError> = binding {
-
-    val scopedContext = scope(context, 0).bind()
-    val vecLength = context.reader.uint().bind()
-
-    val vector = List(vecLength.toInt()) { index ->
-        scopedContext.index = index
-        subDecoder(scopedContext).bind()
-    }
-
-    Vector(vector)
-}
+    crossinline scope: ScopedDecoder<Int, Vector<T>>,
+): Result<Vector<T>, WasmDecodeError> = scope(
+    context,
+    0,
+    { scopedContext ->
+        binding {
+            val vecLength = scopedContext.reader.uint()
+            val vector = List(vecLength.toInt()) { index ->
+                scopedContext.index = index
+                subDecoder(scopedContext).bind()
+            }
+            Vector(vector)
+        }
+    },
+)

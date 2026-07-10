@@ -4,6 +4,7 @@ import com.github.michaelbull.result.Ok
 import io.github.charlietap.chasm.ast.module.Import
 import io.github.charlietap.chasm.ast.value.NameValue
 import io.github.charlietap.chasm.decoder.decoder.Decoder
+import io.github.charlietap.chasm.decoder.decoder.ReaderDecoder
 import io.github.charlietap.chasm.decoder.fixture.decoderContext
 import io.github.charlietap.chasm.fixture.ast.module.typeIndex
 import io.github.charlietap.chasm.fixture.type.definedType
@@ -19,7 +20,7 @@ class ImportDecoderTest {
         val entityName = NameValue("entity")
 
         val nameIter = sequenceOf(moduleName, entityName).iterator()
-        val nameValueDecoder: Decoder<NameValue> = { _ ->
+        val nameValueDecoder: ReaderDecoder<NameValue> = { _ ->
             Ok(nameIter.next())
         }
 

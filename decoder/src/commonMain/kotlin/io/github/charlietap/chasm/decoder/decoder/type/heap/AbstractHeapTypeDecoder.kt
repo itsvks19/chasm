@@ -11,7 +11,7 @@ import io.github.charlietap.chasm.type.AbstractHeapType
 internal fun AbstractHeapTypeDecoder(
     context: ModuleDecoderContext,
 ): Result<AbstractHeapType, WasmDecodeError> = binding {
-    when (val encoded = context.reader.ubyte().bind()) {
+    when (val encoded = context.reader.ubyte()) {
         HEAP_TYPE_EXCEPTION -> AbstractHeapType.Exception
         HEAP_TYPE_ARRAY -> AbstractHeapType.Array
         HEAP_TYPE_STRUCT -> AbstractHeapType.Struct

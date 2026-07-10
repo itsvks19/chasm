@@ -8,6 +8,7 @@ import io.github.charlietap.chasm.decoder.decoder.instruction.ELSE
 import io.github.charlietap.chasm.decoder.decoder.instruction.END
 import io.github.charlietap.chasm.decoder.decoder.instruction.I32_EQZ
 import io.github.charlietap.chasm.decoder.decoder.instruction.MEMORY_GROW
+import io.github.charlietap.chasm.decoder.fixture.assertWasmDecodeError
 import io.github.charlietap.chasm.decoder.fixture.decoderContext
 import io.github.charlietap.chasm.decoder.fixture.ioError
 import io.github.charlietap.chasm.decoder.reader.FakeUByteReader
@@ -75,8 +76,8 @@ class IfDecoderTest {
         val reader = IOErrorWasmFileReader(err)
         val context = decoderContext(reader)
 
-        val actual = IfDecoder(context)
-
-        assertEquals(err, actual)
+        assertWasmDecodeError(err) {
+            IfDecoder(context)
+        }
     }
 }

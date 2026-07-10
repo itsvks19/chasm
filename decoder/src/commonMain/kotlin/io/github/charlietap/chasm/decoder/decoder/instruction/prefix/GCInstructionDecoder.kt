@@ -49,7 +49,7 @@ internal inline fun GCInstructionDecoder(
     crossinline castFlagsDecoder: Decoder<CastFlags>,
 ): Result<Instruction, WasmDecodeError> = binding {
 
-    when (val opcode = context.reader.uint().bind()) {
+    when (val opcode = context.reader.uint()) {
         STRUCT_NEW -> {
             val typeIndex = typeIndexDecoder(context).bind()
             AggregateInstruction.StructNew(typeIndex)
@@ -88,7 +88,7 @@ internal inline fun GCInstructionDecoder(
         }
         ARRAY_NEW_FIXED -> {
             val typeIndex = typeIndexDecoder(context).bind()
-            val size = context.reader.uint().bind()
+            val size = context.reader.uint()
             AggregateInstruction.ArrayNewFixed(typeIndex, size)
         }
         ARRAY_NEW_DATA -> {

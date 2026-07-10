@@ -10,7 +10,7 @@ import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 internal fun CastFlagsDecoder(
     context: ModuleDecoderContext,
 ): Result<CastFlags, WasmDecodeError> = binding {
-    when (val flagsByte = context.reader.ubyte().bind()) {
+    when (val flagsByte = context.reader.ubyte()) {
         NON_NULL_BOTH_CAST_FLAGS -> CastFlags(Nullability.NON_NULL, Nullability.NON_NULL)
         NULL_TO_NON_NULL_CAST_FLAGS -> CastFlags(Nullability.NULL, Nullability.NON_NULL)
         NON_NULL_TO_NULL_CAST_FLAGS -> CastFlags(Nullability.NON_NULL, Nullability.NULL)

@@ -3,8 +3,10 @@ package io.github.charlietap.chasm.decoder.decoder.section.custom
 import com.github.michaelbull.result.Ok
 import io.github.charlietap.chasm.ast.module.NameData
 import io.github.charlietap.chasm.ast.value.NameValue
-import io.github.charlietap.chasm.decoder.context.scope.Scope
+import io.github.charlietap.chasm.decoder.context.scope.ScopedDecoder
 import io.github.charlietap.chasm.decoder.decoder.Decoder
+import io.github.charlietap.chasm.decoder.decoder.ReaderDecoder
+import io.github.charlietap.chasm.decoder.fixture.assertWasmDecodeError
 import io.github.charlietap.chasm.decoder.fixture.customSection
 import io.github.charlietap.chasm.decoder.fixture.decoderContext
 import io.github.charlietap.chasm.decoder.fixture.ioError
@@ -45,10 +47,10 @@ class CustomSectionDecoderTest {
         val nameDataDecoder: Decoder<NameData> = {
             fail("NameData decoder should not be called in this scenario")
         }
-        val nameScope: Scope<UInt> = { _, _ ->
+        val nameScope: ScopedDecoder<UInt, NameData> = { _, _, _ ->
             fail("NameScope should not be called in this scenario")
         }
-        val nameValueDecoder: Decoder<NameValue> = {
+        val nameValueDecoder: ReaderDecoder<NameValue> = {
             Ok(nameValue)
         }
         val actual = CustomSectionDecoder(context, nameDataDecoder, nameScope, nameValueDecoder)
@@ -81,10 +83,10 @@ class CustomSectionDecoderTest {
         val nameDataDecoder: Decoder<NameData> = {
             Ok(nameData)
         }
-        val nameScope: Scope<UInt> = { _, _ ->
-            Ok(context)
+        val nameScope: ScopedDecoder<UInt, NameData> = { scopedContext, _, decoder ->
+            decoder(scopedContext)
         }
-        val nameValueDecoder: Decoder<NameValue> = {
+        val nameValueDecoder: ReaderDecoder<NameValue> = {
             Ok(nameValue)
         }
         val actual = CustomSectionDecoder(context, nameDataDecoder, nameScope, nameValueDecoder)
@@ -118,10 +120,10 @@ class CustomSectionDecoderTest {
         val nameDataDecoder: Decoder<NameData> = {
             fail("NameData decoder should not be called when decodeNameSection is false")
         }
-        val nameScope: Scope<UInt> = { _, _ ->
+        val nameScope: ScopedDecoder<UInt, NameData> = { _, _, _ ->
             fail("NameScope should not be called when decodeNameSection is false")
         }
-        val nameValueDecoder: Decoder<NameValue> = {
+        val nameValueDecoder: ReaderDecoder<NameValue> = {
             Ok(nameValue)
         }
         val actual = CustomSectionDecoder(context, nameDataDecoder, nameScope, nameValueDecoder)
@@ -135,8 +137,8 @@ class CustomSectionDecoderTest {
         val reader = IOErrorWasmFileReader(expected)
         val context = decoderContext(reader)
 
-        val actual = CustomSectionDecoder(context)
-
-        assertEquals(expected, actual)
+        assertWasmDecodeError(expected) {
+            CustomSectionDecoder(context)
+        }
     }
 }

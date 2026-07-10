@@ -1,35 +1,42 @@
 package io.github.charlietap.chasm.decoder.reader
 
-import com.github.michaelbull.result.Result
-import io.github.charlietap.chasm.decoder.error.WasmDecodeError
-
 internal interface WasmBinaryReader {
 
-    fun byte(): Result<Byte, WasmDecodeError>
+    fun byte(): Byte
 
-    fun ubyte(): Result<UByte, WasmDecodeError>
+    fun ubyte(): UByte
 
-    fun bytes(amount: Int): Result<ByteArray, WasmDecodeError>
+    fun bytes(amount: Int): ByteArray
 
-    fun ubytes(amount: UInt): Result<UByteArray, WasmDecodeError>
+    fun ubytes(amount: UInt): UByteArray
 
-    fun int(): Result<Int, WasmDecodeError>
+    fun int(): Int
 
-    fun uint(): Result<UInt, WasmDecodeError>
+    fun uint(): UInt
 
-    fun s33(): Result<UInt, WasmDecodeError>
+    fun short(): Short
 
-    fun long(): Result<Long, WasmDecodeError>
+    fun ushort(): UShort
 
-    fun ulong(): Result<ULong, WasmDecodeError>
+    fun s33(): Long
 
-    fun float(): Result<Float, WasmDecodeError>
+    fun long(): Long
 
-    fun double(): Result<Double, WasmDecodeError>
+    fun ulong(): ULong
 
-    fun exhausted(): Result<Boolean, WasmDecodeError>
+    fun float(): Float
+
+    fun double(): Double
+
+    fun exhausted(): Boolean
 
     fun position(): UInt
 
-    fun peek(): WasmBinaryReader
+    fun peekUByte(): UByte
+
+    fun peekUInt(): UInt
+
+    fun pushLimit(size: UInt): ULong = error("Reader does not support byte limits")
+
+    fun restoreLimit(limit: ULong): Unit = error("Reader does not support byte limits")
 }

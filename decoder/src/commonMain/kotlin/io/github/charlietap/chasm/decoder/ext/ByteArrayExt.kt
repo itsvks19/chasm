@@ -1,32 +1,28 @@
 package io.github.charlietap.chasm.decoder.ext
 
-import com.github.michaelbull.result.Err
-import com.github.michaelbull.result.Result
-import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.decoder.error.ValueDecodeError
+import io.github.charlietap.chasm.decoder.error.WasmDecodeException
 
-internal fun ByteArray.toFloatLe(): Result<Float, ValueDecodeError.InvalidFloat> = binding {
-
+internal fun ByteArray.toFloatLe(): Float {
     if (size != 4) {
-        Err(ValueDecodeError.InvalidFloat(this@toFloatLe)).bind<ValueDecodeError.InvalidFloat>()
+        throw WasmDecodeException(ValueDecodeError.InvalidFloat(this))
     }
 
     val intValue = foldIndexed(0) { index, acc, byte ->
         acc or (byte.toInt() and 0xFF shl (8 * index))
     }
 
-    Float.fromBits(intValue)
+    return Float.fromBits(intValue)
 }
 
-internal fun ByteArray.toDoubleLe(): Result<Double, ValueDecodeError.InvalidDouble> = binding {
-
+internal fun ByteArray.toDoubleLe(): Double {
     if (size != 8) {
-        Err(ValueDecodeError.InvalidDouble(this@toDoubleLe)).bind<ValueDecodeError.InvalidDouble>()
+        throw WasmDecodeException(ValueDecodeError.InvalidDouble(this))
     }
 
     val longValue = foldIndexed(0L) { index, acc, byte ->
         acc or (byte.toLong() and 0xFF shl (8 * index))
     }
 
-    Double.fromBits(longValue)
+    return Double.fromBits(longValue)
 }

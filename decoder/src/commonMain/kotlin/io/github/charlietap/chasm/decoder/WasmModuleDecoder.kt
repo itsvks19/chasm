@@ -8,7 +8,7 @@ import io.github.charlietap.chasm.ast.module.Version
 import io.github.charlietap.chasm.config.ModuleConfig
 import io.github.charlietap.chasm.decoder.builder.ModuleBuilder
 import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
-import io.github.charlietap.chasm.decoder.context.scope.Scope
+import io.github.charlietap.chasm.decoder.context.scope.ScopedDecoder
 import io.github.charlietap.chasm.decoder.context.scope.SectionScope
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.factory.BinaryReaderFactory
@@ -19,8 +19,10 @@ import io.github.charlietap.chasm.decoder.decoder.section.SectionTypeDecoder
 import io.github.charlietap.chasm.decoder.decoder.version.VersionDecoder
 import io.github.charlietap.chasm.decoder.error.ModuleDecodeError
 import io.github.charlietap.chasm.decoder.error.ModuleDecoderError
+import io.github.charlietap.chasm.decoder.error.WasmDecodeError
+import io.github.charlietap.chasm.decoder.error.WasmDecodeException
 import io.github.charlietap.chasm.decoder.ext.section
-import io.github.charlietap.chasm.decoder.reader.SourceWasmBinaryReader
+import io.github.charlietap.chasm.decoder.reader.BinaryReader
 import io.github.charlietap.chasm.decoder.section.Section
 import io.github.charlietap.chasm.decoder.section.SectionSize
 import io.github.charlietap.chasm.decoder.section.SectionType
@@ -28,12 +30,31 @@ import io.github.charlietap.chasm.stream.SourceReader
 
 fun WasmModuleDecoder(
     config: ModuleConfig,
-    source: SourceReader,
-): Result<Module, ModuleDecoderError> =
-    WasmModuleDecoder(
-        source = source,
+    bytes: ByteArray,
+): Result<Module, ModuleDecoderError> {
+    val context = ModuleDecoderContext(
         config = config,
-        readerFactory = ::SourceWasmBinaryReader,
+        reader = BinaryReader(bytes),
+    )
+    return WasmModuleDecoder(context)
+}
+
+fun WasmModuleDecoder(
+    config: ModuleConfig,
+    source: SourceReader,
+): Result<Module, ModuleDecoderError> {
+    val context = ModuleDecoderContext(
+        config = config,
+        reader = BinaryReader(source),
+    )
+    return WasmModuleDecoder(context)
+}
+
+internal fun WasmModuleDecoder(
+    context: ModuleDecoderContext,
+): Result<Module, WasmDecodeError> =
+    WasmModuleDecoder(
+        context = context,
         magicNumberValidator = ::BinaryMagicNumberValidator,
         versionDecoder = ::VersionDecoder,
         sectionTypeDecoder = ::SectionTypeDecoder,
@@ -49,32 +70,61 @@ internal fun WasmModuleDecoder(
     versionDecoder: Decoder<Version>,
     sectionTypeDecoder: Decoder<SectionType>,
     sectionDecoder: Decoder<Section>,
-    scope: Scope<Pair<SectionSize, SectionType>>,
-): Result<Module, ModuleDecoderError> = binding {
+    scope: ScopedDecoder<Pair<SectionSize, SectionType>, Section>,
+): Result<Module, WasmDecodeError> {
+    val context = ModuleDecoderContext(config, readerFactory(source))
+    return WasmModuleDecoder(
+        context = context,
+        magicNumberValidator = magicNumberValidator,
+        versionDecoder = versionDecoder,
+        sectionTypeDecoder = sectionTypeDecoder,
+        sectionDecoder = sectionDecoder,
+        scope = scope,
+    )
+}
 
-    val reader = readerFactory(source).apply {
-        magicNumberValidator(this).bind()
-    }
-    val context = ModuleDecoderContext(config, reader)
+internal fun WasmModuleDecoder(
+    context: ModuleDecoderContext,
+    magicNumberValidator: MagicNumberValidator,
+    versionDecoder: Decoder<Version>,
+    sectionTypeDecoder: Decoder<SectionType>,
+    sectionDecoder: Decoder<Section>,
+    scope: ScopedDecoder<Pair<SectionSize, SectionType>, Section>,
+): Result<Module, WasmDecodeError> {
+    context.reset()
 
-    val version = versionDecoder(context).bind()
-    val builder = ModuleBuilder(version)
-    var previousSectionType = SectionType.Custom
+    return try {
+        binding {
+            magicNumberValidator(context.reader).bind()
 
-    while (reader.exhausted().bind().not()) {
+            val version = versionDecoder(context).bind()
+            val builder = ModuleBuilder(version)
+            var previousSectionType = SectionType.Custom
 
-        val sectionType = sectionTypeDecoder(context).bind()
-        if (sectionType.ordinal <= previousSectionType.ordinal && sectionType != SectionType.Custom) {
-            Err(ModuleDecodeError.ModuleMalformed).bind()
+            while (context.reader.exhausted().not()) {
+
+                val sectionType = sectionTypeDecoder(context).bind()
+                if (sectionType.ordinal <= previousSectionType.ordinal && sectionType != SectionType.Custom) {
+                    Err(ModuleDecodeError.ModuleMalformed).bind()
+                }
+                val sectionSize = SectionSize(context.reader.uint())
+                val section = scope(
+                    context,
+                    sectionSize to sectionType,
+                    sectionDecoder,
+                ).bind()
+
+                builder.section(section)
+                previousSectionType = sectionType
+            }
+
+            builder.build(context).bind()
         }
-        val sectionSize = SectionSize(reader.uint().bind())
-
-        val scopedContext = scope(context, sectionSize to sectionType).bind()
-        val section = sectionDecoder(scopedContext).bind()
-
-        builder.section(section)
-        previousSectionType = sectionType
+    } catch (error: WasmDecodeException) {
+        Err(error.error)
+    } catch (error: Throwable) {
+        Err(WasmDecodeError.IOError(error))
+    } finally {
+        context.reset()
     }
-
-    builder.build(context).bind()
 }

@@ -1,24 +1,28 @@
 package io.github.charlietap.chasm.decoder.context.scope
 
 import com.github.michaelbull.result.Result
-import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
-import io.github.charlietap.chasm.decoder.context.SectionContextImpl
+import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 import io.github.charlietap.chasm.decoder.section.SectionSize
 import io.github.charlietap.chasm.decoder.section.SectionType
 
-internal fun SectionScope(
+internal inline fun <T> SectionScope(
     context: ModuleDecoderContext,
     sectionDetails: Pair<SectionSize, SectionType>,
-): Result<ModuleDecoderContext, WasmDecodeError> = binding {
-
+    crossinline decoder: Decoder<T>,
+): Result<T, WasmDecodeError> {
     val (sectionSize, sectionType) = sectionDetails
+    val previousSectionSize = context.sectionSize
+    val previousSectionType = context.sectionType
 
-    context.copy(
-        sectionContext = SectionContextImpl(
-            sectionSize = sectionSize,
-            sectionType = sectionType,
-        ),
-    )
+    context.sectionSize = sectionSize
+    context.sectionType = sectionType
+
+    return try {
+        decoder(context)
+    } finally {
+        context.sectionSize = previousSectionSize
+        context.sectionType = previousSectionType
+    }
 }

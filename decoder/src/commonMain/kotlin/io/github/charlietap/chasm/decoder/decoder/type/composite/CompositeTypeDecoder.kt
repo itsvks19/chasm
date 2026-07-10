@@ -31,7 +31,7 @@ internal inline fun CompositeTypeDecoder(
     crossinline structTypeDecoder: Decoder<StructType>,
     crossinline arrayTypeDecoder: Decoder<ArrayType>,
 ): Result<CompositeType, WasmDecodeError> = binding {
-    when (val compositeTypeByte = context.reader.ubyte().bind()) {
+    when (val compositeTypeByte = context.reader.ubyte()) {
         ARRAY_COMPOSITE_TYPE -> CompositeType.Array(arrayTypeDecoder(context).bind())
         STRUCT_COMPOSITE_TYPE -> CompositeType.Struct(structTypeDecoder(context).bind())
         FUNCTION_COMPOSITE_TYPE -> CompositeType.Function(functionTypeDecoder(context).bind())

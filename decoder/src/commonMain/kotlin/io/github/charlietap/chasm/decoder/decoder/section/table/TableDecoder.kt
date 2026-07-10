@@ -30,9 +30,7 @@ internal inline fun TableDecoder(
 ): Result<Table, WasmDecodeError> = binding {
 
     val opcode = context.reader
-        .peek()
-        .ubyte()
-        .bind()
+        .peekUByte()
 
     val tableImportCount = context.imports.count { it.descriptor is Import.Descriptor.Table }
     val index = tableImportCount + context.index
@@ -41,8 +39,8 @@ internal inline fun TableDecoder(
     when (opcode) {
         OPCODE_TABLE_WITH_EXPRESSION -> {
 
-            context.reader.ubyte().bind()
-            context.reader.ubyte().bind()
+            context.reader.ubyte()
+            context.reader.ubyte()
 
             val tableType = tableTypeDecoder(context).bind()
             val initExpression = expressionDecoder(context).bind()

@@ -11,7 +11,7 @@ import io.github.charlietap.chasm.type.VectorType
 internal fun VectorTypeDecoder(
     context: ModuleDecoderContext,
 ): Result<VectorType, WasmDecodeError> = binding {
-    val encoded = context.reader.ubyte().bind()
+    val encoded = context.reader.ubyte()
     if (encoded == VECTOR_TYPE_128) {
         VectorType.V128
     } else {

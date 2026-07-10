@@ -12,7 +12,7 @@ import io.github.charlietap.chasm.type.Mutability
 internal fun MutabilityDecoder(
     context: ModuleDecoderContext,
 ): Result<Mutability, WasmDecodeError> = binding {
-    when (val byte = context.reader.ubyte().bind()) {
+    when (val byte = context.reader.ubyte()) {
         CONST_MUTABILITY -> Ok(Mutability.Const)
         VAR_MUTABILITY -> Ok(Mutability.Var)
         else -> Err(TypeDecodeError.UnknownMutabilityFlag(byte))

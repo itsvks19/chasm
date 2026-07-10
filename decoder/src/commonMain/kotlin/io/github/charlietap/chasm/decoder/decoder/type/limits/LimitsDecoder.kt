@@ -1,11 +1,8 @@
 package io.github.charlietap.chasm.decoder.decoder.type.limits
 
 import com.github.michaelbull.result.Err
-import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
-import com.github.michaelbull.result.flatMap
-import com.github.michaelbull.result.map
 import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.error.TypeDecodeError
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
@@ -18,34 +15,30 @@ internal fun LimitsDecoder(
     context: ModuleDecoderContext,
 ): Result<Triple<Limits, SharedStatus, AddressType>, WasmDecodeError> = binding {
 
-    val (hasMaximum, sharedStatus, addressType) = context.reader
-        .ubyte()
-        .flatMap { byte ->
-            when (byte) {
-                LIMIT_NO_MAX_UNSHARED_I32 -> Ok(Triple(false, SharedStatus.Unshared, AddressType.I32))
-                LIMIT_MAX_UNSHARED_I32 -> Ok(Triple(true, SharedStatus.Unshared, AddressType.I32))
-                LIMIT_NO_MAX_SHARED_I32 -> Err(TypeDecodeError.UnboundedSharedLimits)
-                LIMIT_MAX_SHARED_I32 -> Ok(Triple(true, SharedStatus.Shared, AddressType.I32))
-                LIMIT_NO_MAX_UNSHARED_I64 -> Ok(Triple(false, SharedStatus.Unshared, AddressType.I64))
-                LIMIT_MAX_UNSHARED_I64 -> Ok(Triple(true, SharedStatus.Unshared, AddressType.I64))
-                LIMIT_NO_MAX_SHARED_I64 -> Err(TypeDecodeError.UnboundedSharedLimits)
-                LIMIT_MAX_SHARED_I64 -> Ok(Triple(true, SharedStatus.Shared, AddressType.I64))
-                else -> Err(TypeDecodeError.UnknownLimitsFlag(byte))
-            }
-        }.bind()
+    val (hasMaximum, sharedStatus, addressType) = when (val byte = context.reader.ubyte()) {
+        LIMIT_NO_MAX_UNSHARED_I32 -> Triple(false, SharedStatus.Unshared, AddressType.I32)
+        LIMIT_MAX_UNSHARED_I32 -> Triple(true, SharedStatus.Unshared, AddressType.I32)
+        LIMIT_NO_MAX_SHARED_I32 -> Err(TypeDecodeError.UnboundedSharedLimits).bind()
+        LIMIT_MAX_SHARED_I32 -> Triple(true, SharedStatus.Shared, AddressType.I32)
+        LIMIT_NO_MAX_UNSHARED_I64 -> Triple(false, SharedStatus.Unshared, AddressType.I64)
+        LIMIT_MAX_UNSHARED_I64 -> Triple(true, SharedStatus.Unshared, AddressType.I64)
+        LIMIT_NO_MAX_SHARED_I64 -> Err(TypeDecodeError.UnboundedSharedLimits).bind()
+        LIMIT_MAX_SHARED_I64 -> Triple(true, SharedStatus.Shared, AddressType.I64)
+        else -> Err(TypeDecodeError.UnknownLimitsFlag(byte)).bind()
+    }
 
-    val scalarReader: (WasmBinaryReader) -> Result<ULong, WasmDecodeError> = when (addressType) {
+    val scalarReader: (WasmBinaryReader) -> ULong = when (addressType) {
         AddressType.I32 -> { reader ->
-            reader.uint().map(UInt::toULong)
+            reader.uint().toULong()
         }
         AddressType.I64 -> { reader ->
             reader.ulong()
         }
     }
 
-    val minimum = scalarReader(context.reader).bind()
+    val minimum = scalarReader(context.reader)
     if (hasMaximum) {
-        val limits = Limits(minimum, scalarReader(context.reader).bind())
+        val limits = Limits(minimum, scalarReader(context.reader))
         Triple(limits, sharedStatus, addressType)
     } else {
         Triple(Limits(minimum), sharedStatus, addressType)

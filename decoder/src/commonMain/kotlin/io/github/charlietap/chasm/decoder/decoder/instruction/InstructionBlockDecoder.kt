@@ -21,13 +21,11 @@ internal inline fun InstructionBlockDecoder(
     val instructions = mutableListOf<Instruction>()
     do {
         val opcode = context.reader
-            .peek()
-            .ubyte()
-            .bind()
+            .peekUByte()
         if (opcode != context.blockEndOpcode) {
             instructions += instructionDecoder(context).bind()
         } else {
-            context.reader.ubyte().bind() // consume end opcode
+            context.reader.ubyte() // consume end opcode
         }
     } while (opcode != context.blockEndOpcode)
 

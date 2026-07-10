@@ -46,7 +46,7 @@ internal inline fun ElementSegmentDecoder(
 
     val elemIndexPlaceholder = Index.ElementIndex(0u)
 
-    when (val segmentId = context.reader.uint().bind()) {
+    when (val segmentId = context.reader.uint()) {
         SEGMENT_TYPE_ACTIVE_NO_TABLE -> {
 
             val offSetExpression = expressionDecoder(context).bind()

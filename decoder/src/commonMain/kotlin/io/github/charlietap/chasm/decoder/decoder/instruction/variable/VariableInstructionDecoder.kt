@@ -31,7 +31,7 @@ internal inline fun VariableInstructionDecoder(
     crossinline localIndexDecoder: Decoder<Index.LocalIndex>,
     crossinline globalIndexDecoder: Decoder<Index.GlobalIndex>,
 ): Result<VariableInstruction, WasmDecodeError> = binding {
-    when (val opcode = context.reader.ubyte().bind()) {
+    when (val opcode = context.reader.ubyte()) {
         LOCAL_GET -> {
             VariableInstruction.LocalGet(localIndexDecoder(context).bind())
         }

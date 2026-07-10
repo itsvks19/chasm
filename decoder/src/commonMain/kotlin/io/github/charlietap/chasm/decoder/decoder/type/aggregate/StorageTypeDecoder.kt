@@ -31,9 +31,7 @@ internal inline fun StorageTypeDecoder(
 ): Result<StorageType, WasmDecodeError> = binding {
     when (
         val encoded = context.reader
-            .peek()
-            .ubyte()
-            .bind()
+            .peekUByte()
     ) {
         in NUMBER_TYPE_RANGE,
         in VECTOR_TYPE_RANGE,

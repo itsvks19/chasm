@@ -50,7 +50,7 @@ internal inline fun MemoryInstructionDecoder(
     crossinline memoryGrowDecoder: Decoder<MemoryInstruction.MemoryGrow>,
     crossinline memorySizeDecoder: Decoder<MemoryInstruction.MemorySize>,
 ): Result<MemoryInstruction, WasmDecodeError> = binding {
-    when (val opcode = context.reader.ubyte().bind()) {
+    when (val opcode = context.reader.ubyte()) {
         I32_LOAD -> {
             val memArgWithIndex = memArgWithIndexDecoder(context).bind()
             MemoryInstruction.Load.I32.I32Load(memArgWithIndex.memoryIndex, memArgWithIndex.memArg)

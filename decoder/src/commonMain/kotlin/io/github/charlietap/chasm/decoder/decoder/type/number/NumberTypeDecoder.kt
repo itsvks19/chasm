@@ -11,7 +11,7 @@ import io.github.charlietap.chasm.type.NumberType
 internal fun NumberTypeDecoder(
     context: ModuleDecoderContext,
 ): Result<NumberType, WasmDecodeError> = binding {
-    when (val encoded = context.reader.ubyte().bind()) {
+    when (val encoded = context.reader.ubyte()) {
         NUMBER_TYPE_I32 -> NumberType.I32
         NUMBER_TYPE_I64 -> NumberType.I64
         NUMBER_TYPE_F32 -> NumberType.F32

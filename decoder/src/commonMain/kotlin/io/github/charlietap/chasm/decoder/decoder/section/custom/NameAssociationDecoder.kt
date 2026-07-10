@@ -4,24 +4,24 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.name.NameAssociation
 import io.github.charlietap.chasm.ast.value.NameValue
-import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
-import io.github.charlietap.chasm.decoder.decoder.Decoder
+import io.github.charlietap.chasm.decoder.context.ReaderContext
+import io.github.charlietap.chasm.decoder.decoder.ReaderDecoder
 import io.github.charlietap.chasm.decoder.decoder.name.NameValueDecoder
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 
 internal fun NameAssociationDecoder(
-    context: ModuleDecoderContext,
+    context: ReaderContext,
 ): Result<NameAssociation, WasmDecodeError> = NameAssociationDecoder(
     context = context,
     nameValueDecoder = ::NameValueDecoder,
 )
 
 internal inline fun NameAssociationDecoder(
-    context: ModuleDecoderContext,
-    crossinline nameValueDecoder: Decoder<NameValue>,
+    context: ReaderContext,
+    crossinline nameValueDecoder: ReaderDecoder<NameValue>,
 ) = binding {
 
-    val index = context.reader.uint().bind()
+    val index = context.reader.uint()
     val name = nameValueDecoder(context).bind()
 
     NameAssociation(

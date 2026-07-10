@@ -25,12 +25,10 @@ internal inline fun RecursiveTypeDecoder(
 ): Result<RecursiveType, WasmDecodeError> = binding {
     when (
         context.reader
-            .peek()
-            .ubyte()
-            .bind()
+            .peekUByte()
     ) {
         MULTIPLE_SUBTYPES_RECURSIVE_TYPE -> {
-            context.reader.ubyte().bind() // consume byte
+            context.reader.ubyte() // consume byte
             val subTypes = vectorDecoder(context, subTypeDecoder).bind()
             RecursiveType(subTypes.vector, RecursiveType.State.SYNTAX)
         }

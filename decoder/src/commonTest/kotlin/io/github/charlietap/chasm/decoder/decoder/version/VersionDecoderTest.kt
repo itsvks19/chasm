@@ -4,6 +4,7 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import io.github.charlietap.chasm.ast.module.Version
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
+import io.github.charlietap.chasm.decoder.fixture.assertWasmDecodeError
 import io.github.charlietap.chasm.decoder.fixture.decoderContext
 import io.github.charlietap.chasm.decoder.fixture.ioError
 import io.github.charlietap.chasm.decoder.reader.FakeUBytesReader
@@ -48,8 +49,8 @@ class VersionDecoderTest {
         val reader = IOErrorWasmFileReader(err)
 
         val context = decoderContext(reader)
-        val actual = VersionDecoder(context)
-
-        assertEquals(err, actual)
+        assertWasmDecodeError(err) {
+            VersionDecoder(context)
+        }
     }
 }

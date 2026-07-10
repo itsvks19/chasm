@@ -19,6 +19,7 @@ import io.github.charlietap.chasm.ast.name.NameMap
 import io.github.charlietap.chasm.ast.value.NameValue
 import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
+import io.github.charlietap.chasm.decoder.decoder.ReaderDecoder
 import io.github.charlietap.chasm.decoder.decoder.name.NameValueDecoder
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 import io.github.charlietap.chasm.decoder.ext.trackBytes
@@ -36,17 +37,17 @@ internal inline fun NameDataDecoder(
     context: ModuleDecoderContext,
     crossinline indirectNameMapDecoder: Decoder<IndirectNameMap>,
     crossinline nameMapDecoder: Decoder<NameMap>,
-    crossinline nameValueDecoder: Decoder<NameValue>,
+    crossinline nameValueDecoder: ReaderDecoder<NameValue>,
 ) = binding {
 
-    var bytesLeft = context.nameSectionContext.sectionSize
+    var bytesLeft = context.nameSectionSize
     val subsections = mutableListOf<NameSubsection>()
 
     while (bytesLeft > 0u) {
 
-        val subsectionId = context.reader.ubyte().bind()
+        val subsectionId = context.reader.ubyte()
         val (subsectionSize, bytesConsumed) = context.reader.trackBytes {
-            context.reader.uint().bind()
+            context.reader.uint()
         }
 
         bytesLeft -= subsectionSize + bytesConsumed + 1u
@@ -63,7 +64,7 @@ internal inline fun NameDataDecoder(
             FIELD_SUBSECTION -> FieldNameSubsection(indirectNameMapDecoder(context).bind())
             TAG_SUBSECTION -> TagNameSubsection(nameMapDecoder(context).bind())
             else -> {
-                context.reader.bytes(subsectionSize.toInt()).bind()
+                context.reader.bytes(subsectionSize.toInt())
                 null
             }
         }

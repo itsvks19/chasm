@@ -30,7 +30,7 @@ internal inline fun CodeEntryDecoder(
     crossinline vectorDecoder: VectorDecoder<LocalEntry>,
 ): Result<CodeEntry, WasmDecodeError> = binding {
 
-    val size = context.reader.uint().bind()
+    val size = context.reader.uint()
     val localEntries = vectorDecoder(context, localEntryDecoder).bind()
     var index = 0u
 

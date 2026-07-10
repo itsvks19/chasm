@@ -54,9 +54,7 @@ internal inline fun InstructionDecoder(
     crossinline prefixInstructionDecoder: Decoder<Instruction>,
 ): Result<Instruction, WasmDecodeError> = binding {
     val opcode = context.reader
-        .peek()
-        .ubyte()
-        .bind()
+        .peekUByte()
     when {
         NUMERIC_OPCODES.contains(opcode) -> numericInstructionDecoder(context).bind()
         REFERENCE_OPCODES.contains(opcode) -> referenceInstructionDecoder(context).bind()
