@@ -20,3 +20,55 @@
   updateLegacyAbi`.
 - In Cursor, use the `read_lints` command before finishing to surface IDE
   diagnostics (detekt/ktlint) for the files you edited.
+
+## Commit Messages
+
+- Write subjects as `<area>: <imperative outcome>`, where the area names the
+  affected subsystem, such as `decoder`, `decoder/reader`, or `runtime`.
+- Keep the subject concise and specific. Prefer `decoder: preserve section
+  bounds across nested reads` over generic summaries such as `update decoder`
+  or category prefixes such as `refactor(decoder)`.
+- A small, self-explanatory commit may use only a subject. For substantive
+  changes, add a body that explains:
+  1. the previous behavior, bottleneck, or failure and why it mattered;
+  2. the implementation approach and any important invariants, fallbacks, or
+     compatibility guarantees; and
+  3. how the change was verified, including benchmark methodology and baseline
+     comparisons when performance is claimed.
+- Describe the resulting behavior rather than narrating the editing process.
+  Include only tests and measurements that were actually run, and give enough
+  detail for a reader to interpret the result.
+- Wrap prose at roughly 72 characters and separate distinct ideas into short
+  paragraphs.
+
+For example:
+
+```text
+decoder: rename DecoderContext to ModuleDecoderContext
+
+The existing context only represents state used while decoding a core
+WebAssembly module. Components introduce a wider decoding scope that can
+contain multiple core modules, so the generic name becomes ambiguous.
+
+Rename the context before component decoding is introduced. This is a
+namespace-only change; decoding behavior is unchanged.
+```
+
+A performance commit should preserve the evidence behind its claim:
+
+```text
+decoder: optimize binary reader and LEB decoding
+
+Primitive reads previously bound a Result for every byte, while byte-array
+and streaming inputs used separate implementations. This added work to the
+hot path and prevented LEB decoders from using contiguous input directly.
+
+Unify both inputs behind a buffered reader. Decode byte arrays directly and
+preserve SourceReader compatibility through a refill adapter. Use unrolled
+LEB fast paths when enough bytes are contiguous and fall back near a refill
+boundary.
+
+Sequential corpus decode comparisons against 1.4.7 improved the byte-array
+path from 1.179 s to 0.690 s and the SourceReader path from 1.247 s to
+0.677 s, reductions of 41.5% and 45.7% respectively.
+```
