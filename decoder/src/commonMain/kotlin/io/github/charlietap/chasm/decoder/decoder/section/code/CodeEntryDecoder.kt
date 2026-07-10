@@ -6,7 +6,7 @@ import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.instruction.Expression
 import io.github.charlietap.chasm.ast.module.Index
 import io.github.charlietap.chasm.ast.module.Local
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.instruction.ExpressionDecoder
 import io.github.charlietap.chasm.decoder.decoder.vector.VectorDecoder
@@ -14,7 +14,7 @@ import io.github.charlietap.chasm.decoder.error.SectionDecodeError
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 
 internal fun CodeEntryDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<CodeEntry, WasmDecodeError> =
     CodeEntryDecoder(
         context = context,
@@ -24,7 +24,7 @@ internal fun CodeEntryDecoder(
     )
 
 internal inline fun CodeEntryDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     noinline localEntryDecoder: Decoder<LocalEntry>,
     crossinline expressionDecoder: Decoder<Expression>,
     crossinline vectorDecoder: VectorDecoder<LocalEntry>,

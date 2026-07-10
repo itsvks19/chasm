@@ -5,7 +5,7 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.module.Export
 import io.github.charlietap.chasm.ast.module.Index
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.section.index.FunctionIndexDecoder
 import io.github.charlietap.chasm.decoder.decoder.section.index.GlobalIndexDecoder
@@ -16,7 +16,7 @@ import io.github.charlietap.chasm.decoder.error.SectionDecodeError
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 
 internal fun ExportDescriptorDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<Export.Descriptor, WasmDecodeError> =
     ExportDescriptorDecoder(
         context = context,
@@ -28,7 +28,7 @@ internal fun ExportDescriptorDecoder(
     )
 
 internal inline fun ExportDescriptorDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline functionIndexDecoder: Decoder<Index.FunctionIndex>,
     crossinline globalIndexDecoder: Decoder<Index.GlobalIndex>,
     crossinline memIndexDecoder: Decoder<Index.MemoryIndex>,

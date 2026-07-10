@@ -3,7 +3,7 @@ package io.github.charlietap.chasm.decoder.decoder.section
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.section.code.CodeSectionDecoder
 import io.github.charlietap.chasm.decoder.decoder.section.custom.CustomSectionDecoder
@@ -40,7 +40,7 @@ import io.github.charlietap.chasm.decoder.section.TagSection
 import io.github.charlietap.chasm.decoder.section.TypeSection
 
 internal fun SectionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<Section, WasmDecodeError> =
     SectionDecoder(
         context = context,
@@ -61,7 +61,7 @@ internal fun SectionDecoder(
     )
 
 internal inline fun SectionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline customSectionDecoder: Decoder<CustomSection>,
     crossinline codeSectionDecoder: Decoder<CodeSection>,
     crossinline dataSectionDecoder: Decoder<DataSection>,

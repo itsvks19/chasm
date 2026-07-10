@@ -7,7 +7,7 @@ import io.github.charlietap.chasm.ast.instruction.Expression
 import io.github.charlietap.chasm.ast.instruction.ReferenceInstruction
 import io.github.charlietap.chasm.ast.module.ElementSegment
 import io.github.charlietap.chasm.ast.module.Index
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.instruction.ExpressionDecoder
 import io.github.charlietap.chasm.decoder.decoder.section.index.FunctionIndexDecoder
@@ -20,7 +20,7 @@ import io.github.charlietap.chasm.type.AbstractHeapType
 import io.github.charlietap.chasm.type.ReferenceType
 
 internal fun ElementSegmentDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<ElementSegment, WasmDecodeError> =
     ElementSegmentDecoder(
         context = context,
@@ -34,7 +34,7 @@ internal fun ElementSegmentDecoder(
     )
 
 internal inline fun ElementSegmentDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline elementKindDecoder: Decoder<ElementKind>,
     noinline expressionDecoder: Decoder<Expression>,
     noinline functionIndexDecoder: Decoder<Index.FunctionIndex>,

@@ -5,18 +5,18 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.value.NameValue
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.vector.BinaryByteVectorDecoder
 import io.github.charlietap.chasm.decoder.decoder.vector.ByteVectorDecoder
 import io.github.charlietap.chasm.decoder.error.ValueDecodeError
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 
 internal fun NameValueDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<NameValue, WasmDecodeError> = NameValueDecoder(context, ::BinaryByteVectorDecoder)
 
 internal inline fun NameValueDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline vectorDecoder: ByteVectorDecoder,
 ): Result<NameValue, WasmDecodeError> = binding {
 

@@ -2,7 +2,7 @@ package io.github.charlietap.chasm.decoder.decoder.type.recursive
 
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.vector.VectorDecoder
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
@@ -10,7 +10,7 @@ import io.github.charlietap.chasm.type.RecursiveType
 import io.github.charlietap.chasm.type.SubType
 
 internal fun RecursiveTypeDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<RecursiveType, WasmDecodeError> =
     RecursiveTypeDecoder(
         context = context,
@@ -19,7 +19,7 @@ internal fun RecursiveTypeDecoder(
     )
 
 internal inline fun RecursiveTypeDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     noinline subTypeDecoder: Decoder<SubType>,
     crossinline vectorDecoder: VectorDecoder<SubType>,
 ): Result<RecursiveType, WasmDecodeError> = binding {

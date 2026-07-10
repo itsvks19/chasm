@@ -2,7 +2,7 @@ package io.github.charlietap.chasm.decoder.decoder.type.global
 
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.type.MutabilityDecoder
 import io.github.charlietap.chasm.decoder.decoder.type.value.ValueTypeDecoder
@@ -12,7 +12,7 @@ import io.github.charlietap.chasm.type.Mutability
 import io.github.charlietap.chasm.type.ValueType
 
 internal fun GlobalTypeDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<GlobalType, WasmDecodeError> = GlobalTypeDecoder(
     context = context,
     valueTypeDecoder = ::ValueTypeDecoder,
@@ -20,7 +20,7 @@ internal fun GlobalTypeDecoder(
 )
 
 internal inline fun GlobalTypeDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline valueTypeDecoder: Decoder<ValueType>,
     crossinline mutabilityDecoder: Decoder<Mutability>,
 ): Result<GlobalType, WasmDecodeError> = binding {

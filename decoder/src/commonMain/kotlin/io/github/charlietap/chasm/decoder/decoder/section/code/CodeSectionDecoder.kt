@@ -3,14 +3,14 @@ package io.github.charlietap.chasm.decoder.decoder.section.code
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.module.Index
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.vector.VectorDecoder
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 import io.github.charlietap.chasm.decoder.section.CodeSection
 
 internal fun CodeSectionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<CodeSection, WasmDecodeError> =
     CodeSectionDecoder(
         context = context,
@@ -19,7 +19,7 @@ internal fun CodeSectionDecoder(
     )
 
 internal inline fun CodeSectionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     noinline codeEntryDecoder: Decoder<CodeEntry>,
     crossinline vectorDecoder: VectorDecoder<CodeEntry>,
 ): Result<CodeSection, WasmDecodeError> = binding {

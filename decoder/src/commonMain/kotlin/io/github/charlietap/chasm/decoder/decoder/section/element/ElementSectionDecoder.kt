@@ -4,14 +4,14 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.module.ElementSegment
 import io.github.charlietap.chasm.ast.module.Index
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.vector.VectorDecoder
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 import io.github.charlietap.chasm.decoder.section.ElementSection
 
 internal fun ElementSectionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<ElementSection, WasmDecodeError> = ElementSectionDecoder(
     context = context,
     elementSegmentDecoder = ::ElementSegmentDecoder,
@@ -19,7 +19,7 @@ internal fun ElementSectionDecoder(
 )
 
 internal inline fun ElementSectionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     noinline elementSegmentDecoder: Decoder<ElementSegment>,
     crossinline vectorDecoder: VectorDecoder<ElementSegment>,
 ): Result<ElementSection, WasmDecodeError> = binding {

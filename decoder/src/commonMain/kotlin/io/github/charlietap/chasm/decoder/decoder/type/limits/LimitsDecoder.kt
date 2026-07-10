@@ -6,7 +6,7 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.error.TypeDecodeError
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 import io.github.charlietap.chasm.decoder.reader.WasmBinaryReader
@@ -15,7 +15,7 @@ import io.github.charlietap.chasm.type.Limits
 import io.github.charlietap.chasm.type.SharedStatus
 
 internal fun LimitsDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<Triple<Limits, SharedStatus, AddressType>, WasmDecodeError> = binding {
 
     val (hasMaximum, sharedStatus, addressType) = context.reader

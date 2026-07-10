@@ -4,7 +4,7 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.instruction.ParametricInstruction
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.instruction.DROP
 import io.github.charlietap.chasm.decoder.decoder.instruction.SELECT
@@ -16,7 +16,7 @@ import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 import io.github.charlietap.chasm.type.ValueType
 
 internal fun ParametricInstructionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<ParametricInstruction, WasmDecodeError> =
     ParametricInstructionDecoder(
         context = context,
@@ -25,7 +25,7 @@ internal fun ParametricInstructionDecoder(
     )
 
 internal inline fun ParametricInstructionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline vectorDecoder: VectorDecoder<ValueType>,
     noinline valueTypeDecoder: Decoder<ValueType>,
 ): Result<ParametricInstruction, WasmDecodeError> = binding {

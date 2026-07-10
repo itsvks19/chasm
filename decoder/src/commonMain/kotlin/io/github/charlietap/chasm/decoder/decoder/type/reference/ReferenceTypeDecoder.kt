@@ -2,7 +2,7 @@ package io.github.charlietap.chasm.decoder.decoder.type.reference
 
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.type.heap.AbstractHeapTypeDecoder
 import io.github.charlietap.chasm.decoder.decoder.type.heap.HeapTypeDecoder
@@ -12,7 +12,7 @@ import io.github.charlietap.chasm.type.HeapType
 import io.github.charlietap.chasm.type.ReferenceType
 
 internal fun ReferenceTypeDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<ReferenceType, WasmDecodeError> =
     ReferenceTypeDecoder(
         context = context,
@@ -21,7 +21,7 @@ internal fun ReferenceTypeDecoder(
     )
 
 internal inline fun ReferenceTypeDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline heapTypeDecoder: Decoder<HeapType>,
     crossinline abstractHeapTypeDecoder: Decoder<AbstractHeapType>,
 ): Result<ReferenceType, WasmDecodeError> = binding {

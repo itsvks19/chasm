@@ -17,14 +17,14 @@ import io.github.charlietap.chasm.ast.module.TypeNameSubsection
 import io.github.charlietap.chasm.ast.name.IndirectNameMap
 import io.github.charlietap.chasm.ast.name.NameMap
 import io.github.charlietap.chasm.ast.value.NameValue
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.name.NameValueDecoder
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 import io.github.charlietap.chasm.decoder.ext.trackBytes
 
 internal fun NameDataDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<NameData, WasmDecodeError> = NameDataDecoder(
     context = context,
     indirectNameMapDecoder = ::IndirectNameMapDecoder,
@@ -33,7 +33,7 @@ internal fun NameDataDecoder(
 )
 
 internal inline fun NameDataDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline indirectNameMapDecoder: Decoder<IndirectNameMap>,
     crossinline nameMapDecoder: Decoder<NameMap>,
     crossinline nameValueDecoder: Decoder<NameValue>,

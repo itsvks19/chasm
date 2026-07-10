@@ -11,7 +11,7 @@ import io.github.charlietap.chasm.ast.instruction.ParametricInstruction
 import io.github.charlietap.chasm.ast.instruction.ReferenceInstruction
 import io.github.charlietap.chasm.ast.instruction.TableInstruction
 import io.github.charlietap.chasm.ast.instruction.VariableInstruction
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.instruction.control.ControlInstructionDecoder
 import io.github.charlietap.chasm.decoder.decoder.instruction.memory.MemoryInstructionDecoder
@@ -29,7 +29,7 @@ import io.github.charlietap.chasm.decoder.error.InstructionDecodeError
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 
 internal fun InstructionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<Instruction, WasmDecodeError> = InstructionDecoder(
     context = context,
     numericInstructionDecoder = ::NumericInstructionDecoder,
@@ -43,7 +43,7 @@ internal fun InstructionDecoder(
 )
 
 internal inline fun InstructionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline numericInstructionDecoder: Decoder<NumericInstruction>,
     crossinline referenceInstructionDecoder: Decoder<ReferenceInstruction>,
     crossinline parametricInstructionDecoder: Decoder<ParametricInstruction>,

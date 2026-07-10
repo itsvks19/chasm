@@ -4,7 +4,7 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.instruction.MemoryInstruction
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.instruction.F32_LOAD
 import io.github.charlietap.chasm.decoder.decoder.instruction.F32_STORE
@@ -35,7 +35,7 @@ import io.github.charlietap.chasm.decoder.error.InstructionDecodeError
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 
 internal fun MemoryInstructionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<MemoryInstruction, WasmDecodeError> =
     MemoryInstructionDecoder(
         context = context,
@@ -45,7 +45,7 @@ internal fun MemoryInstructionDecoder(
     )
 
 internal inline fun MemoryInstructionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline memArgWithIndexDecoder: Decoder<MemArgWithIndex>,
     crossinline memoryGrowDecoder: Decoder<MemoryInstruction.MemoryGrow>,
     crossinline memorySizeDecoder: Decoder<MemoryInstruction.MemorySize>,

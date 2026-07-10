@@ -3,13 +3,13 @@ package io.github.charlietap.chasm.decoder.decoder.type.aggregate
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.error.TypeDecodeError
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 import io.github.charlietap.chasm.type.PackedType
 
 internal fun PackedTypeDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<PackedType, WasmDecodeError> = binding {
     when (val encoded = context.reader.ubyte().bind()) {
         PACKED_TYPE_I8 -> PackedType.I8

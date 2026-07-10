@@ -3,7 +3,7 @@ package io.github.charlietap.chasm.decoder.decoder.type.aggregate
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.type.value.NUMBER_TYPE_RANGE
 import io.github.charlietap.chasm.decoder.decoder.type.value.REFERENCE_TYPE_RANGE
@@ -16,7 +16,7 @@ import io.github.charlietap.chasm.type.StorageType
 import io.github.charlietap.chasm.type.ValueType
 
 internal fun StorageTypeDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<StorageType, WasmDecodeError> =
     StorageTypeDecoder(
         context = context,
@@ -25,7 +25,7 @@ internal fun StorageTypeDecoder(
     )
 
 internal inline fun StorageTypeDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline packedTypeDecoder: Decoder<PackedType>,
     crossinline valueTypeDecoder: Decoder<ValueType>,
 ): Result<StorageType, WasmDecodeError> = binding {

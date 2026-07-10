@@ -7,7 +7,7 @@ import io.github.charlietap.chasm.ast.instruction.ControlInstruction
 import io.github.charlietap.chasm.ast.instruction.Instruction
 import io.github.charlietap.chasm.ast.module.Index
 import io.github.charlietap.chasm.ast.module.Index.TagIndex
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.context.scope.BlockScope
 import io.github.charlietap.chasm.decoder.context.scope.Scope
 import io.github.charlietap.chasm.decoder.decoder.Decoder
@@ -44,7 +44,7 @@ import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 import io.github.charlietap.chasm.type.BlockType
 
 internal fun ControlInstructionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<ControlInstruction, WasmDecodeError> =
     ControlInstructionDecoder(
         context = context,
@@ -63,7 +63,7 @@ internal fun ControlInstructionDecoder(
     )
 
 internal inline fun ControlInstructionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline scope: Scope<UByte>,
     crossinline blockTypeDecoder: Decoder<BlockType>,
     crossinline instructionBlockDecoder: Decoder<List<Instruction>>,

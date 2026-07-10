@@ -4,13 +4,13 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.module.Export
 import io.github.charlietap.chasm.ast.value.NameValue
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.name.NameValueDecoder
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 
 internal fun ExportDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<Export, WasmDecodeError> =
     ExportDecoder(
         context = context,
@@ -19,7 +19,7 @@ internal fun ExportDecoder(
     )
 
 internal inline fun ExportDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline nameValueDecoder: Decoder<NameValue>,
     crossinline exportDescriptorDecoder: Decoder<Export.Descriptor>,
 ): Result<Export, WasmDecodeError> = binding {

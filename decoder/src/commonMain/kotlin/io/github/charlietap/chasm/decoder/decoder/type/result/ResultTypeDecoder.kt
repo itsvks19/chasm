@@ -2,7 +2,7 @@ package io.github.charlietap.chasm.decoder.decoder.type.result
 
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.type.value.ValueTypeDecoder
 import io.github.charlietap.chasm.decoder.decoder.vector.VectorDecoder
@@ -11,7 +11,7 @@ import io.github.charlietap.chasm.type.ResultType
 import io.github.charlietap.chasm.type.ValueType
 
 internal fun ResultTypeDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<ResultType, WasmDecodeError> = ResultTypeDecoder(
     context,
     ::VectorDecoder,
@@ -19,7 +19,7 @@ internal fun ResultTypeDecoder(
 )
 
 internal inline fun ResultTypeDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline vectorDecoder: VectorDecoder<ValueType>,
     noinline valueTypeDecoder: Decoder<ValueType>,
 ): Result<ResultType, WasmDecodeError> = binding {

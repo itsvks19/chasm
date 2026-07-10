@@ -8,7 +8,7 @@ import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.module.NameData
 import io.github.charlietap.chasm.ast.module.Uninterpreted
 import io.github.charlietap.chasm.ast.value.NameValue
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.context.scope.NameScope
 import io.github.charlietap.chasm.decoder.context.scope.Scope
 import io.github.charlietap.chasm.decoder.decoder.Decoder
@@ -20,7 +20,7 @@ import io.github.charlietap.chasm.decoder.section.CustomSection
 import kotlin.jvm.JvmName
 
 internal fun CustomSectionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<CustomSection, WasmDecodeError> = CustomSectionDecoder(
     context = context,
     nameDataDecoder = ::NameDataDecoder,
@@ -29,7 +29,7 @@ internal fun CustomSectionDecoder(
 )
 
 internal inline fun CustomSectionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline nameDataDecoder: Decoder<NameData>,
     crossinline nameScope: Scope<UInt>,
     crossinline nameValueDecoder: Decoder<NameValue>,

@@ -3,7 +3,7 @@ package io.github.charlietap.chasm.decoder.decoder.type.recursive
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.module.Index
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.section.index.TypeIndexDecoder
 import io.github.charlietap.chasm.decoder.decoder.type.composite.CompositeTypeDecoder
@@ -14,7 +14,7 @@ import io.github.charlietap.chasm.type.ConcreteHeapType
 import io.github.charlietap.chasm.type.SubType
 
 internal fun SubTypeDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<SubType, WasmDecodeError> =
     SubTypeDecoder(
         context = context,
@@ -24,7 +24,7 @@ internal fun SubTypeDecoder(
     )
 
 internal inline fun SubTypeDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     noinline typeIndexDecoder: Decoder<Index.TypeIndex>,
     crossinline vectorDecoder: VectorDecoder<Index.TypeIndex>,
     crossinline compositeTypeDecoder: Decoder<CompositeType>,

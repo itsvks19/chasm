@@ -2,16 +2,16 @@ package io.github.charlietap.chasm.decoder.decoder.vector
 
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.context.scope.Scope
 import io.github.charlietap.chasm.decoder.context.scope.VectorScope
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 
-internal typealias VectorDecoder<T> = (DecoderContext, Decoder<T>) -> Result<Vector<T>, WasmDecodeError>
+internal typealias VectorDecoder<T> = (ModuleDecoderContext, Decoder<T>) -> Result<Vector<T>, WasmDecodeError>
 
 internal fun <T> VectorDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     subDecoder: Decoder<T>,
 ): Result<Vector<T>, WasmDecodeError> =
     VectorDecoder(
@@ -21,7 +21,7 @@ internal fun <T> VectorDecoder(
     )
 
 internal inline fun <T> VectorDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline subDecoder: Decoder<T>,
     crossinline scope: Scope<Int>,
 ): Result<Vector<T>, WasmDecodeError> = binding {

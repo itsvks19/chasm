@@ -4,14 +4,14 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.module.Index
 import io.github.charlietap.chasm.ast.module.StartFunction
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.section.index.FunctionIndexDecoder
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 import io.github.charlietap.chasm.decoder.section.StartSection
 
 internal fun StartSectionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<StartSection, WasmDecodeError> =
     StartSectionDecoder(
         context = context,
@@ -19,7 +19,7 @@ internal fun StartSectionDecoder(
     )
 
 internal inline fun StartSectionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline functionIndexDecoder: Decoder<Index.FunctionIndex>,
 ): Result<StartSection, WasmDecodeError> = binding {
 

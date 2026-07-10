@@ -4,14 +4,14 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.instruction.Expression
 import io.github.charlietap.chasm.ast.instruction.Instruction
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.context.scope.BlockScope
 import io.github.charlietap.chasm.decoder.context.scope.Scope
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 
 internal fun ExpressionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<Expression, WasmDecodeError> =
     ExpressionDecoder(
         context,
@@ -20,7 +20,7 @@ internal fun ExpressionDecoder(
     )
 
 internal inline fun ExpressionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline scope: Scope<UByte>,
     crossinline instructionBlockDecoder: Decoder<List<Instruction>>,
 ): Result<Expression, WasmDecodeError> = binding {

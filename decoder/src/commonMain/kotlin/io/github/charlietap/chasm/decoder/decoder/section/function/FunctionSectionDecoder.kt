@@ -3,7 +3,7 @@ package io.github.charlietap.chasm.decoder.decoder.section.function
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.module.Index
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.section.index.TypeIndexDecoder
 import io.github.charlietap.chasm.decoder.decoder.vector.VectorDecoder
@@ -11,7 +11,7 @@ import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 import io.github.charlietap.chasm.decoder.section.FunctionSection
 
 internal fun FunctionSectionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<FunctionSection, WasmDecodeError> =
     FunctionSectionDecoder(
         context = context,
@@ -20,7 +20,7 @@ internal fun FunctionSectionDecoder(
     )
 
 internal inline fun FunctionSectionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline vectorDecoder: VectorDecoder<Index.TypeIndex>,
     noinline typeIndexDecoder: Decoder<Index.TypeIndex>,
 ): Result<FunctionSection, WasmDecodeError> = binding {

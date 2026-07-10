@@ -8,7 +8,7 @@ import io.github.charlietap.chasm.ast.instruction.MemoryInstruction
 import io.github.charlietap.chasm.ast.instruction.NumericInstruction
 import io.github.charlietap.chasm.ast.instruction.TableInstruction
 import io.github.charlietap.chasm.ast.module.Index
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.section.index.DataIndexDecoder
 import io.github.charlietap.chasm.decoder.decoder.section.index.ElementIndexDecoder
@@ -18,7 +18,7 @@ import io.github.charlietap.chasm.decoder.error.InstructionDecodeError
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 
 internal fun PrefixFCInstructionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<Instruction, WasmDecodeError> =
     PrefixFCInstructionDecoder(
         context = context,
@@ -29,7 +29,7 @@ internal fun PrefixFCInstructionDecoder(
     )
 
 internal inline fun PrefixFCInstructionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline dataIndexDecoder: Decoder<Index.DataIndex>,
     crossinline elementIndexDecoder: Decoder<Index.ElementIndex>,
     crossinline memoryIndexDecoder: Decoder<Index.MemoryIndex>,

@@ -6,7 +6,7 @@ import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.instruction.Expression
 import io.github.charlietap.chasm.ast.module.DataSegment
 import io.github.charlietap.chasm.ast.module.Index
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.instruction.ExpressionDecoder
 import io.github.charlietap.chasm.decoder.decoder.section.index.MemoryIndexDecoder
@@ -16,7 +16,7 @@ import io.github.charlietap.chasm.decoder.error.SectionDecodeError
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 
 internal fun DataSegmentDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<DataSegment, WasmDecodeError> =
     DataSegmentDecoder(
         context = context,
@@ -26,7 +26,7 @@ internal fun DataSegmentDecoder(
     )
 
 internal inline fun DataSegmentDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline expressionDecoder: Decoder<Expression>,
     crossinline memoryIndexDecoder: Decoder<Index.MemoryIndex>,
     crossinline byteVectorDecoder: ByteVectorDecoder,

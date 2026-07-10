@@ -5,7 +5,7 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.module.Import
 import io.github.charlietap.chasm.ast.module.Index
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.section.index.TypeIndexDecoder
 import io.github.charlietap.chasm.decoder.decoder.type.global.GlobalTypeDecoder
@@ -20,7 +20,7 @@ import io.github.charlietap.chasm.type.TableType
 import io.github.charlietap.chasm.type.TagType
 
 internal fun ImportDescriptorDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<Import.Descriptor, WasmDecodeError> =
     ImportDescriptorDecoder(
         context = context,
@@ -32,7 +32,7 @@ internal fun ImportDescriptorDecoder(
     )
 
 internal inline fun ImportDescriptorDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline globalTypeDecoder: Decoder<GlobalType>,
     crossinline memTypeDecoder: Decoder<MemoryType>,
     crossinline tableTypeDecoder: Decoder<TableType>,

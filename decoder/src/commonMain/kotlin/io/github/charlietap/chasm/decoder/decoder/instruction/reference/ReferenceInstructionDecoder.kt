@@ -5,7 +5,7 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.instruction.ReferenceInstruction
 import io.github.charlietap.chasm.ast.module.Index
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.type.heap.HeapTypeDecoder
 import io.github.charlietap.chasm.decoder.error.InstructionDecodeError
@@ -13,7 +13,7 @@ import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 import io.github.charlietap.chasm.type.HeapType
 
 internal fun ReferenceInstructionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<ReferenceInstruction, WasmDecodeError> =
     ReferenceInstructionDecoder(
         context = context,
@@ -21,7 +21,7 @@ internal fun ReferenceInstructionDecoder(
     )
 
 internal inline fun ReferenceInstructionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline heapTypeDecoder: Decoder<HeapType>,
 ): Result<ReferenceInstruction, WasmDecodeError> = binding {
     when (val opcode = context.reader.ubyte().bind()) {

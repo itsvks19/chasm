@@ -2,7 +2,7 @@ package io.github.charlietap.chasm.decoder.decoder.type.table
 
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.type.limits.LimitsDecoder
 import io.github.charlietap.chasm.decoder.decoder.type.reference.ReferenceTypeDecoder
@@ -14,7 +14,7 @@ import io.github.charlietap.chasm.type.SharedStatus
 import io.github.charlietap.chasm.type.TableType
 
 internal fun TableTypeDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<TableType, WasmDecodeError> = TableTypeDecoder(
     context = context,
     referenceTypeDecoder = ::ReferenceTypeDecoder,
@@ -22,7 +22,7 @@ internal fun TableTypeDecoder(
 )
 
 internal inline fun TableTypeDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline referenceTypeDecoder: Decoder<ReferenceType>,
     crossinline limitsDecoder: Decoder<Triple<Limits, SharedStatus, AddressType>>,
 ): Result<TableType, WasmDecodeError> = binding {

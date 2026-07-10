@@ -5,14 +5,14 @@ import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.module.Import
 import io.github.charlietap.chasm.ast.module.Index
 import io.github.charlietap.chasm.ast.module.Tag
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.type.tag.TagTypeDecoder
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 import io.github.charlietap.chasm.type.TagType
 
 internal fun TagDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<Tag, WasmDecodeError> =
     TagDecoder(
         context = context,
@@ -20,7 +20,7 @@ internal fun TagDecoder(
     )
 
 internal inline fun TagDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline typeDecoder: Decoder<TagType>,
 ): Result<Tag, WasmDecodeError> = binding {
 

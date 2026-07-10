@@ -3,7 +3,7 @@ package io.github.charlietap.chasm.decoder.decoder.type.composite
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.type.aggregate.ArrayTypeDecoder
 import io.github.charlietap.chasm.decoder.decoder.type.aggregate.StructTypeDecoder
@@ -16,7 +16,7 @@ import io.github.charlietap.chasm.type.FunctionType
 import io.github.charlietap.chasm.type.StructType
 
 internal fun CompositeTypeDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<CompositeType, WasmDecodeError> =
     CompositeTypeDecoder(
         context = context,
@@ -26,7 +26,7 @@ internal fun CompositeTypeDecoder(
     )
 
 internal inline fun CompositeTypeDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline functionTypeDecoder: Decoder<FunctionType>,
     crossinline structTypeDecoder: Decoder<StructType>,
     crossinline arrayTypeDecoder: Decoder<ArrayType>,

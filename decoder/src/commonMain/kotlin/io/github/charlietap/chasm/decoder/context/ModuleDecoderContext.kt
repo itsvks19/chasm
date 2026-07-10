@@ -3,7 +3,7 @@ package io.github.charlietap.chasm.decoder.context
 import io.github.charlietap.chasm.config.ModuleConfig
 import io.github.charlietap.chasm.decoder.reader.WasmBinaryReader
 
-internal data class DecoderContext(
+internal data class ModuleDecoderContext(
     val config: ModuleConfig,
     val reader: WasmBinaryReader,
     val blockContext: BlockContext = BlockContextImpl(),

@@ -8,7 +8,7 @@ import io.github.charlietap.chasm.ast.instruction.ControlInstruction
 import io.github.charlietap.chasm.ast.instruction.Instruction
 import io.github.charlietap.chasm.ast.instruction.ReferenceInstruction
 import io.github.charlietap.chasm.ast.module.Index
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.instruction.control.CastFlags
 import io.github.charlietap.chasm.decoder.decoder.instruction.control.CastFlagsDecoder
@@ -25,7 +25,7 @@ import io.github.charlietap.chasm.type.HeapType
 import io.github.charlietap.chasm.type.ReferenceType
 
 internal fun GCInstructionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<Instruction, WasmDecodeError> =
     GCInstructionDecoder(
         context = context,
@@ -39,7 +39,7 @@ internal fun GCInstructionDecoder(
     )
 
 internal inline fun GCInstructionDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline dataIndexDecoder: Decoder<Index.DataIndex>,
     crossinline elementIndexDecoder: Decoder<Index.ElementIndex>,
     crossinline fieldIndexDecoder: Decoder<Index.FieldIndex>,

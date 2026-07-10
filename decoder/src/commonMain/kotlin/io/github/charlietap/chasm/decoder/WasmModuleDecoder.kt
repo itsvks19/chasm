@@ -7,7 +7,7 @@ import io.github.charlietap.chasm.ast.module.Module
 import io.github.charlietap.chasm.ast.module.Version
 import io.github.charlietap.chasm.config.ModuleConfig
 import io.github.charlietap.chasm.decoder.builder.ModuleBuilder
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.context.scope.Scope
 import io.github.charlietap.chasm.decoder.context.scope.SectionScope
 import io.github.charlietap.chasm.decoder.decoder.Decoder
@@ -55,7 +55,7 @@ internal fun WasmModuleDecoder(
     val reader = readerFactory(source).apply {
         magicNumberValidator(this).bind()
     }
-    val context = DecoderContext(config, reader)
+    val context = ModuleDecoderContext(config, reader)
 
     val version = versionDecoder(context).bind()
     val builder = ModuleBuilder(version)

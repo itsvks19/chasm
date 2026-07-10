@@ -5,7 +5,7 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.instruction.ControlInstruction
 import io.github.charlietap.chasm.ast.module.Index
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.section.index.LabelIndexDecoder
 import io.github.charlietap.chasm.decoder.decoder.section.index.TagIndexDecoder
@@ -13,7 +13,7 @@ import io.github.charlietap.chasm.decoder.error.InstructionDecodeError
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 
 internal fun CatchHandlerDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<ControlInstruction.CatchHandler, WasmDecodeError> = CatchHandlerDecoder(
     context = context,
     labelIndexDecoder = ::LabelIndexDecoder,
@@ -21,7 +21,7 @@ internal fun CatchHandlerDecoder(
 )
 
 internal inline fun CatchHandlerDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline labelIndexDecoder: Decoder<Index.LabelIndex>,
     crossinline tagIndexDecoder: Decoder<Index.TagIndex>,
 ): Result<ControlInstruction.CatchHandler, WasmDecodeError> = binding {

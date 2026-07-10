@@ -4,7 +4,7 @@ import io.github.charlietap.chasm.ast.module.Import
 import io.github.charlietap.chasm.ast.module.Type
 import io.github.charlietap.chasm.config.ModuleConfig
 import io.github.charlietap.chasm.decoder.context.BlockContextImpl
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.context.ModuleContextImpl
 import io.github.charlietap.chasm.decoder.context.SectionContextImpl
 import io.github.charlietap.chasm.decoder.context.TypeContextImpl
@@ -26,7 +26,7 @@ internal fun decoderContext(
     blockEndOpcode: UByte = 0u,
     imports: List<Import> = [],
     index: Int = 0,
-) = DecoderContext(
+) = ModuleDecoderContext(
     config = config,
     reader = reader,
     blockContext = BlockContextImpl(

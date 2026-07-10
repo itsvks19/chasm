@@ -4,13 +4,13 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.name.NameAssociation
 import io.github.charlietap.chasm.ast.name.NameMap
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.vector.VectorDecoder
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 
 internal fun NameMapDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<NameMap, WasmDecodeError> = NameMapDecoder(
     context = context,
     nameAssociationDecoder = ::NameAssociationDecoder,
@@ -18,7 +18,7 @@ internal fun NameMapDecoder(
 )
 
 internal inline fun NameMapDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     noinline nameAssociationDecoder: Decoder<NameAssociation>,
     crossinline vectorDecoder: VectorDecoder<NameAssociation>,
 ) = binding {

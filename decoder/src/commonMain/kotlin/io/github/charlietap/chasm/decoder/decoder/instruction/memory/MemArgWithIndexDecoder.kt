@@ -5,14 +5,14 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.instruction.MemArg
 import io.github.charlietap.chasm.ast.module.Index
-import io.github.charlietap.chasm.decoder.context.DecoderContext
+import io.github.charlietap.chasm.decoder.context.ModuleDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.Decoder
 import io.github.charlietap.chasm.decoder.decoder.section.index.MemoryIndexDecoder
 import io.github.charlietap.chasm.decoder.error.InstructionDecodeError
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 
 internal fun MemArgWithIndexDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
 ): Result<MemArgWithIndex, WasmDecodeError> =
     MemArgWithIndexDecoder(
         context = context,
@@ -21,7 +21,7 @@ internal fun MemArgWithIndexDecoder(
     )
 
 internal inline fun MemArgWithIndexDecoder(
-    context: DecoderContext,
+    context: ModuleDecoderContext,
     crossinline memoryIndexDecoder: Decoder<Index.MemoryIndex>,
     crossinline exponentValidator: AlignmentExponentValidator,
 ): Result<MemArgWithIndex, WasmDecodeError> = binding {
