@@ -8,8 +8,6 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import io.github.charlietap.sweet.lib.SemanticPhase
-import io.github.charlietap.sweet.plugin.ext.backtrackCollectingDirectoriesUntil
-import io.github.charlietap.sweet.plugin.ext.snakeCaseToPascalCase
 import java.io.File
 
 fun testFileSpec(
@@ -27,18 +25,7 @@ fun testFileSpec(
     val testAnnotation = ClassName("kotlin.test", "Test")
     val assertEqualsFunction = ClassName("kotlin.test", "assertEquals")
 
-    val testName = test.nameWithoutExtension.snakeCaseToPascalCase()
-    val testClassName = if(test.path.contains("proposal")) {
-        val directories = test.backtrackCollectingDirectoriesUntil { file ->
-            file.parentFile.name == "proposal"
-        }
-        val subPackage = "proposal." + directories.asReversed().joinToString(".")
-        val modifiedTestPackage = "$testPackage.$subPackage"
-        ClassName(modifiedTestPackage, testName)
-    } else {
-        val modifiedTestPackage = testPackage + "." + test.parentFile.name
-        ClassName(modifiedTestPackage, testName)
-    }
+    val testClassName = ClassName(testPackage, test.nameWithoutExtension)
 
     return testFileSpec(
         phaseSupport,

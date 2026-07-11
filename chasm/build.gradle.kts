@@ -1,6 +1,5 @@
 import io.github.charlietap.sweet.lib.SemanticPhase
-import io.github.charlietap.sweet.plugin.LimitedSupport
-import io.github.charlietap.sweet.plugin.Proposal
+import io.github.charlietap.sweet.plugin.PhaseLimit
 import io.github.charlietap.sweet.plugin.task.GenerateTestsTask
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
@@ -18,23 +17,52 @@ plugins {
 
 sweet {
     wasmToolsVersion = "1.239.0"
-    testSuiteCommit = "345367358f065375524498749470720d9cdd1418"
     scriptRunner = "io.github.charlietap.chasm.script.ChasmScriptRunner"
     testPackageName = "io.github.charlietap.chasm.testsuite"
-    proposals = listOf(
-        Proposal("threads", SemanticPhase.DECODING),
-        Proposal("wide-arithmetic", SemanticPhase.EXECUTION)
-    )
-    limitedSupport = listOf(
-        LimitedSupport(
-            setOf("simd_*/**", "**/simd_*", "**/relaxed_*", "**/*_relaxed_*"),
-            SemanticPhase.VALIDATION,
-        ),
-        LimitedSupport(
-            setOf("**/*64.wast", "**/memory64*", "table_copy_mixed.wast"),
-            SemanticPhase.VALIDATION,
-        ),
-    )
+
+    sources {
+        register("core") {
+            repositoryUrl = "https://github.com/WebAssembly/testsuite.git"
+            revision = "345367358f065375524498749470720d9cdd1418"
+            testDirectory = "."
+            includes = listOf(
+                "*.wast",
+                "proposals/threads/*.wast",
+                "proposals/wide-arithmetic/*.wast",
+                "simd_*/**",
+                "**/simd_*",
+                "**/relaxed_*",
+                "**/*_relaxed_*",
+                "**/*64.wast",
+                "**/memory64*",
+                "table_copy_mixed.wast",
+            )
+            phaseSupport = SemanticPhase.EXECUTION
+            phaseLimits = listOf(
+                PhaseLimit(
+                    patterns = setOf("proposals/threads/**"),
+                    phaseSupport = SemanticPhase.DECODING,
+                ),
+                PhaseLimit(
+                    patterns = setOf(
+                        "simd_*/**",
+                        "**/simd_*",
+                        "**/relaxed_*",
+                        "**/*_relaxed_*",
+                    ),
+                    phaseSupport = SemanticPhase.VALIDATION,
+                ),
+                PhaseLimit(
+                    patterns = setOf(
+                        "**/*64.wast",
+                        "**/memory64*",
+                        "table_copy_mixed.wast",
+                    ),
+                    phaseSupport = SemanticPhase.VALIDATION,
+                ),
+            )
+        }
+    }
 }
 
 corpus {

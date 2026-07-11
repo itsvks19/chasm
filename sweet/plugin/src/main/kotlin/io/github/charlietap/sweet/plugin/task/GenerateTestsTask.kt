@@ -1,14 +1,15 @@
 package io.github.charlietap.sweet.plugin.task
 
-import io.github.charlietap.sweet.plugin.LimitedSupport
-import io.github.charlietap.sweet.plugin.Proposal
+import io.github.charlietap.sweet.lib.SemanticPhase
+import io.github.charlietap.sweet.plugin.PhaseLimit
 import io.github.charlietap.sweet.plugin.action.GenerateTestAction
-import io.github.charlietap.sweet.plugin.ext.backtrackCollectingDirectoriesUntil
-import io.github.charlietap.sweet.plugin.ext.snakeCaseToPascalCase
-import java.io.File
+import io.github.charlietap.sweet.plugin.ext.deleteAndPruneEmptyParents
+import io.github.charlietap.sweet.plugin.ext.generatedTestLocation
+import io.github.charlietap.sweet.plugin.ext.relativeSuitePath
+import io.github.charlietap.sweet.plugin.ext.resolvePhaseSupport
 import javax.inject.Inject
 import org.gradle.api.DefaultTask
-import org.gradle.api.file.ConfigurableFileTree
+import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.RegularFile
 import org.gradle.api.provider.ListProperty
@@ -16,11 +17,11 @@ import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
-import org.gradle.kotlin.dsl.assign
 import org.gradle.work.ChangeType
 import org.gradle.work.FileChange
 import org.gradle.work.Incremental
@@ -33,16 +34,19 @@ abstract class GenerateTestsTask : DefaultTask() {
     @get:Incremental
     @get:InputFiles
     @get:PathSensitive(PathSensitivity.RELATIVE)
-    abstract val inputFiles: ConfigurableFileTree
+    abstract val inputFiles: ConfigurableFileCollection
+
+    @get:Internal
+    abstract val intermediateDirectory: DirectoryProperty
 
     @get:Input
-    abstract val excludes: ListProperty<String>
+    abstract val sourceName: Property<String>
 
     @get:Input
-    abstract val proposals: ListProperty<Proposal>
+    abstract val phaseSupport: Property<SemanticPhase>
 
     @get:Input
-    abstract val limitedSupport: ListProperty<LimitedSupport>
+    abstract val phaseLimits: ListProperty<PhaseLimit>
 
     @get:Input
     abstract val scriptRunner: Property<String>
@@ -58,61 +62,54 @@ abstract class GenerateTestsTask : DefaultTask() {
 
     @TaskAction
     fun generate(inputChanges: InputChanges) {
+        val outputRoot = outputDirectory.get().asFile
+        if (!inputChanges.isIncremental) {
+            outputRoot.deleteRecursively()
+        }
 
+        val intermediateRoot = intermediateDirectory.get().asFile
         inputChanges.getFileChanges(inputFiles).forEach { change ->
+            if (change.file.isDirectory) return@forEach
 
-            if(change.file.isDirectory) return@forEach
+            val scriptRelativePath = change.file.relativeSuitePath(intermediateRoot)
+            val location = generatedTestLocation(
+                sourceName = sourceName.get(),
+                testPackageName = testPackageName.get(),
+                scriptRelativePath = scriptRelativePath,
+            )
+            val generatedTestFile = outputDirectory.file(location.outputRelativePath).get()
 
-            val testPackageDirPath = testPackageName.get().replace(".", File.separator)
-            val testPackageDir = outputDirectory.dir(testPackageDirPath).get()
-            val name = change.file.nameWithoutExtension.snakeCaseToPascalCase() + "Test.kt"
-
-            val test = if(change.file.path.contains(DIRECTORY_PROPOSAL)) {
-
-                val directories = change.file.backtrackCollectingDirectoriesUntil { file ->
-                    file.parentFile.name == DIRECTORY_PROPOSAL
-                }
-                var outputDirectory = testPackageDir.dir(DIRECTORY_PROPOSAL)
-                directories.asReversed().forEach { directory ->
-                    outputDirectory = outputDirectory.dir(directory)
-                }
-
-                outputDirectory.file(name)
-            } else {
-                testPackageDir.dir(change.file.nameWithoutExtension).file(name)
-            }
-
-            when(change.changeType) {
-                ChangeType.REMOVED -> {
-                    test.asFile.parentFile.deleteRecursively()
-                }
+            when (change.changeType) {
+                ChangeType.REMOVED -> generatedTestFile.asFile.deleteAndPruneEmptyParents(outputRoot)
                 ChangeType.MODIFIED -> {
-                    test.asFile.delete()
-                    queueJobToGenerateTest(change, test)
+                    generatedTestFile.asFile.delete()
+                    queueTestGeneration(change, generatedTestFile, location.packageName, location.sourceRelativeWastPath)
                 }
                 ChangeType.ADDED -> {
-                    queueJobToGenerateTest(change, test)
+                    queueTestGeneration(change, generatedTestFile, location.packageName, location.sourceRelativeWastPath)
                 }
             }
         }
     }
 
-    private fun queueJobToGenerateTest(
+    private fun queueTestGeneration(
         change: FileChange,
         generatedTestFile: RegularFile,
+        testPackage: String,
+        sourceRelativeWastPath: String,
     ) {
-        val queue = workerExecutor.noIsolation()
-        queue.submit(GenerateTestAction::class.java) {
-            proposal = proposals
-            limited = limitedSupport
-            runner = scriptRunner
-            scriptFile = change.file
-            testPackage = testPackageName
-            testFile = generatedTestFile
+        workerExecutor.noIsolation().submit(GenerateTestAction::class.java) {
+            phaseSupport.set(
+                resolvePhaseSupport(
+                    sourceRelativePath = sourceRelativeWastPath,
+                    defaultPhaseSupport = this@GenerateTestsTask.phaseSupport.get(),
+                    phaseLimits = this@GenerateTestsTask.phaseLimits.get(),
+                ),
+            )
+            runner.set(scriptRunner)
+            scriptFile.set(change.file)
+            this.testPackage.set(testPackage)
+            testFile.set(generatedTestFile)
         }
-    }
-
-    private companion object {
-        const val DIRECTORY_PROPOSAL = "proposal"
     }
 }

@@ -1,14 +1,19 @@
 package io.github.charlietap.sweet.plugin
 
+import io.github.charlietap.sweet.plugin.ext.toTaskNameSegment
 import io.github.charlietap.sweet.plugin.task.DownloadWasmToolsTask
 import io.github.charlietap.sweet.plugin.task.GenerateTestsTask
 import io.github.charlietap.sweet.plugin.task.PrepareTestSuiteTask
 import io.github.charlietap.sweet.plugin.task.ResolveWasmToolsTask
 import io.github.charlietap.sweet.plugin.task.SyncRepositoryTask
 import io.github.charlietap.sweet.plugin.task.TestMatrixTask
+import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.Task
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.register
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
@@ -17,17 +22,6 @@ class WasmTestSuiteGenPlugin : Plugin<Project> {
     override fun apply(project: Project) {
 
         val extension = project.extensions.create<WasmTestSuiteGenPluginExtension>("sweet")
-
-        val syncRepositoryTask = project.tasks.register<SyncRepositoryTask>(
-            TASK_NAME_SYNC_SUITE,
-        ) {
-            description = TASK_DESCRIPTION_SYNC_SUITE
-            group = GROUP
-
-            repositoryUrl.set(URL_TESTSUITE)
-            commitHash.set(extension.testSuiteCommit)
-            outputDirectory.set(extension.testSuiteDirectory)
-        }
 
         val downloadWasmToolsTask = project.tasks.register<DownloadWasmToolsTask>(
             TASK_NAME_DOWNLOAD_WASM_TOOLS,
@@ -47,87 +41,145 @@ class WasmTestSuiteGenPlugin : Plugin<Project> {
 
             wasmToolsVersion.set(extension.wasmToolsVersion)
             wasmToolsDirectory.set(downloadWasmToolsTask.flatMap { it.outputDirectory })
-            outputFile.set(wasmToolsVersion.zip(wasmToolsDirectory) { version, dir ->
-                dir.dir(version).file("wasm-tools")
+            outputFile.set(wasmToolsVersion.zip(wasmToolsDirectory) { version, directory ->
+                directory.dir(version).file("wasm-tools")
             })
         }
 
-        val prepareTestSuiteTask = project.tasks.register<PrepareTestSuiteTask>(
-            TASK_NAME_PREPARE_SUITE,
-        ) {
+        val syncTestSuiteTask = project.tasks.register(TASK_NAME_SYNC_SUITE) {
+            description = TASK_DESCRIPTION_SYNC_SUITE
+            group = GROUP
+        }
+
+        val prepareTestSuiteTask = project.tasks.register(TASK_NAME_PREPARE_SUITE) {
             description = TASK_DESCRIPTION_PREPARE_SUITE
             group = GROUP
-
-            inputFiles.apply {
-                from(syncRepositoryTask.flatMap { it.outputDirectory })
-                include("*.wast")
-                extension.proposals.get().forEach { proposal ->
-                    include("proposals/${proposal.name}/*.wast")
-                }
-                extension.limitedSupport.get().forEach { limited ->
-                    limited.patterns.forEach { pattern ->
-                        include(pattern)
-                    }
-                }
-                exclude(extension.excludes.get())
-                builtBy(syncRepositoryTask)
-            }
-
-            excludes.set(extension.excludes)
-            proposals.set(extension.proposals)
-            limitedSupport.set(extension.limitedSupport)
-            wast2Json.set(resolveWasmToolsTask.flatMap { it.outputFile })
-            outputDirectory.set(extension.testSuiteIntermediateDirectory)
         }
 
-        val generateTestsTask = project.tasks.register<GenerateTestsTask>(
-            TASK_NAME_GENERATE_TESTS,
-        ) {
+        val generateTestsTask = project.tasks.register(TASK_NAME_GENERATE_TESTS) {
             description = TASK_DESCRIPTION_GENERATE_TESTS
             group = GROUP
-
-            inputFiles.apply {
-                from(prepareTestSuiteTask.flatMap { it.outputDirectory })
-                include("**/*.json")
-                builtBy(prepareTestSuiteTask)
-            }
-
-            excludes.set(extension.excludes)
-            proposals.set(extension.proposals)
-            limitedSupport.set(extension.limitedSupport)
-            scriptRunner.set(extension.scriptRunner)
-            testPackageName.set(extension.testPackageName)
-            outputDirectory.set(extension.testSuiteTestsDirectory)
         }
 
-        project.tasks.register<TestMatrixTask>(
-            TASK_NAME_MATRIX,
-        ) {
+        project.tasks.register<TestMatrixTask>(TASK_NAME_MATRIX) {
             description = TASK_DESCRIPTION_MATRIX
             group = GROUP
 
-            testFiles.apply {
-                from(generateTestsTask.flatMap { it.outputDirectory })
-                builtBy(generateTestsTask)
+            testFiles.from(extension.testsDirectory)
+            testFiles.builtBy(generateTestsTask)
+        }
+
+        extension.sources.all(
+            object : Action<SuiteSource> {
+                override fun execute(source: SuiteSource) {
+                    registerSourceTasks(
+                        project = project,
+                        extension = extension,
+                        source = source,
+                        resolveWasmToolsTask = resolveWasmToolsTask,
+                        syncTestSuiteTask = syncTestSuiteTask,
+                        prepareTestSuiteTask = prepareTestSuiteTask,
+                        generateTestsTask = generateTestsTask,
+                    )
+                }
+            },
+        )
+
+        project.tasks.configureEach {
+            if (name.contains("compileTestKotlin")) {
+                dependsOn(generateTestsTask)
             }
         }
 
-        project.tasks.named {
-            it.contains("compileTestKotlin")
-        }.configureEach {
-            dependsOn(generateTestsTask)
+        project.pluginManager.withPlugin(KOTLIN_MULTIPLATFORM_PLUGIN_ID) {
+            project.extensions.getByType<KotlinMultiplatformExtension>()
+                .sourceSets
+                .getByName("commonTest")
+                .kotlin
+                .srcDir(extension.testsDirectory)
+        }
+    }
+
+    private fun registerSourceTasks(
+        project: Project,
+        extension: WasmTestSuiteGenPluginExtension,
+        source: SuiteSource,
+        resolveWasmToolsTask: TaskProvider<ResolveWasmToolsTask>,
+        syncTestSuiteTask: TaskProvider<Task>,
+        prepareTestSuiteTask: TaskProvider<Task>,
+        generateTestsTask: TaskProvider<Task>,
+    ) {
+        val sourceTaskName = source.name.toTaskNameSegment()
+
+        val syncSourceTask = project.tasks.register<SyncRepositoryTask>("sync${sourceTaskName}TestSuite") {
+            description = "Clones or updates the ${source.name} suite source to its configured revision"
+            group = GROUP
+
+            repositoryUrl.set(source.repositoryUrl)
+            commitHash.set(source.revision)
+            outputDirectory.set(extension.repositoriesDirectory.dir(source.name))
         }
 
-        val kotlinExtension = project.extensions.getByType(KotlinMultiplatformExtension::class.java)
+        val sourceRoot = syncSourceTask.flatMap { it.outputDirectory }
+            .zip(source.testDirectory) { repository, testDirectory ->
+                repository.dir(testDirectory)
+            }
 
-        kotlinExtension.sourceSets.getByName("commonTest") {
-            kotlin.srcDir(extension.testSuiteTestsDirectory)
+        val selectedFiles = sourceRoot.zip(
+            source.includes.zip(source.excludes) { includes, excludes -> includes to excludes },
+        ) { root, (includes, excludes) ->
+            root.asFileTree.matching {
+                include(includes)
+                exclude(excludes)
+            }
+        }
+
+        val prepareSourceTask = project.tasks.register<PrepareTestSuiteTask>("prepare${sourceTaskName}TestSuite") {
+            description = "Prepares the ${source.name} suite source with wasm-tools"
+            group = GROUP
+
+            inputFiles.from(selectedFiles)
+            inputFiles.builtBy(syncSourceTask)
+            sourceDirectory.set(sourceRoot)
+            wast2Json.set(resolveWasmToolsTask.flatMap { it.outputFile })
+            outputDirectory.set(extension.intermediatesDirectory.dir(source.name))
+        }
+
+        val preparedScripts = prepareSourceTask.flatMap { it.outputDirectory }.map { directory ->
+            directory.asFileTree.matching {
+                include("**/*.json")
+            }
+        }
+
+        val generateSourceTask = project.tasks.register<GenerateTestsTask>("generate${sourceTaskName}Tests") {
+            description = "Generates Kotlin tests for the ${source.name} suite source"
+            group = GROUP
+
+            inputFiles.from(preparedScripts)
+            inputFiles.builtBy(prepareSourceTask)
+            intermediateDirectory.set(prepareSourceTask.flatMap { it.outputDirectory })
+            sourceName.set(source.name)
+            phaseSupport.set(source.phaseSupport)
+            phaseLimits.set(source.phaseLimits)
+            scriptRunner.set(extension.scriptRunner)
+            testPackageName.set(extension.testPackageName)
+            outputDirectory.set(extension.testsDirectory.dir(source.name))
+        }
+
+        syncTestSuiteTask.configure {
+            dependsOn(syncSourceTask)
+        }
+        prepareTestSuiteTask.configure {
+            dependsOn(prepareSourceTask)
+        }
+        generateTestsTask.configure {
+            dependsOn(generateSourceTask)
         }
     }
 
     private companion object {
 
-        const val URL_TESTSUITE = "https://github.com/WebAssembly/testsuite.git"
+        const val KOTLIN_MULTIPLATFORM_PLUGIN_ID = "org.jetbrains.kotlin.multiplatform"
 
         const val GROUP = "sweet"
 
@@ -138,11 +190,11 @@ class WasmTestSuiteGenPlugin : Plugin<Project> {
         const val TASK_NAME_GENERATE_TESTS = "generateTests"
         const val TASK_NAME_MATRIX = "testMatrix"
 
-        const val TASK_DESCRIPTION_SYNC_SUITE = "Clones/Updates the wasm test suite to the given commit"
-        const val TASK_DESCRIPTION_DOWNLOAD_WT = "Downloads and extracts the wasm-tools"
+        const val TASK_DESCRIPTION_SYNC_SUITE = "Synchronizes every configured wasm suite source"
+        const val TASK_DESCRIPTION_DOWNLOAD_WT = "Downloads and extracts wasm-tools"
         const val TASK_DESCRIPTION_RESOLVE_WT = "Resolves wasm-tools on the local filesystem"
-        const val TASK_DESCRIPTION_PREPARE_SUITE = "Prepare the wasm test suite for generation by running wast2json"
-        const val TASK_DESCRIPTION_GENERATE_TESTS = "Generate tests from the web assembly testsuite"
+        const val TASK_DESCRIPTION_PREPARE_SUITE = "Prepares every wasm suite source with wasm-tools"
+        const val TASK_DESCRIPTION_GENERATE_TESTS = "Generates tests from every configured wasm suite source"
         const val TASK_DESCRIPTION_MATRIX = "Generates a test matrix over the generated test files"
     }
 }

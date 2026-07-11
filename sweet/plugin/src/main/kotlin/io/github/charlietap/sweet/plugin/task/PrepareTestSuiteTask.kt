@@ -1,20 +1,18 @@
 package io.github.charlietap.sweet.plugin.task
 
-import io.github.charlietap.sweet.plugin.LimitedSupport
-import io.github.charlietap.sweet.plugin.Proposal
 import io.github.charlietap.sweet.plugin.action.WasmToolsAction
+import io.github.charlietap.sweet.plugin.ext.relativeSuitePath
 import javax.inject.Inject
 import org.gradle.api.DefaultTask
-import org.gradle.api.file.ConfigurableFileTree
+import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.Directory
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.RegularFileProperty
-import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.CacheableTask
-import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.InputFiles
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
@@ -31,20 +29,14 @@ abstract class PrepareTestSuiteTask : DefaultTask() {
     @get:Incremental
     @get:InputFiles
     @get:PathSensitive(PathSensitivity.RELATIVE)
-    abstract val inputFiles: ConfigurableFileTree
+    abstract val inputFiles: ConfigurableFileCollection
+
+    @get:Internal
+    abstract val sourceDirectory: DirectoryProperty
 
     @get:InputFile
     @get:PathSensitive(PathSensitivity.NONE)
     abstract val wast2Json: RegularFileProperty
-
-    @get:Input
-    abstract val excludes: ListProperty<String>
-
-    @get:Input
-    abstract val proposals: ListProperty<Proposal>
-
-    @get:Input
-    abstract val limitedSupport: ListProperty<LimitedSupport>
 
     @get:OutputDirectory
     abstract val outputDirectory: DirectoryProperty
@@ -54,42 +46,40 @@ abstract class PrepareTestSuiteTask : DefaultTask() {
 
     @TaskAction
     fun prepare(inputChanges: InputChanges) {
+        if (!inputChanges.isIncremental) {
+            outputDirectory.get().asFile.deleteRecursively()
+        }
 
+        val sourceRoot = sourceDirectory.get().asFile
         inputChanges.getFileChanges(inputFiles).forEach { change ->
+            if (change.file.isDirectory) return@forEach
 
-            if(change.file.isDirectory) return@forEach
+            val sourceRelativePath = change.file.relativeSuitePath(sourceRoot)
+            val generatedDirectory = outputDirectory.dir(sourceRelativePath.removeSuffix(WAST_EXTENSION))
 
-            val generatedDirectory = if(change.file.path.contains("proposals")) {
-                val dir = "proposal/${change.file.parentFile.name}/${change.file.nameWithoutExtension}"
-                outputDirectory.dir(dir)
-            } else {
-                outputDirectory.dir(change.file.nameWithoutExtension)
-            }
-
-            when(change.changeType) {
-                ChangeType.REMOVED -> {
-                    generatedDirectory.get().asFile.deleteRecursively()
-                }
+            when (change.changeType) {
+                ChangeType.REMOVED -> generatedDirectory.get().asFile.deleteRecursively()
                 ChangeType.MODIFIED -> {
                     generatedDirectory.get().asFile.deleteRecursively()
-                    queueJobToRunWasmTools(change, generatedDirectory)
+                    queueWasmTools(change, generatedDirectory)
                 }
-                ChangeType.ADDED -> {
-                    queueJobToRunWasmTools(change, generatedDirectory)
-                }
+                ChangeType.ADDED -> queueWasmTools(change, generatedDirectory)
             }
         }
     }
 
-    private fun queueJobToRunWasmTools(
+    private fun queueWasmTools(
         change: FileChange,
         generatedDirectory: Provider<Directory>,
     ) {
-        val queue = workerExecutor.noIsolation()
-        queue.submit(WasmToolsAction::class.java) {
+        workerExecutor.noIsolation().submit(WasmToolsAction::class.java) {
             inputFile.set(change.file)
             outputDirectory.set(generatedDirectory)
             wasmToolsFile.set(wast2Json)
         }
+    }
+
+    private companion object {
+        const val WAST_EXTENSION = ".wast"
     }
 }

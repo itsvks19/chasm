@@ -2,12 +2,24 @@ package io.github.charlietap.sweet.plugin.ext
 
 import java.io.File
 
-fun File.backtrackCollectingDirectoriesUntil(predicate: (File) -> Boolean): List<String> {
-    val directories = mutableListOf<String>()
-    var file = this
-    while(!predicate(file)) {
-        file = file.parentFile
-        directories += (file.name)
+internal fun File.relativeSuitePath(root: File): String {
+    val rootPath = root.toPath().toAbsolutePath().normalize()
+    val filePath = toPath().toAbsolutePath().normalize()
+    val relativePath = rootPath.relativize(filePath)
+
+    require(!relativePath.startsWith("..")) {
+        "File $filePath is outside suite root $rootPath"
     }
-    return directories
+
+    return relativePath.joinToString("/") { segment -> segment.toString() }
+}
+
+internal fun File.deleteAndPruneEmptyParents(root: File) {
+    delete()
+
+    var directory = parentFile
+    while (directory != null && directory != root && directory.listFiles()?.isEmpty() == true) {
+        directory.delete()
+        directory = directory.parentFile
+    }
 }

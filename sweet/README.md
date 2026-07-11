@@ -1,47 +1,111 @@
-Sweet is a project that automates testing of the official wasm
-testsuite against a kotlin multiplatform wasm runtime.
+# Sweet
 
-The project includes two modules:
+Sweet generates Kotlin Multiplatform tests from one or more WebAssembly WAST
+repositories.
 
-- lib (A binding library)
-- plugin (A gradle plugin)
+The included build contains:
 
+- `lib`: serializable bindings for the `wasm-tools json-from-wast` schema.
+- `plugin`: Gradle tasks which synchronize repositories, convert WAST scripts,
+  and generate common Kotlin tests.
 
-In order to leverage sweet you must first use the binding library to wrap your runtime and provide a standardised interface
-which can be used by sweets plugin. An example of this binding can be seen [here](chasm/src/commonTest/kotlin/io/github/charlietap/chasm/script/ChasmScriptRunner.kt)
+A runtime supplies a `ScriptRunner` that maps Sweet commands onto its own
+decode, validation, and execution APIs. Chasm's implementation is in
+[`ChasmScriptRunner.kt`](../chasm/src/commonTest/kotlin/io/github/charlietap/chasm/script/ChasmScriptRunner.kt).
 
-Once you have created a binding and have an implementation of a ScriptRunner you can configure the gradle plugin.
+## Configuration
+
+Suite repositories are named sources. Each source has an independent Git URL,
+revision, repository-relative test directory, file selection, and maximum
+semantic phase.
 
 ```kotlin
+import io.github.charlietap.sweet.lib.SemanticPhase
+import io.github.charlietap.sweet.plugin.PhaseLimit
+
 sweet {
-    wasmToolsVersion = "1.222.0"
-    testSuiteCommit = "68c6f83f331081ba8aaafae3f89ce20d1cc456fb"
-    scriptRunner = "io.github.charlietap.chasm.script.ChasmScriptRunner"
-    testPackageName = "io.github.charlietap.chasm.testsuite"
-    proposals = listOf(
-        "multi-memory",
-        "exception-handling",
-        "gc",
-    )
-    excludes = listOf(
-        "simd_*/**", "**/simd_*",
-        "align.wast", "binary.wast", "data.wast", "elem.wast", "global.wast", "imports.wast", "memory.wast",
-        "proposals/exception-handling/binary.wast",
-        "proposals/exception-handling/imports.wast",
-        "proposals/gc/binary.wast",
-        "proposals/multi-memory/data.wast",
-    )
+    wasmToolsVersion = "1.253.0"
+    scriptRunner = "example.runtime.ExampleScriptRunner"
+    testPackageName = "example.runtime.testsuite"
+
+    sources {
+        register("core") {
+            repositoryUrl = "https://github.com/WebAssembly/testsuite.git"
+            revision = "<full commit>"
+            testDirectory = "."
+            includes = listOf(
+                "*.wast",
+                "proposals/threads/*.wast",
+            )
+            phaseSupport = SemanticPhase.EXECUTION
+            phaseLimits = listOf(
+                PhaseLimit(
+                    patterns = setOf("proposals/threads/**"),
+                    phaseSupport = SemanticPhase.DECODING,
+                ),
+            )
+        }
+
+        register("componentModel") {
+            repositoryUrl =
+                "https://github.com/WebAssembly/component-model.git"
+            revision = "<full commit>"
+            testDirectory = "test"
+            includes = listOf("**/*.wast")
+            phaseSupport = SemanticPhase.DECODING
+        }
+    }
 }
 ```
 
-The plugin will do the following:
+`includes`, `excludes`, and `PhaseLimit.patterns` are matched against normalized
+forward-slash paths relative to `testDirectory`. When multiple phase limits
+match, Sweet chooses the lowest phase. A phase limit can reduce source support,
+but cannot raise it.
 
-- Download a copy of the official wasm testsuite at the commit specified in the plugin extension.
- You'll find this artifact in build/wasm-testsuite. The gradle task name for this step is syncWasmTestSuite.
-- Download a copy of wasm tools with the version specified in the plugin extension.
-You'll find this artifact in build/wasm-tools. The gradle task name for this step is downloadWasmTools
-- Run wasmtools on the wasm testsuite to create immediate files that can be used by the script runner.
-You'll find this artifact in build/wasm-testsuite-intermediates. The gradle task name for this step is prepareTestSuite
-- Generate kotlin multiplatform common tests for each testscript in the testsuite.
-You'll find this artifact in build/wasm-testsuite-tests. The gradle task name for this step is generateTests
-- Include the newly created common tests as part of your test sources automatically
+Use full commits for reproducible suites. The repository revision and
+`wasmToolsVersion` should be upgraded together because newer WAST syntax may
+require a newer converter.
+
+## Tasks
+
+Sweet registers one isolated task chain per source. A source named `core`
+creates:
+
+```text
+syncCoreTestSuite
+prepareCoreTestSuite
+generateCoreTests
+```
+
+The aggregate lifecycle tasks retain stable names:
+
+```text
+syncWasmTestSuite
+prepareTestSuite
+generateTests
+testMatrix
+```
+
+Compiling Kotlin tests depends on `generateTests`, and generated sources are
+added to `commonTest`, so the same suites run on every configured KMP test
+target.
+
+## Outputs
+
+Each source owns separate output directories:
+
+```text
+build/sweet/repositories/<source>/
+build/sweet/intermediates/<source>/<relative-wast-path>/
+build/generated/sweet/<source>/
+```
+
+Sweet preserves the complete path below `testDirectory`. Files such as
+`wasm-tools/resources.wast` and `wasmtime/resources.wast` therefore cannot
+overwrite one another.
+
+`wasm-tools json-from-wast` uses the historical JSON command name `module` for
+both Core modules and components. Sweet preserves that external schema. A
+runtime that supports both binary layers should inspect the Wasm preamble when
+choosing its decoder.
