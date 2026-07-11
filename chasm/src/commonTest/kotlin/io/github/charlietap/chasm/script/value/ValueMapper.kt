@@ -18,6 +18,26 @@ fun ValueMapper(
     is Value.I64 -> i64ValueMapper(value)
     is Value.F32 -> f32ValueMapper(value)
     is Value.F64 -> f64ValueMapper(value)
+    is Value.Bool,
+    is Value.U8,
+    is Value.S8,
+    is Value.U16,
+    is Value.S16,
+    is Value.U32,
+    is Value.S32,
+    is Value.U64,
+    is Value.S64,
+    is Value.Character,
+    is Value.StringValue,
+    is Value.ListValue,
+    is Value.Record,
+    is Value.Tuple,
+    is Value.Variant,
+    is Value.Enum,
+    is Value.Option,
+    is Value.Result,
+    is Value.Flags,
+    -> null
     is Value.AnyRef -> anyRefValueMapper(value)
     is Value.ArrayRef -> arrayRefValueMapper(value)
     is Value.BottomRef -> bottomRefValueMapper(value)
