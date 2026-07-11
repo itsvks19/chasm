@@ -75,6 +75,22 @@ sealed interface io.github.charlietap.chasm.config/GCThreshold { // io.github.ch
     }
 }
 
+final class io.github.charlietap.chasm.config/ComponentConfig { // io.github.charlietap.chasm.config/ComponentConfig|null[0]
+    constructor <init>(io.github.charlietap.chasm.config/ModuleConfig = ..., kotlin/Boolean = ...) // io.github.charlietap.chasm.config/ComponentConfig.<init>|<init>(io.github.charlietap.chasm.config.ModuleConfig;kotlin.Boolean){}[0]
+
+    final val decodeNameSection // io.github.charlietap.chasm.config/ComponentConfig.decodeNameSection|{}decodeNameSection[0]
+        final fun <get-decodeNameSection>(): kotlin/Boolean // io.github.charlietap.chasm.config/ComponentConfig.decodeNameSection.<get-decodeNameSection>|<get-decodeNameSection>(){}[0]
+    final val moduleConfig // io.github.charlietap.chasm.config/ComponentConfig.moduleConfig|{}moduleConfig[0]
+        final fun <get-moduleConfig>(): io.github.charlietap.chasm.config/ModuleConfig // io.github.charlietap.chasm.config/ComponentConfig.moduleConfig.<get-moduleConfig>|<get-moduleConfig>(){}[0]
+
+    final fun component1(): io.github.charlietap.chasm.config/ModuleConfig // io.github.charlietap.chasm.config/ComponentConfig.component1|component1(){}[0]
+    final fun component2(): kotlin/Boolean // io.github.charlietap.chasm.config/ComponentConfig.component2|component2(){}[0]
+    final fun copy(io.github.charlietap.chasm.config/ModuleConfig = ..., kotlin/Boolean = ...): io.github.charlietap.chasm.config/ComponentConfig // io.github.charlietap.chasm.config/ComponentConfig.copy|copy(io.github.charlietap.chasm.config.ModuleConfig;kotlin.Boolean){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.config/ComponentConfig.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.config/ComponentConfig.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.charlietap.chasm.config/ComponentConfig.toString|toString(){}[0]
+}
+
 final class io.github.charlietap.chasm.config/Config { // io.github.charlietap.chasm.config/Config|null[0]
     constructor <init>(io.github.charlietap.chasm.config/ModuleConfig = ..., io.github.charlietap.chasm.config/RuntimeConfig = ...) // io.github.charlietap.chasm.config/Config.<init>|<init>(io.github.charlietap.chasm.config.ModuleConfig;io.github.charlietap.chasm.config.RuntimeConfig){}[0]
 
