@@ -6,6 +6,7 @@ import io.github.charlietap.chasm.embedding.shapes.fold
 import io.github.charlietap.chasm.embedding.shapes.map
 import io.github.charlietap.chasm.embedding.validate
 import io.github.charlietap.chasm.script.ScriptContext
+import io.github.charlietap.chasm.script.decoder.BinaryDecoder
 import io.github.charlietap.chasm.script.ext.readBytesFromPath
 import io.github.charlietap.sweet.lib.SemanticPhase
 import io.github.charlietap.sweet.lib.command.ModuleDefinitionCommand
@@ -22,7 +23,10 @@ fun ModuleDefinitionCommandRunner(
     val bytes = moduleFilePath.readBytesFromPath()
 
     val result = when (context.phaseSupport) {
-        SemanticPhase.DECODING -> module(bytes, context.config.moduleConfig)
+        SemanticPhase.DECODING -> return BinaryDecoder(bytes, context.config.moduleConfig).fold(
+            { CommandResult.Success },
+        ) { CommandResult.Failure(command, "Failed to decode module definition: $it") }
+
         SemanticPhase.VALIDATION -> module(bytes, context.config.moduleConfig)
             .flatMap { module ->
                 validate(module)

@@ -16,7 +16,7 @@ plugins {
 }
 
 sweet {
-    wasmToolsVersion = "1.239.0"
+    wasmToolsVersion = "1.253.0"
     scriptRunner = "io.github.charlietap.chasm.script.ChasmScriptRunner"
     testPackageName = "io.github.charlietap.chasm.testsuite"
 
@@ -61,6 +61,14 @@ sweet {
                     phaseSupport = SemanticPhase.VALIDATION,
                 ),
             )
+        }
+
+        register("componentModel") {
+            repositoryUrl = "https://github.com/WebAssembly/component-model.git"
+            revision = "92263d0d670dd3c887b2fe648b81608268f176f3"
+            testDirectory = "test"
+            includes = listOf("**/*.wast")
+            phaseSupport = SemanticPhase.DECODING
         }
     }
 }

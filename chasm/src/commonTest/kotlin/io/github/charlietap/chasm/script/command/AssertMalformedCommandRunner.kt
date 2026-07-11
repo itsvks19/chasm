@@ -1,8 +1,8 @@
 package io.github.charlietap.chasm.script.command
 
-import io.github.charlietap.chasm.embedding.module
 import io.github.charlietap.chasm.embedding.shapes.fold
 import io.github.charlietap.chasm.script.ScriptContext
+import io.github.charlietap.chasm.script.decoder.BinaryDecoder
 import io.github.charlietap.chasm.script.ext.readBytesFromPath
 import io.github.charlietap.sweet.lib.command.AssertMalformedCommand
 
@@ -15,7 +15,7 @@ fun AssertMalformedCommandRunner(
     val moduleFilePath = context.binaryDirectory + "/" + command.filename
     val bytes = moduleFilePath.readBytesFromPath()
 
-    return module(bytes, context.config.moduleConfig).fold({
+    return BinaryDecoder(bytes, context.config.moduleConfig).fold({
         CommandResult.Failure(command, "malformed module was decoded when it should have failed")
     }) {
         CommandResult.Success
