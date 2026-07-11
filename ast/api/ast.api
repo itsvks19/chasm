@@ -1148,6 +1148,66 @@ public final class io/github/charlietap/chasm/ast/component/CoreExportTarget$Typ
 	public fun toString ()Ljava/lang/String;
 }
 
+public abstract interface class io/github/charlietap/chasm/ast/component/CoreExternalType {
+}
+
+public final class io/github/charlietap/chasm/ast/component/CoreExternalType$Function : io/github/charlietap/chasm/ast/component/CoreExternalType {
+	public synthetic fun <init> (ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-Q7G2E2s ()I
+	public final fun copy-UfKnbfY (I)Lio/github/charlietap/chasm/ast/component/CoreExternalType$Function;
+	public static synthetic fun copy-UfKnbfY$default (Lio/github/charlietap/chasm/ast/component/CoreExternalType$Function;IILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/CoreExternalType$Function;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getTypeIndex-Q7G2E2s ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/charlietap/chasm/ast/component/CoreExternalType$Global : io/github/charlietap/chasm/ast/component/CoreExternalType {
+	public fun <init> (Lio/github/charlietap/chasm/type/GlobalType;)V
+	public final fun component1 ()Lio/github/charlietap/chasm/type/GlobalType;
+	public final fun copy (Lio/github/charlietap/chasm/type/GlobalType;)Lio/github/charlietap/chasm/ast/component/CoreExternalType$Global;
+	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/CoreExternalType$Global;Lio/github/charlietap/chasm/type/GlobalType;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/CoreExternalType$Global;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getType ()Lio/github/charlietap/chasm/type/GlobalType;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/charlietap/chasm/ast/component/CoreExternalType$Memory : io/github/charlietap/chasm/ast/component/CoreExternalType {
+	public fun <init> (Lio/github/charlietap/chasm/type/MemoryType;)V
+	public final fun component1 ()Lio/github/charlietap/chasm/type/MemoryType;
+	public final fun copy (Lio/github/charlietap/chasm/type/MemoryType;)Lio/github/charlietap/chasm/ast/component/CoreExternalType$Memory;
+	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/CoreExternalType$Memory;Lio/github/charlietap/chasm/type/MemoryType;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/CoreExternalType$Memory;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getType ()Lio/github/charlietap/chasm/type/MemoryType;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/charlietap/chasm/ast/component/CoreExternalType$Table : io/github/charlietap/chasm/ast/component/CoreExternalType {
+	public fun <init> (Lio/github/charlietap/chasm/type/TableType;)V
+	public final fun component1 ()Lio/github/charlietap/chasm/type/TableType;
+	public final fun copy (Lio/github/charlietap/chasm/type/TableType;)Lio/github/charlietap/chasm/ast/component/CoreExternalType$Table;
+	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/CoreExternalType$Table;Lio/github/charlietap/chasm/type/TableType;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/CoreExternalType$Table;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getType ()Lio/github/charlietap/chasm/type/TableType;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/charlietap/chasm/ast/component/CoreExternalType$Tag : io/github/charlietap/chasm/ast/component/CoreExternalType {
+	public synthetic fun <init> (Lio/github/charlietap/chasm/type/TagType$Attribute;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/charlietap/chasm/type/TagType$Attribute;
+	public final fun component2-Q7G2E2s ()I
+	public final fun copy-cBKL3yM (Lio/github/charlietap/chasm/type/TagType$Attribute;I)Lio/github/charlietap/chasm/ast/component/CoreExternalType$Tag;
+	public static synthetic fun copy-cBKL3yM$default (Lio/github/charlietap/chasm/ast/component/CoreExternalType$Tag;Lio/github/charlietap/chasm/type/TagType$Attribute;IILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/CoreExternalType$Tag;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAttribute ()Lio/github/charlietap/chasm/type/TagType$Attribute;
+	public final fun getTypeIndex-Q7G2E2s ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class io/github/charlietap/chasm/ast/component/CoreInstance : io/github/charlietap/chasm/ast/component/Definition {
 	public fun <init> (Lio/github/charlietap/chasm/ast/component/CoreInstanceDefinition;)V
 	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/CoreInstanceDefinition;
@@ -1321,27 +1381,27 @@ public abstract interface class io/github/charlietap/chasm/ast/component/CoreMod
 }
 
 public final class io/github/charlietap/chasm/ast/component/CoreModuleDeclaration$Export : io/github/charlietap/chasm/ast/component/CoreModuleDeclaration {
-	public synthetic fun <init> (Ljava/lang/String;Lio/github/charlietap/chasm/ast/module/Import$Descriptor;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Lio/github/charlietap/chasm/ast/component/CoreExternalType;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-F_ocVm4 ()Ljava/lang/String;
-	public final fun component2 ()Lio/github/charlietap/chasm/ast/module/Import$Descriptor;
-	public final fun copy-shpzjbs (Ljava/lang/String;Lio/github/charlietap/chasm/ast/module/Import$Descriptor;)Lio/github/charlietap/chasm/ast/component/CoreModuleDeclaration$Export;
-	public static synthetic fun copy-shpzjbs$default (Lio/github/charlietap/chasm/ast/component/CoreModuleDeclaration$Export;Ljava/lang/String;Lio/github/charlietap/chasm/ast/module/Import$Descriptor;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/CoreModuleDeclaration$Export;
+	public final fun component2 ()Lio/github/charlietap/chasm/ast/component/CoreExternalType;
+	public final fun copy-shpzjbs (Ljava/lang/String;Lio/github/charlietap/chasm/ast/component/CoreExternalType;)Lio/github/charlietap/chasm/ast/component/CoreModuleDeclaration$Export;
+	public static synthetic fun copy-shpzjbs$default (Lio/github/charlietap/chasm/ast/component/CoreModuleDeclaration$Export;Ljava/lang/String;Lio/github/charlietap/chasm/ast/component/CoreExternalType;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/CoreModuleDeclaration$Export;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getDescriptor ()Lio/github/charlietap/chasm/ast/module/Import$Descriptor;
+	public final fun getDescriptor ()Lio/github/charlietap/chasm/ast/component/CoreExternalType;
 	public final fun getName-F_ocVm4 ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/charlietap/chasm/ast/component/CoreModuleDeclaration$Import : io/github/charlietap/chasm/ast/component/CoreModuleDeclaration {
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lio/github/charlietap/chasm/ast/module/Import$Descriptor;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lio/github/charlietap/chasm/ast/component/CoreExternalType;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-F_ocVm4 ()Ljava/lang/String;
 	public final fun component2-F_ocVm4 ()Ljava/lang/String;
-	public final fun component3 ()Lio/github/charlietap/chasm/ast/module/Import$Descriptor;
-	public final fun copy-DloclfE (Ljava/lang/String;Ljava/lang/String;Lio/github/charlietap/chasm/ast/module/Import$Descriptor;)Lio/github/charlietap/chasm/ast/component/CoreModuleDeclaration$Import;
-	public static synthetic fun copy-DloclfE$default (Lio/github/charlietap/chasm/ast/component/CoreModuleDeclaration$Import;Ljava/lang/String;Ljava/lang/String;Lio/github/charlietap/chasm/ast/module/Import$Descriptor;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/CoreModuleDeclaration$Import;
+	public final fun component3 ()Lio/github/charlietap/chasm/ast/component/CoreExternalType;
+	public final fun copy-DloclfE (Ljava/lang/String;Ljava/lang/String;Lio/github/charlietap/chasm/ast/component/CoreExternalType;)Lio/github/charlietap/chasm/ast/component/CoreModuleDeclaration$Import;
+	public static synthetic fun copy-DloclfE$default (Lio/github/charlietap/chasm/ast/component/CoreModuleDeclaration$Import;Ljava/lang/String;Ljava/lang/String;Lio/github/charlietap/chasm/ast/component/CoreExternalType;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/CoreModuleDeclaration$Import;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getDescriptor ()Lio/github/charlietap/chasm/ast/module/Import$Descriptor;
+	public final fun getDescriptor ()Lio/github/charlietap/chasm/ast/component/CoreExternalType;
 	public final fun getEntityName-F_ocVm4 ()Ljava/lang/String;
 	public final fun getModuleName-F_ocVm4 ()Ljava/lang/String;
 	public fun hashCode ()I
@@ -1362,12 +1422,12 @@ public final class io/github/charlietap/chasm/ast/component/CoreModuleDeclaratio
 }
 
 public final class io/github/charlietap/chasm/ast/component/CoreModuleDeclaration$Type : io/github/charlietap/chasm/ast/component/CoreModuleDeclaration {
-	public fun <init> (Lio/github/charlietap/chasm/type/RecursiveType;)V
-	public final fun component1 ()Lio/github/charlietap/chasm/type/RecursiveType;
-	public final fun copy (Lio/github/charlietap/chasm/type/RecursiveType;)Lio/github/charlietap/chasm/ast/component/CoreModuleDeclaration$Type;
-	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/CoreModuleDeclaration$Type;Lio/github/charlietap/chasm/type/RecursiveType;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/CoreModuleDeclaration$Type;
+	public fun <init> (Lio/github/charlietap/chasm/ast/component/CoreTypeDefinition;)V
+	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/CoreTypeDefinition;
+	public final fun copy (Lio/github/charlietap/chasm/ast/component/CoreTypeDefinition;)Lio/github/charlietap/chasm/ast/component/CoreModuleDeclaration$Type;
+	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/CoreModuleDeclaration$Type;Lio/github/charlietap/chasm/ast/component/CoreTypeDefinition;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/CoreModuleDeclaration$Type;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getType ()Lio/github/charlietap/chasm/type/RecursiveType;
+	public final fun getType ()Lio/github/charlietap/chasm/ast/component/CoreTypeDefinition;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -1735,16 +1795,14 @@ public final class io/github/charlietap/chasm/ast/component/Index$ComponentValue
 }
 
 public final class io/github/charlietap/chasm/ast/component/InlineExport {
-	public fun <init> (Lio/github/charlietap/chasm/ast/component/NameAttributes;Lio/github/charlietap/chasm/ast/component/ExportTarget;Lio/github/charlietap/chasm/ast/component/ExternalType;)V
+	public fun <init> (Lio/github/charlietap/chasm/ast/component/NameAttributes;Lio/github/charlietap/chasm/ast/component/ExportTarget;)V
 	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/NameAttributes;
 	public final fun component2 ()Lio/github/charlietap/chasm/ast/component/ExportTarget;
-	public final fun component3 ()Lio/github/charlietap/chasm/ast/component/ExternalType;
-	public final fun copy (Lio/github/charlietap/chasm/ast/component/NameAttributes;Lio/github/charlietap/chasm/ast/component/ExportTarget;Lio/github/charlietap/chasm/ast/component/ExternalType;)Lio/github/charlietap/chasm/ast/component/InlineExport;
-	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/InlineExport;Lio/github/charlietap/chasm/ast/component/NameAttributes;Lio/github/charlietap/chasm/ast/component/ExportTarget;Lio/github/charlietap/chasm/ast/component/ExternalType;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/InlineExport;
+	public final fun copy (Lio/github/charlietap/chasm/ast/component/NameAttributes;Lio/github/charlietap/chasm/ast/component/ExportTarget;)Lio/github/charlietap/chasm/ast/component/InlineExport;
+	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/InlineExport;Lio/github/charlietap/chasm/ast/component/NameAttributes;Lio/github/charlietap/chasm/ast/component/ExportTarget;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/InlineExport;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getName ()Lio/github/charlietap/chasm/ast/component/NameAttributes;
 	public final fun getTarget ()Lio/github/charlietap/chasm/ast/component/ExportTarget;
-	public final fun getType ()Lio/github/charlietap/chasm/ast/component/ExternalType;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }

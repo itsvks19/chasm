@@ -45,7 +45,6 @@ data class InstantiateArgument(
 data class InlineExport(
     val name: NameAttributes,
     val target: ExportTarget,
-    val type: ExternalType?,
 )
 
 data class StartDefinition(

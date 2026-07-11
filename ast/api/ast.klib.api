@@ -1272,6 +1272,76 @@ sealed interface io.github.charlietap.chasm.ast.component/CoreExportTarget { // 
     }
 }
 
+sealed interface io.github.charlietap.chasm.ast.component/CoreExternalType { // io.github.charlietap.chasm.ast.component/CoreExternalType|null[0]
+    final class Function : io.github.charlietap.chasm.ast.component/CoreExternalType { // io.github.charlietap.chasm.ast.component/CoreExternalType.Function|null[0]
+        constructor <init>(io.github.charlietap.chasm.ast.module/Index.TypeIndex) // io.github.charlietap.chasm.ast.component/CoreExternalType.Function.<init>|<init>(io.github.charlietap.chasm.ast.module.Index.TypeIndex){}[0]
+
+        final val typeIndex // io.github.charlietap.chasm.ast.component/CoreExternalType.Function.typeIndex|{}typeIndex[0]
+            final fun <get-typeIndex>(): io.github.charlietap.chasm.ast.module/Index.TypeIndex // io.github.charlietap.chasm.ast.component/CoreExternalType.Function.typeIndex.<get-typeIndex>|<get-typeIndex>(){}[0]
+
+        final fun component1(): io.github.charlietap.chasm.ast.module/Index.TypeIndex // io.github.charlietap.chasm.ast.component/CoreExternalType.Function.component1|component1(){}[0]
+        final fun copy(io.github.charlietap.chasm.ast.module/Index.TypeIndex = ...): io.github.charlietap.chasm.ast.component/CoreExternalType.Function // io.github.charlietap.chasm.ast.component/CoreExternalType.Function.copy|copy(io.github.charlietap.chasm.ast.module.Index.TypeIndex){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/CoreExternalType.Function.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/CoreExternalType.Function.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/CoreExternalType.Function.toString|toString(){}[0]
+    }
+
+    final class Global : io.github.charlietap.chasm.ast.component/CoreExternalType { // io.github.charlietap.chasm.ast.component/CoreExternalType.Global|null[0]
+        constructor <init>(io.github.charlietap.chasm.type/GlobalType) // io.github.charlietap.chasm.ast.component/CoreExternalType.Global.<init>|<init>(io.github.charlietap.chasm.type.GlobalType){}[0]
+
+        final val type // io.github.charlietap.chasm.ast.component/CoreExternalType.Global.type|{}type[0]
+            final fun <get-type>(): io.github.charlietap.chasm.type/GlobalType // io.github.charlietap.chasm.ast.component/CoreExternalType.Global.type.<get-type>|<get-type>(){}[0]
+
+        final fun component1(): io.github.charlietap.chasm.type/GlobalType // io.github.charlietap.chasm.ast.component/CoreExternalType.Global.component1|component1(){}[0]
+        final fun copy(io.github.charlietap.chasm.type/GlobalType = ...): io.github.charlietap.chasm.ast.component/CoreExternalType.Global // io.github.charlietap.chasm.ast.component/CoreExternalType.Global.copy|copy(io.github.charlietap.chasm.type.GlobalType){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/CoreExternalType.Global.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/CoreExternalType.Global.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/CoreExternalType.Global.toString|toString(){}[0]
+    }
+
+    final class Memory : io.github.charlietap.chasm.ast.component/CoreExternalType { // io.github.charlietap.chasm.ast.component/CoreExternalType.Memory|null[0]
+        constructor <init>(io.github.charlietap.chasm.type/MemoryType) // io.github.charlietap.chasm.ast.component/CoreExternalType.Memory.<init>|<init>(io.github.charlietap.chasm.type.MemoryType){}[0]
+
+        final val type // io.github.charlietap.chasm.ast.component/CoreExternalType.Memory.type|{}type[0]
+            final fun <get-type>(): io.github.charlietap.chasm.type/MemoryType // io.github.charlietap.chasm.ast.component/CoreExternalType.Memory.type.<get-type>|<get-type>(){}[0]
+
+        final fun component1(): io.github.charlietap.chasm.type/MemoryType // io.github.charlietap.chasm.ast.component/CoreExternalType.Memory.component1|component1(){}[0]
+        final fun copy(io.github.charlietap.chasm.type/MemoryType = ...): io.github.charlietap.chasm.ast.component/CoreExternalType.Memory // io.github.charlietap.chasm.ast.component/CoreExternalType.Memory.copy|copy(io.github.charlietap.chasm.type.MemoryType){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/CoreExternalType.Memory.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/CoreExternalType.Memory.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/CoreExternalType.Memory.toString|toString(){}[0]
+    }
+
+    final class Table : io.github.charlietap.chasm.ast.component/CoreExternalType { // io.github.charlietap.chasm.ast.component/CoreExternalType.Table|null[0]
+        constructor <init>(io.github.charlietap.chasm.type/TableType) // io.github.charlietap.chasm.ast.component/CoreExternalType.Table.<init>|<init>(io.github.charlietap.chasm.type.TableType){}[0]
+
+        final val type // io.github.charlietap.chasm.ast.component/CoreExternalType.Table.type|{}type[0]
+            final fun <get-type>(): io.github.charlietap.chasm.type/TableType // io.github.charlietap.chasm.ast.component/CoreExternalType.Table.type.<get-type>|<get-type>(){}[0]
+
+        final fun component1(): io.github.charlietap.chasm.type/TableType // io.github.charlietap.chasm.ast.component/CoreExternalType.Table.component1|component1(){}[0]
+        final fun copy(io.github.charlietap.chasm.type/TableType = ...): io.github.charlietap.chasm.ast.component/CoreExternalType.Table // io.github.charlietap.chasm.ast.component/CoreExternalType.Table.copy|copy(io.github.charlietap.chasm.type.TableType){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/CoreExternalType.Table.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/CoreExternalType.Table.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/CoreExternalType.Table.toString|toString(){}[0]
+    }
+
+    final class Tag : io.github.charlietap.chasm.ast.component/CoreExternalType { // io.github.charlietap.chasm.ast.component/CoreExternalType.Tag|null[0]
+        constructor <init>(io.github.charlietap.chasm.type/TagType.Attribute, io.github.charlietap.chasm.ast.module/Index.TypeIndex) // io.github.charlietap.chasm.ast.component/CoreExternalType.Tag.<init>|<init>(io.github.charlietap.chasm.type.TagType.Attribute;io.github.charlietap.chasm.ast.module.Index.TypeIndex){}[0]
+
+        final val attribute // io.github.charlietap.chasm.ast.component/CoreExternalType.Tag.attribute|{}attribute[0]
+            final fun <get-attribute>(): io.github.charlietap.chasm.type/TagType.Attribute // io.github.charlietap.chasm.ast.component/CoreExternalType.Tag.attribute.<get-attribute>|<get-attribute>(){}[0]
+        final val typeIndex // io.github.charlietap.chasm.ast.component/CoreExternalType.Tag.typeIndex|{}typeIndex[0]
+            final fun <get-typeIndex>(): io.github.charlietap.chasm.ast.module/Index.TypeIndex // io.github.charlietap.chasm.ast.component/CoreExternalType.Tag.typeIndex.<get-typeIndex>|<get-typeIndex>(){}[0]
+
+        final fun component1(): io.github.charlietap.chasm.type/TagType.Attribute // io.github.charlietap.chasm.ast.component/CoreExternalType.Tag.component1|component1(){}[0]
+        final fun component2(): io.github.charlietap.chasm.ast.module/Index.TypeIndex // io.github.charlietap.chasm.ast.component/CoreExternalType.Tag.component2|component2(){}[0]
+        final fun copy(io.github.charlietap.chasm.type/TagType.Attribute = ..., io.github.charlietap.chasm.ast.module/Index.TypeIndex = ...): io.github.charlietap.chasm.ast.component/CoreExternalType.Tag // io.github.charlietap.chasm.ast.component/CoreExternalType.Tag.copy|copy(io.github.charlietap.chasm.type.TagType.Attribute;io.github.charlietap.chasm.ast.module.Index.TypeIndex){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/CoreExternalType.Tag.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/CoreExternalType.Tag.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/CoreExternalType.Tag.toString|toString(){}[0]
+    }
+}
+
 sealed interface io.github.charlietap.chasm.ast.component/CoreInstanceDefinition { // io.github.charlietap.chasm.ast.component/CoreInstanceDefinition|null[0]
     final class InlineExports : io.github.charlietap.chasm.ast.component/CoreInstanceDefinition { // io.github.charlietap.chasm.ast.component/CoreInstanceDefinition.InlineExports|null[0]
         constructor <init>(kotlin.collections/List<io.github.charlietap.chasm.ast.component/CoreExport>) // io.github.charlietap.chasm.ast.component/CoreInstanceDefinition.InlineExports.<init>|<init>(kotlin.collections.List<io.github.charlietap.chasm.ast.component.CoreExport>){}[0]
@@ -1435,26 +1505,26 @@ sealed interface io.github.charlietap.chasm.ast.component/CoreInstanceExportAlia
 
 sealed interface io.github.charlietap.chasm.ast.component/CoreModuleDeclaration { // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration|null[0]
     final class Export : io.github.charlietap.chasm.ast.component/CoreModuleDeclaration { // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Export|null[0]
-        constructor <init>(io.github.charlietap.chasm.ast.value/NameValue, io.github.charlietap.chasm.ast.module/Import.Descriptor) // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Export.<init>|<init>(io.github.charlietap.chasm.ast.value.NameValue;io.github.charlietap.chasm.ast.module.Import.Descriptor){}[0]
+        constructor <init>(io.github.charlietap.chasm.ast.value/NameValue, io.github.charlietap.chasm.ast.component/CoreExternalType) // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Export.<init>|<init>(io.github.charlietap.chasm.ast.value.NameValue;io.github.charlietap.chasm.ast.component.CoreExternalType){}[0]
 
         final val descriptor // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Export.descriptor|{}descriptor[0]
-            final fun <get-descriptor>(): io.github.charlietap.chasm.ast.module/Import.Descriptor // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Export.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+            final fun <get-descriptor>(): io.github.charlietap.chasm.ast.component/CoreExternalType // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Export.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
         final val name // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Export.name|{}name[0]
             final fun <get-name>(): io.github.charlietap.chasm.ast.value/NameValue // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Export.name.<get-name>|<get-name>(){}[0]
 
         final fun component1(): io.github.charlietap.chasm.ast.value/NameValue // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Export.component1|component1(){}[0]
-        final fun component2(): io.github.charlietap.chasm.ast.module/Import.Descriptor // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Export.component2|component2(){}[0]
-        final fun copy(io.github.charlietap.chasm.ast.value/NameValue = ..., io.github.charlietap.chasm.ast.module/Import.Descriptor = ...): io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Export // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Export.copy|copy(io.github.charlietap.chasm.ast.value.NameValue;io.github.charlietap.chasm.ast.module.Import.Descriptor){}[0]
+        final fun component2(): io.github.charlietap.chasm.ast.component/CoreExternalType // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Export.component2|component2(){}[0]
+        final fun copy(io.github.charlietap.chasm.ast.value/NameValue = ..., io.github.charlietap.chasm.ast.component/CoreExternalType = ...): io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Export // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Export.copy|copy(io.github.charlietap.chasm.ast.value.NameValue;io.github.charlietap.chasm.ast.component.CoreExternalType){}[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Export.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Export.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Export.toString|toString(){}[0]
     }
 
     final class Import : io.github.charlietap.chasm.ast.component/CoreModuleDeclaration { // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Import|null[0]
-        constructor <init>(io.github.charlietap.chasm.ast.value/NameValue, io.github.charlietap.chasm.ast.value/NameValue, io.github.charlietap.chasm.ast.module/Import.Descriptor) // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Import.<init>|<init>(io.github.charlietap.chasm.ast.value.NameValue;io.github.charlietap.chasm.ast.value.NameValue;io.github.charlietap.chasm.ast.module.Import.Descriptor){}[0]
+        constructor <init>(io.github.charlietap.chasm.ast.value/NameValue, io.github.charlietap.chasm.ast.value/NameValue, io.github.charlietap.chasm.ast.component/CoreExternalType) // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Import.<init>|<init>(io.github.charlietap.chasm.ast.value.NameValue;io.github.charlietap.chasm.ast.value.NameValue;io.github.charlietap.chasm.ast.component.CoreExternalType){}[0]
 
         final val descriptor // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Import.descriptor|{}descriptor[0]
-            final fun <get-descriptor>(): io.github.charlietap.chasm.ast.module/Import.Descriptor // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Import.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+            final fun <get-descriptor>(): io.github.charlietap.chasm.ast.component/CoreExternalType // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Import.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
         final val entityName // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Import.entityName|{}entityName[0]
             final fun <get-entityName>(): io.github.charlietap.chasm.ast.value/NameValue // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Import.entityName.<get-entityName>|<get-entityName>(){}[0]
         final val moduleName // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Import.moduleName|{}moduleName[0]
@@ -1462,8 +1532,8 @@ sealed interface io.github.charlietap.chasm.ast.component/CoreModuleDeclaration 
 
         final fun component1(): io.github.charlietap.chasm.ast.value/NameValue // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Import.component1|component1(){}[0]
         final fun component2(): io.github.charlietap.chasm.ast.value/NameValue // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Import.component2|component2(){}[0]
-        final fun component3(): io.github.charlietap.chasm.ast.module/Import.Descriptor // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Import.component3|component3(){}[0]
-        final fun copy(io.github.charlietap.chasm.ast.value/NameValue = ..., io.github.charlietap.chasm.ast.value/NameValue = ..., io.github.charlietap.chasm.ast.module/Import.Descriptor = ...): io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Import // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Import.copy|copy(io.github.charlietap.chasm.ast.value.NameValue;io.github.charlietap.chasm.ast.value.NameValue;io.github.charlietap.chasm.ast.module.Import.Descriptor){}[0]
+        final fun component3(): io.github.charlietap.chasm.ast.component/CoreExternalType // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Import.component3|component3(){}[0]
+        final fun copy(io.github.charlietap.chasm.ast.value/NameValue = ..., io.github.charlietap.chasm.ast.value/NameValue = ..., io.github.charlietap.chasm.ast.component/CoreExternalType = ...): io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Import // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Import.copy|copy(io.github.charlietap.chasm.ast.value.NameValue;io.github.charlietap.chasm.ast.value.NameValue;io.github.charlietap.chasm.ast.component.CoreExternalType){}[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Import.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Import.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Import.toString|toString(){}[0]
@@ -1486,13 +1556,13 @@ sealed interface io.github.charlietap.chasm.ast.component/CoreModuleDeclaration 
     }
 
     final class Type : io.github.charlietap.chasm.ast.component/CoreModuleDeclaration { // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Type|null[0]
-        constructor <init>(io.github.charlietap.chasm.type/RecursiveType) // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Type.<init>|<init>(io.github.charlietap.chasm.type.RecursiveType){}[0]
+        constructor <init>(io.github.charlietap.chasm.ast.component/CoreTypeDefinition) // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Type.<init>|<init>(io.github.charlietap.chasm.ast.component.CoreTypeDefinition){}[0]
 
         final val type // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Type.type|{}type[0]
-            final fun <get-type>(): io.github.charlietap.chasm.type/RecursiveType // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Type.type.<get-type>|<get-type>(){}[0]
+            final fun <get-type>(): io.github.charlietap.chasm.ast.component/CoreTypeDefinition // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Type.type.<get-type>|<get-type>(){}[0]
 
-        final fun component1(): io.github.charlietap.chasm.type/RecursiveType // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Type.component1|component1(){}[0]
-        final fun copy(io.github.charlietap.chasm.type/RecursiveType = ...): io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Type // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Type.copy|copy(io.github.charlietap.chasm.type.RecursiveType){}[0]
+        final fun component1(): io.github.charlietap.chasm.ast.component/CoreTypeDefinition // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Type.component1|component1(){}[0]
+        final fun copy(io.github.charlietap.chasm.ast.component/CoreTypeDefinition = ...): io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Type // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Type.copy|copy(io.github.charlietap.chasm.ast.component.CoreTypeDefinition){}[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Type.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Type.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/CoreModuleDeclaration.Type.toString|toString(){}[0]
@@ -8184,19 +8254,16 @@ final class io.github.charlietap.chasm.ast.component/Import : io.github.charliet
 }
 
 final class io.github.charlietap.chasm.ast.component/InlineExport { // io.github.charlietap.chasm.ast.component/InlineExport|null[0]
-    constructor <init>(io.github.charlietap.chasm.ast.component/NameAttributes, io.github.charlietap.chasm.ast.component/ExportTarget, io.github.charlietap.chasm.ast.component/ExternalType?) // io.github.charlietap.chasm.ast.component/InlineExport.<init>|<init>(io.github.charlietap.chasm.ast.component.NameAttributes;io.github.charlietap.chasm.ast.component.ExportTarget;io.github.charlietap.chasm.ast.component.ExternalType?){}[0]
+    constructor <init>(io.github.charlietap.chasm.ast.component/NameAttributes, io.github.charlietap.chasm.ast.component/ExportTarget) // io.github.charlietap.chasm.ast.component/InlineExport.<init>|<init>(io.github.charlietap.chasm.ast.component.NameAttributes;io.github.charlietap.chasm.ast.component.ExportTarget){}[0]
 
     final val name // io.github.charlietap.chasm.ast.component/InlineExport.name|{}name[0]
         final fun <get-name>(): io.github.charlietap.chasm.ast.component/NameAttributes // io.github.charlietap.chasm.ast.component/InlineExport.name.<get-name>|<get-name>(){}[0]
     final val target // io.github.charlietap.chasm.ast.component/InlineExport.target|{}target[0]
         final fun <get-target>(): io.github.charlietap.chasm.ast.component/ExportTarget // io.github.charlietap.chasm.ast.component/InlineExport.target.<get-target>|<get-target>(){}[0]
-    final val type // io.github.charlietap.chasm.ast.component/InlineExport.type|{}type[0]
-        final fun <get-type>(): io.github.charlietap.chasm.ast.component/ExternalType? // io.github.charlietap.chasm.ast.component/InlineExport.type.<get-type>|<get-type>(){}[0]
 
     final fun component1(): io.github.charlietap.chasm.ast.component/NameAttributes // io.github.charlietap.chasm.ast.component/InlineExport.component1|component1(){}[0]
     final fun component2(): io.github.charlietap.chasm.ast.component/ExportTarget // io.github.charlietap.chasm.ast.component/InlineExport.component2|component2(){}[0]
-    final fun component3(): io.github.charlietap.chasm.ast.component/ExternalType? // io.github.charlietap.chasm.ast.component/InlineExport.component3|component3(){}[0]
-    final fun copy(io.github.charlietap.chasm.ast.component/NameAttributes = ..., io.github.charlietap.chasm.ast.component/ExportTarget = ..., io.github.charlietap.chasm.ast.component/ExternalType? = ...): io.github.charlietap.chasm.ast.component/InlineExport // io.github.charlietap.chasm.ast.component/InlineExport.copy|copy(io.github.charlietap.chasm.ast.component.NameAttributes;io.github.charlietap.chasm.ast.component.ExportTarget;io.github.charlietap.chasm.ast.component.ExternalType?){}[0]
+    final fun copy(io.github.charlietap.chasm.ast.component/NameAttributes = ..., io.github.charlietap.chasm.ast.component/ExportTarget = ...): io.github.charlietap.chasm.ast.component/InlineExport // io.github.charlietap.chasm.ast.component/InlineExport.copy|copy(io.github.charlietap.chasm.ast.component.NameAttributes;io.github.charlietap.chasm.ast.component.ExportTarget){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/InlineExport.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/InlineExport.hashCode|hashCode(){}[0]
     final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/InlineExport.toString|toString(){}[0]
