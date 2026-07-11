@@ -1,3 +1,10 @@
+public final class io/github/charlietap/chasm/embedding/ComponentKt {
+	public static final fun component (Lio/github/charlietap/chasm/stream/SourceReader;Lio/github/charlietap/chasm/config/ComponentConfig;)Lio/github/charlietap/chasm/embedding/shapes/ChasmResult;
+	public static final fun component ([BLio/github/charlietap/chasm/config/ComponentConfig;)Lio/github/charlietap/chasm/embedding/shapes/ChasmResult;
+	public static synthetic fun component$default (Lio/github/charlietap/chasm/stream/SourceReader;Lio/github/charlietap/chasm/config/ComponentConfig;ILjava/lang/Object;)Lio/github/charlietap/chasm/embedding/shapes/ChasmResult;
+	public static synthetic fun component$default ([BLio/github/charlietap/chasm/config/ComponentConfig;ILjava/lang/Object;)Lio/github/charlietap/chasm/embedding/shapes/ChasmResult;
+}
+
 public final class io/github/charlietap/chasm/embedding/DropInstanceKt {
 	public static final fun dropInstance (Lio/github/charlietap/chasm/embedding/shapes/Store;Lio/github/charlietap/chasm/embedding/shapes/Instance;)Lio/github/charlietap/chasm/embedding/shapes/ChasmResult;
 }
@@ -456,6 +463,9 @@ public final class io/github/charlietap/chasm/embedding/shapes/ChasmResultKt {
 	public static final fun map (Lio/github/charlietap/chasm/embedding/shapes/ChasmResult;Lkotlin/jvm/functions/Function1;)Lio/github/charlietap/chasm/embedding/shapes/ChasmResult;
 	public static final fun onError (Lio/github/charlietap/chasm/embedding/shapes/ChasmResult;Lkotlin/jvm/functions/Function1;)Lio/github/charlietap/chasm/embedding/shapes/ChasmResult;
 	public static final fun onSuccess (Lio/github/charlietap/chasm/embedding/shapes/ChasmResult;Lkotlin/jvm/functions/Function1;)Lio/github/charlietap/chasm/embedding/shapes/ChasmResult;
+}
+
+public final class io/github/charlietap/chasm/embedding/shapes/Component {
 }
 
 public final class io/github/charlietap/chasm/embedding/shapes/Export {
