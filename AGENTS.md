@@ -32,12 +32,16 @@
   changes, add a body that explains:
   1. the previous behavior, bottleneck, or failure and why it mattered;
   2. the implementation approach and any important invariants, fallbacks, or
-     compatibility guarantees; and
-  3. how the change was verified, including benchmark methodology and baseline
-     comparisons when performance is claimed.
+     compatibility guarantees.
 - Describe the resulting behavior rather than narrating the editing process.
-  Include only tests and measurements that were actually run, and give enough
-  detail for a reader to interpret the result.
+- Do not add routine verification such as `./gradlew test`, formatting, linting,
+  or standard CI checks to a commit body. These checks are expected for every
+  change and do not help explain the commit.
+- Include verification evidence only when it adds information needed to
+  understand a claim or risk. Performance claims must include the benchmark
+  workload, baseline, relevant conditions, and measured result. Compatibility
+  or migration claims should likewise include non-obvious validation details
+  when they matter.
 - Wrap prose at roughly 72 characters and separate distinct ideas into short
   paragraphs.
 
