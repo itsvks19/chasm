@@ -65,10 +65,10 @@ sweet {
 
         register("componentModel") {
             repositoryUrl = "https://github.com/WebAssembly/component-model.git"
-            revision = "92263d0d670dd3c887b2fe648b81608268f176f3"
+            revision = "7c720726f183a8c809889dc46716bc6df0dd225d"
             testDirectory = "test"
             includes = listOf("**/*.wast")
-            phaseSupport = SemanticPhase.DECODING
+            phaseSupport = SemanticPhase.VALIDATION
         }
     }
 }
