@@ -3,6 +3,7 @@ package io.github.charlietap.chasm.fixture.ast.component
 import io.github.charlietap.chasm.ast.component.AliasDefinition
 import io.github.charlietap.chasm.ast.component.ComponentDeclaration
 import io.github.charlietap.chasm.ast.component.CoreTypeDefinition
+import io.github.charlietap.chasm.ast.component.DefinedValueType
 import io.github.charlietap.chasm.ast.component.ExternalType
 import io.github.charlietap.chasm.ast.component.FunctionType
 import io.github.charlietap.chasm.ast.component.Index
@@ -15,7 +16,9 @@ import io.github.charlietap.chasm.ast.component.ValueType
 import io.github.charlietap.chasm.ast.component.VariantCase
 import io.github.charlietap.chasm.ast.value.NameValue
 import io.github.charlietap.chasm.fixture.ast.value.nameValue
+import io.github.charlietap.chasm.fixture.type.i32ValueType
 import io.github.charlietap.chasm.ast.module.Index as ModuleIndex
+import io.github.charlietap.chasm.type.ValueType as CoreValueType
 
 fun componentValueType(): ValueType = boolComponentValueType()
 
@@ -55,26 +58,26 @@ fun typeIndexComponentValueType(
 
 fun recordComponentValueType(
     fields: List<LabeledValueType> = [],
-) = ValueType.Record(
+) = DefinedValueType.Record(
     fields = fields,
 )
 
 fun variantComponentValueType(
     cases: List<VariantCase> = [],
-) = ValueType.Variant(
+) = DefinedValueType.Variant(
     cases = cases,
 )
 
 fun listComponentValueType(
     element: ValueType = componentValueType(),
-) = ValueType.List(
+) = DefinedValueType.List(
     element = element,
 )
 
 fun fixedLengthListComponentValueType(
     element: ValueType = componentValueType(),
     length: UInt = 0u,
-) = ValueType.FixedLengthList(
+) = DefinedValueType.FixedLengthList(
     element = element,
     length = length,
 )
@@ -82,64 +85,64 @@ fun fixedLengthListComponentValueType(
 fun mapComponentValueType(
     key: KeyType = componentKeyType(),
     value: ValueType = componentValueType(),
-) = ValueType.Map(
+) = DefinedValueType.Map(
     key = key,
     value = value,
 )
 
 fun tupleComponentValueType(
     elements: List<ValueType> = [],
-) = ValueType.Tuple(
+) = DefinedValueType.Tuple(
     elements = elements,
 )
 
 fun flagsComponentValueType(
     labels: List<NameValue> = [],
-) = ValueType.Flags(
+) = DefinedValueType.Flags(
     labels = labels,
 )
 
 fun enumComponentValueType(
     labels: List<NameValue> = [],
-) = ValueType.Enum(
+) = DefinedValueType.Enum(
     labels = labels,
 )
 
 fun optionComponentValueType(
     value: ValueType = componentValueType(),
-) = ValueType.Option(
+) = DefinedValueType.Option(
     value = value,
 )
 
 fun resultComponentValueType(
     ok: ValueType? = null,
     error: ValueType? = null,
-) = ValueType.Result(
+) = DefinedValueType.Result(
     ok = ok,
     error = error,
 )
 
 fun ownComponentValueType(
     resource: Index.ComponentTypeIndex = componentTypeIndex(),
-) = ValueType.Own(
+) = DefinedValueType.Own(
     resource = resource,
 )
 
 fun borrowComponentValueType(
     resource: Index.ComponentTypeIndex = componentTypeIndex(),
-) = ValueType.Borrow(
+) = DefinedValueType.Borrow(
     resource = resource,
 )
 
 fun streamComponentValueType(
     element: ValueType? = null,
-) = ValueType.Stream(
+) = DefinedValueType.Stream(
     element = element,
 )
 
 fun futureComponentValueType(
     value: ValueType? = null,
-) = ValueType.Future(
+) = DefinedValueType.Future(
     value = value,
 )
 
@@ -186,7 +189,7 @@ fun stringComponentKeyType() = KeyType.String
 fun typeDefinition(): TypeDefinition = valueTypeDefinition()
 
 fun valueTypeDefinition(
-    type: ValueType = componentValueType(),
+    type: DefinedValueType = boolComponentValueType(),
 ) = TypeDefinition.Value(
     type = type,
 )
@@ -210,7 +213,7 @@ fun instanceTypeDefinition(
 )
 
 fun resourceTypeDefinition(
-    representation: ValueType = componentValueType(),
+    representation: CoreValueType = i32ValueType(),
     destructor: ModuleIndex.FunctionIndex? = null,
 ) = TypeDefinition.Resource(
     representation = representation,

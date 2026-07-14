@@ -3,6 +3,7 @@ package io.github.charlietap.chasm.decoder.decoder.component.type
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
+import io.github.charlietap.chasm.ast.component.DefinedValueType
 import io.github.charlietap.chasm.ast.component.Index.ComponentTypeIndex
 import io.github.charlietap.chasm.ast.component.KeyType
 import io.github.charlietap.chasm.ast.component.LabeledValueType
@@ -20,7 +21,7 @@ import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 
 internal fun ComponentDefinedValueTypeDecoder(
     context: ComponentDecoderContext,
-): Result<ValueType, WasmDecodeError> = ComponentDefinedValueTypeDecoder(
+): Result<DefinedValueType, WasmDecodeError> = ComponentDefinedValueTypeDecoder(
     context = context,
     primitiveValueTypeDecoder = ::ComponentPrimitiveValueTypeDecoder,
     labeledValueTypeDecoder = ::ComponentLabeledValueTypeDecoder,
@@ -41,7 +42,7 @@ internal fun ComponentDefinedValueTypeDecoder(
 @Suppress("LongParameterList")
 internal inline fun ComponentDefinedValueTypeDecoder(
     context: ComponentDecoderContext,
-    crossinline primitiveValueTypeDecoder: ComponentDecoder<ValueType>,
+    crossinline primitiveValueTypeDecoder: ComponentDecoder<DefinedValueType>,
     noinline labeledValueTypeDecoder: ComponentDecoder<LabeledValueType>,
     crossinline labeledValueTypeVectorDecoder: ComponentVectorDecoder<LabeledValueType>,
     noinline variantCaseDecoder: ComponentDecoder<VariantCase>,
@@ -53,47 +54,47 @@ internal inline fun ComponentDefinedValueTypeDecoder(
     crossinline optionalValueTypeDecoder: ComponentDecoder<ValueType?>,
     crossinline typeIndexDecoder: ComponentDecoder<ComponentTypeIndex>,
     crossinline mapKeyDecoder: ComponentDecoder<KeyType>,
-): Result<ValueType, WasmDecodeError> = binding {
+): Result<DefinedValueType, WasmDecodeError> = binding {
     val opcode = context.reader.peekUByte()
     if (opcode == TYPE_ERROR_CONTEXT || opcode in TYPE_STRING..TYPE_BOOL) {
         primitiveValueTypeDecoder(context).bind()
     } else {
         context.reader.ubyte()
         when (opcode) {
-            TYPE_RECORD -> ValueType.Record(
+            TYPE_RECORD -> DefinedValueType.Record(
                 labeledValueTypeVectorDecoder(context, labeledValueTypeDecoder).bind().vector,
             )
-            TYPE_VARIANT -> ValueType.Variant(
+            TYPE_VARIANT -> DefinedValueType.Variant(
                 variantCaseVectorDecoder(context, variantCaseDecoder).bind().vector,
             )
-            TYPE_LIST -> ValueType.List(valueTypeDecoder(context).bind())
-            TYPE_FIXED_LENGTH_LIST -> ValueType.FixedLengthList(
+            TYPE_LIST -> DefinedValueType.List(valueTypeDecoder(context).bind())
+            TYPE_FIXED_LENGTH_LIST -> DefinedValueType.FixedLengthList(
                 element = valueTypeDecoder(context).bind(),
                 length = context.reader.uint(),
             )
-            TYPE_TUPLE -> ValueType.Tuple(
+            TYPE_TUPLE -> DefinedValueType.Tuple(
                 valueTypeVectorDecoder(context, valueTypeDecoder).bind().vector,
             )
-            TYPE_FLAGS -> ValueType.Flags(
+            TYPE_FLAGS -> DefinedValueType.Flags(
                 labelVectorDecoder(context, labelDecoder).bind().vector,
             )
-            TYPE_ENUM -> ValueType.Enum(
+            TYPE_ENUM -> DefinedValueType.Enum(
                 labelVectorDecoder(context, labelDecoder).bind().vector,
             )
-            TYPE_OPTION -> ValueType.Option(valueTypeDecoder(context).bind())
-            TYPE_RESULT -> ValueType.Result(
+            TYPE_OPTION -> DefinedValueType.Option(valueTypeDecoder(context).bind())
+            TYPE_RESULT -> DefinedValueType.Result(
                 ok = optionalValueTypeDecoder(context).bind(),
                 error = optionalValueTypeDecoder(context).bind(),
             )
-            TYPE_OWN -> ValueType.Own(typeIndexDecoder(context).bind())
-            TYPE_BORROW -> ValueType.Borrow(typeIndexDecoder(context).bind())
-            TYPE_STREAM -> ValueType.Stream(optionalValueTypeDecoder(context).bind())
-            TYPE_FUTURE -> ValueType.Future(optionalValueTypeDecoder(context).bind())
-            TYPE_MAP -> ValueType.Map(
+            TYPE_OWN -> DefinedValueType.Own(typeIndexDecoder(context).bind())
+            TYPE_BORROW -> DefinedValueType.Borrow(typeIndexDecoder(context).bind())
+            TYPE_STREAM -> DefinedValueType.Stream(optionalValueTypeDecoder(context).bind())
+            TYPE_FUTURE -> DefinedValueType.Future(optionalValueTypeDecoder(context).bind())
+            TYPE_MAP -> DefinedValueType.Map(
                 key = mapKeyDecoder(context).bind(),
                 value = valueTypeDecoder(context).bind(),
             )
-            else -> Err(ComponentTypeDecodeError.UnknownDefinedValueType(opcode)).bind<ValueType>()
+            else -> Err(ComponentTypeDecodeError.UnknownDefinedValueType(opcode)).bind<DefinedValueType>()
         }
     }
 }

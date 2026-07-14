@@ -81,27 +81,27 @@ public final class io/github/charlietap/chasm/ast/component/CanonicalDefinition$
 }
 
 public final class io/github/charlietap/chasm/ast/component/CanonicalDefinition$ContextGet : io/github/charlietap/chasm/ast/component/CanonicalDefinition {
-	public synthetic fun <init> (Lio/github/charlietap/chasm/ast/component/ValueType;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public synthetic fun <init> (Lio/github/charlietap/chasm/type/ValueType;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/charlietap/chasm/type/ValueType;
 	public final fun component2-pVg5ArA ()I
-	public final fun copy-Qn1smSk (Lio/github/charlietap/chasm/ast/component/ValueType;I)Lio/github/charlietap/chasm/ast/component/CanonicalDefinition$ContextGet;
-	public static synthetic fun copy-Qn1smSk$default (Lio/github/charlietap/chasm/ast/component/CanonicalDefinition$ContextGet;Lio/github/charlietap/chasm/ast/component/ValueType;IILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/CanonicalDefinition$ContextGet;
+	public final fun copy-Qn1smSk (Lio/github/charlietap/chasm/type/ValueType;I)Lio/github/charlietap/chasm/ast/component/CanonicalDefinition$ContextGet;
+	public static synthetic fun copy-Qn1smSk$default (Lio/github/charlietap/chasm/ast/component/CanonicalDefinition$ContextGet;Lio/github/charlietap/chasm/type/ValueType;IILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/CanonicalDefinition$ContextGet;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getIndex-pVg5ArA ()I
-	public final fun getType ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public final fun getType ()Lio/github/charlietap/chasm/type/ValueType;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/charlietap/chasm/ast/component/CanonicalDefinition$ContextSet : io/github/charlietap/chasm/ast/component/CanonicalDefinition {
-	public synthetic fun <init> (Lio/github/charlietap/chasm/ast/component/ValueType;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public synthetic fun <init> (Lio/github/charlietap/chasm/type/ValueType;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/charlietap/chasm/type/ValueType;
 	public final fun component2-pVg5ArA ()I
-	public final fun copy-Qn1smSk (Lio/github/charlietap/chasm/ast/component/ValueType;I)Lio/github/charlietap/chasm/ast/component/CanonicalDefinition$ContextSet;
-	public static synthetic fun copy-Qn1smSk$default (Lio/github/charlietap/chasm/ast/component/CanonicalDefinition$ContextSet;Lio/github/charlietap/chasm/ast/component/ValueType;IILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/CanonicalDefinition$ContextSet;
+	public final fun copy-Qn1smSk (Lio/github/charlietap/chasm/type/ValueType;I)Lio/github/charlietap/chasm/ast/component/CanonicalDefinition$ContextSet;
+	public static synthetic fun copy-Qn1smSk$default (Lio/github/charlietap/chasm/ast/component/CanonicalDefinition$ContextSet;Lio/github/charlietap/chasm/type/ValueType;IILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/CanonicalDefinition$ContextSet;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getIndex-pVg5ArA ()I
-	public final fun getType ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public final fun getType ()Lio/github/charlietap/chasm/type/ValueType;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -1471,6 +1471,169 @@ public final class io/github/charlietap/chasm/ast/component/CoreTypeDefinition$M
 public abstract interface class io/github/charlietap/chasm/ast/component/Custom {
 }
 
+public abstract interface class io/github/charlietap/chasm/ast/component/DefinedValueType {
+}
+
+public final class io/github/charlietap/chasm/ast/component/DefinedValueType$Borrow : io/github/charlietap/chasm/ast/component/DefinedValueType {
+	public synthetic fun <init> (ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-F_YxZi8 ()I
+	public final fun copy-9H6dqlc (I)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Borrow;
+	public static synthetic fun copy-9H6dqlc$default (Lio/github/charlietap/chasm/ast/component/DefinedValueType$Borrow;IILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Borrow;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getResource-F_YxZi8 ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/charlietap/chasm/ast/component/DefinedValueType$Enum : io/github/charlietap/chasm/ast/component/DefinedValueType {
+	public fun <init> (Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Enum;
+	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/DefinedValueType$Enum;Ljava/util/List;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Enum;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getLabels ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/charlietap/chasm/ast/component/DefinedValueType$FixedLengthList : io/github/charlietap/chasm/ast/component/DefinedValueType {
+	public synthetic fun <init> (Lio/github/charlietap/chasm/ast/component/ValueType;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public final fun component2-pVg5ArA ()I
+	public final fun copy-Qn1smSk (Lio/github/charlietap/chasm/ast/component/ValueType;I)Lio/github/charlietap/chasm/ast/component/DefinedValueType$FixedLengthList;
+	public static synthetic fun copy-Qn1smSk$default (Lio/github/charlietap/chasm/ast/component/DefinedValueType$FixedLengthList;Lio/github/charlietap/chasm/ast/component/ValueType;IILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$FixedLengthList;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getElement ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public final fun getLength-pVg5ArA ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/charlietap/chasm/ast/component/DefinedValueType$Flags : io/github/charlietap/chasm/ast/component/DefinedValueType {
+	public fun <init> (Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Flags;
+	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/DefinedValueType$Flags;Ljava/util/List;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Flags;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getLabels ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/charlietap/chasm/ast/component/DefinedValueType$Future : io/github/charlietap/chasm/ast/component/DefinedValueType {
+	public fun <init> (Lio/github/charlietap/chasm/ast/component/ValueType;)V
+	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public final fun copy (Lio/github/charlietap/chasm/ast/component/ValueType;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Future;
+	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/DefinedValueType$Future;Lio/github/charlietap/chasm/ast/component/ValueType;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Future;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValue ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/charlietap/chasm/ast/component/DefinedValueType$List : io/github/charlietap/chasm/ast/component/DefinedValueType {
+	public fun <init> (Lio/github/charlietap/chasm/ast/component/ValueType;)V
+	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public final fun copy (Lio/github/charlietap/chasm/ast/component/ValueType;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$List;
+	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/DefinedValueType$List;Lio/github/charlietap/chasm/ast/component/ValueType;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$List;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getElement ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/charlietap/chasm/ast/component/DefinedValueType$Map : io/github/charlietap/chasm/ast/component/DefinedValueType {
+	public fun <init> (Lio/github/charlietap/chasm/ast/component/KeyType;Lio/github/charlietap/chasm/ast/component/ValueType;)V
+	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/KeyType;
+	public final fun component2 ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public final fun copy (Lio/github/charlietap/chasm/ast/component/KeyType;Lio/github/charlietap/chasm/ast/component/ValueType;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Map;
+	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/DefinedValueType$Map;Lio/github/charlietap/chasm/ast/component/KeyType;Lio/github/charlietap/chasm/ast/component/ValueType;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Map;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getKey ()Lio/github/charlietap/chasm/ast/component/KeyType;
+	public final fun getValue ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/charlietap/chasm/ast/component/DefinedValueType$Option : io/github/charlietap/chasm/ast/component/DefinedValueType {
+	public fun <init> (Lio/github/charlietap/chasm/ast/component/ValueType;)V
+	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public final fun copy (Lio/github/charlietap/chasm/ast/component/ValueType;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Option;
+	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/DefinedValueType$Option;Lio/github/charlietap/chasm/ast/component/ValueType;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Option;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValue ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/charlietap/chasm/ast/component/DefinedValueType$Own : io/github/charlietap/chasm/ast/component/DefinedValueType {
+	public synthetic fun <init> (ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-F_YxZi8 ()I
+	public final fun copy-9H6dqlc (I)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Own;
+	public static synthetic fun copy-9H6dqlc$default (Lio/github/charlietap/chasm/ast/component/DefinedValueType$Own;IILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Own;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getResource-F_YxZi8 ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/charlietap/chasm/ast/component/DefinedValueType$Record : io/github/charlietap/chasm/ast/component/DefinedValueType {
+	public fun <init> (Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Record;
+	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/DefinedValueType$Record;Ljava/util/List;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Record;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFields ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/charlietap/chasm/ast/component/DefinedValueType$Result : io/github/charlietap/chasm/ast/component/DefinedValueType {
+	public fun <init> (Lio/github/charlietap/chasm/ast/component/ValueType;Lio/github/charlietap/chasm/ast/component/ValueType;)V
+	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public final fun component2 ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public final fun copy (Lio/github/charlietap/chasm/ast/component/ValueType;Lio/github/charlietap/chasm/ast/component/ValueType;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Result;
+	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/DefinedValueType$Result;Lio/github/charlietap/chasm/ast/component/ValueType;Lio/github/charlietap/chasm/ast/component/ValueType;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Result;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getError ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public final fun getOk ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/charlietap/chasm/ast/component/DefinedValueType$Stream : io/github/charlietap/chasm/ast/component/DefinedValueType {
+	public fun <init> (Lio/github/charlietap/chasm/ast/component/ValueType;)V
+	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public final fun copy (Lio/github/charlietap/chasm/ast/component/ValueType;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Stream;
+	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/DefinedValueType$Stream;Lio/github/charlietap/chasm/ast/component/ValueType;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Stream;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getElement ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/charlietap/chasm/ast/component/DefinedValueType$Tuple : io/github/charlietap/chasm/ast/component/DefinedValueType {
+	public fun <init> (Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Tuple;
+	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/DefinedValueType$Tuple;Ljava/util/List;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Tuple;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getElements ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/charlietap/chasm/ast/component/DefinedValueType$Variant : io/github/charlietap/chasm/ast/component/DefinedValueType {
+	public fun <init> (Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Variant;
+	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/DefinedValueType$Variant;Ljava/util/List;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/DefinedValueType$Variant;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCases ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public abstract interface class io/github/charlietap/chasm/ast/component/Definition {
 }
 
@@ -2269,6 +2432,9 @@ public final class io/github/charlietap/chasm/ast/component/OuterAliasTarget$Typ
 	public fun toString ()Ljava/lang/String;
 }
 
+public abstract interface class io/github/charlietap/chasm/ast/component/PrimitiveValueType : io/github/charlietap/chasm/ast/component/DefinedValueType, io/github/charlietap/chasm/ast/component/ValueType {
+}
+
 public final class io/github/charlietap/chasm/ast/component/SortNameSubsection : io/github/charlietap/chasm/ast/component/NameSubsection {
 	public fun <init> (Lio/github/charlietap/chasm/ast/component/NameSort;Ljava/util/List;)V
 	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/NameSort;
@@ -2377,25 +2543,25 @@ public final class io/github/charlietap/chasm/ast/component/TypeDefinition$Insta
 }
 
 public final class io/github/charlietap/chasm/ast/component/TypeDefinition$Resource : io/github/charlietap/chasm/ast/component/TypeDefinition {
-	public synthetic fun <init> (Lio/github/charlietap/chasm/ast/component/ValueType;Lio/github/charlietap/chasm/ast/module/Index$FunctionIndex;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public synthetic fun <init> (Lio/github/charlietap/chasm/type/ValueType;Lio/github/charlietap/chasm/ast/module/Index$FunctionIndex;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/charlietap/chasm/type/ValueType;
 	public final fun component2-uQUp_Tg ()Lio/github/charlietap/chasm/ast/module/Index$FunctionIndex;
-	public final fun copy-FlJrmBY (Lio/github/charlietap/chasm/ast/component/ValueType;Lio/github/charlietap/chasm/ast/module/Index$FunctionIndex;)Lio/github/charlietap/chasm/ast/component/TypeDefinition$Resource;
-	public static synthetic fun copy-FlJrmBY$default (Lio/github/charlietap/chasm/ast/component/TypeDefinition$Resource;Lio/github/charlietap/chasm/ast/component/ValueType;Lio/github/charlietap/chasm/ast/module/Index$FunctionIndex;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/TypeDefinition$Resource;
+	public final fun copy-FlJrmBY (Lio/github/charlietap/chasm/type/ValueType;Lio/github/charlietap/chasm/ast/module/Index$FunctionIndex;)Lio/github/charlietap/chasm/ast/component/TypeDefinition$Resource;
+	public static synthetic fun copy-FlJrmBY$default (Lio/github/charlietap/chasm/ast/component/TypeDefinition$Resource;Lio/github/charlietap/chasm/type/ValueType;Lio/github/charlietap/chasm/ast/module/Index$FunctionIndex;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/TypeDefinition$Resource;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDestructor-uQUp_Tg ()Lio/github/charlietap/chasm/ast/module/Index$FunctionIndex;
-	public final fun getRepresentation ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public final fun getRepresentation ()Lio/github/charlietap/chasm/type/ValueType;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/charlietap/chasm/ast/component/TypeDefinition$Value : io/github/charlietap/chasm/ast/component/TypeDefinition {
-	public fun <init> (Lio/github/charlietap/chasm/ast/component/ValueType;)V
-	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/ValueType;
-	public final fun copy (Lio/github/charlietap/chasm/ast/component/ValueType;)Lio/github/charlietap/chasm/ast/component/TypeDefinition$Value;
-	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/TypeDefinition$Value;Lio/github/charlietap/chasm/ast/component/ValueType;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/TypeDefinition$Value;
+	public fun <init> (Lio/github/charlietap/chasm/ast/component/DefinedValueType;)V
+	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/DefinedValueType;
+	public final fun copy (Lio/github/charlietap/chasm/ast/component/DefinedValueType;)Lio/github/charlietap/chasm/ast/component/TypeDefinition$Value;
+	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/TypeDefinition$Value;Lio/github/charlietap/chasm/ast/component/DefinedValueType;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/TypeDefinition$Value;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getType ()Lio/github/charlietap/chasm/ast/component/ValueType;
+	public final fun getType ()Lio/github/charlietap/chasm/ast/component/DefinedValueType;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -2452,221 +2618,72 @@ public final class io/github/charlietap/chasm/ast/component/ValueBound$Type : io
 public abstract interface class io/github/charlietap/chasm/ast/component/ValueType {
 }
 
-public final class io/github/charlietap/chasm/ast/component/ValueType$Bool : io/github/charlietap/chasm/ast/component/ValueType {
+public final class io/github/charlietap/chasm/ast/component/ValueType$Bool : io/github/charlietap/chasm/ast/component/PrimitiveValueType {
 	public static final field INSTANCE Lio/github/charlietap/chasm/ast/component/ValueType$Bool;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/charlietap/chasm/ast/component/ValueType$Borrow : io/github/charlietap/chasm/ast/component/ValueType {
-	public synthetic fun <init> (ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1-F_YxZi8 ()I
-	public final fun copy-9H6dqlc (I)Lio/github/charlietap/chasm/ast/component/ValueType$Borrow;
-	public static synthetic fun copy-9H6dqlc$default (Lio/github/charlietap/chasm/ast/component/ValueType$Borrow;IILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/ValueType$Borrow;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getResource-F_YxZi8 ()I
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/charlietap/chasm/ast/component/ValueType$Char : io/github/charlietap/chasm/ast/component/ValueType {
+public final class io/github/charlietap/chasm/ast/component/ValueType$Char : io/github/charlietap/chasm/ast/component/PrimitiveValueType {
 	public static final field INSTANCE Lio/github/charlietap/chasm/ast/component/ValueType$Char;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/charlietap/chasm/ast/component/ValueType$Enum : io/github/charlietap/chasm/ast/component/ValueType {
-	public fun <init> (Ljava/util/List;)V
-	public final fun component1 ()Ljava/util/List;
-	public final fun copy (Ljava/util/List;)Lio/github/charlietap/chasm/ast/component/ValueType$Enum;
-	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/ValueType$Enum;Ljava/util/List;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/ValueType$Enum;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getLabels ()Ljava/util/List;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/charlietap/chasm/ast/component/ValueType$ErrorContext : io/github/charlietap/chasm/ast/component/ValueType {
+public final class io/github/charlietap/chasm/ast/component/ValueType$ErrorContext : io/github/charlietap/chasm/ast/component/PrimitiveValueType {
 	public static final field INSTANCE Lio/github/charlietap/chasm/ast/component/ValueType$ErrorContext;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/charlietap/chasm/ast/component/ValueType$F32 : io/github/charlietap/chasm/ast/component/ValueType {
+public final class io/github/charlietap/chasm/ast/component/ValueType$F32 : io/github/charlietap/chasm/ast/component/PrimitiveValueType {
 	public static final field INSTANCE Lio/github/charlietap/chasm/ast/component/ValueType$F32;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/charlietap/chasm/ast/component/ValueType$F64 : io/github/charlietap/chasm/ast/component/ValueType {
+public final class io/github/charlietap/chasm/ast/component/ValueType$F64 : io/github/charlietap/chasm/ast/component/PrimitiveValueType {
 	public static final field INSTANCE Lio/github/charlietap/chasm/ast/component/ValueType$F64;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/charlietap/chasm/ast/component/ValueType$FixedLengthList : io/github/charlietap/chasm/ast/component/ValueType {
-	public synthetic fun <init> (Lio/github/charlietap/chasm/ast/component/ValueType;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/ValueType;
-	public final fun component2-pVg5ArA ()I
-	public final fun copy-Qn1smSk (Lio/github/charlietap/chasm/ast/component/ValueType;I)Lio/github/charlietap/chasm/ast/component/ValueType$FixedLengthList;
-	public static synthetic fun copy-Qn1smSk$default (Lio/github/charlietap/chasm/ast/component/ValueType$FixedLengthList;Lio/github/charlietap/chasm/ast/component/ValueType;IILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/ValueType$FixedLengthList;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getElement ()Lio/github/charlietap/chasm/ast/component/ValueType;
-	public final fun getLength-pVg5ArA ()I
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/charlietap/chasm/ast/component/ValueType$Flags : io/github/charlietap/chasm/ast/component/ValueType {
-	public fun <init> (Ljava/util/List;)V
-	public final fun component1 ()Ljava/util/List;
-	public final fun copy (Ljava/util/List;)Lio/github/charlietap/chasm/ast/component/ValueType$Flags;
-	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/ValueType$Flags;Ljava/util/List;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/ValueType$Flags;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getLabels ()Ljava/util/List;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/charlietap/chasm/ast/component/ValueType$Future : io/github/charlietap/chasm/ast/component/ValueType {
-	public fun <init> (Lio/github/charlietap/chasm/ast/component/ValueType;)V
-	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/ValueType;
-	public final fun copy (Lio/github/charlietap/chasm/ast/component/ValueType;)Lio/github/charlietap/chasm/ast/component/ValueType$Future;
-	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/ValueType$Future;Lio/github/charlietap/chasm/ast/component/ValueType;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/ValueType$Future;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getValue ()Lio/github/charlietap/chasm/ast/component/ValueType;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/charlietap/chasm/ast/component/ValueType$List : io/github/charlietap/chasm/ast/component/ValueType {
-	public fun <init> (Lio/github/charlietap/chasm/ast/component/ValueType;)V
-	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/ValueType;
-	public final fun copy (Lio/github/charlietap/chasm/ast/component/ValueType;)Lio/github/charlietap/chasm/ast/component/ValueType$List;
-	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/ValueType$List;Lio/github/charlietap/chasm/ast/component/ValueType;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/ValueType$List;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getElement ()Lio/github/charlietap/chasm/ast/component/ValueType;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/charlietap/chasm/ast/component/ValueType$Map : io/github/charlietap/chasm/ast/component/ValueType {
-	public fun <init> (Lio/github/charlietap/chasm/ast/component/KeyType;Lio/github/charlietap/chasm/ast/component/ValueType;)V
-	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/KeyType;
-	public final fun component2 ()Lio/github/charlietap/chasm/ast/component/ValueType;
-	public final fun copy (Lio/github/charlietap/chasm/ast/component/KeyType;Lio/github/charlietap/chasm/ast/component/ValueType;)Lio/github/charlietap/chasm/ast/component/ValueType$Map;
-	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/ValueType$Map;Lio/github/charlietap/chasm/ast/component/KeyType;Lio/github/charlietap/chasm/ast/component/ValueType;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/ValueType$Map;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getKey ()Lio/github/charlietap/chasm/ast/component/KeyType;
-	public final fun getValue ()Lio/github/charlietap/chasm/ast/component/ValueType;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/charlietap/chasm/ast/component/ValueType$Option : io/github/charlietap/chasm/ast/component/ValueType {
-	public fun <init> (Lio/github/charlietap/chasm/ast/component/ValueType;)V
-	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/ValueType;
-	public final fun copy (Lio/github/charlietap/chasm/ast/component/ValueType;)Lio/github/charlietap/chasm/ast/component/ValueType$Option;
-	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/ValueType$Option;Lio/github/charlietap/chasm/ast/component/ValueType;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/ValueType$Option;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getValue ()Lio/github/charlietap/chasm/ast/component/ValueType;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/charlietap/chasm/ast/component/ValueType$Own : io/github/charlietap/chasm/ast/component/ValueType {
-	public synthetic fun <init> (ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1-F_YxZi8 ()I
-	public final fun copy-9H6dqlc (I)Lio/github/charlietap/chasm/ast/component/ValueType$Own;
-	public static synthetic fun copy-9H6dqlc$default (Lio/github/charlietap/chasm/ast/component/ValueType$Own;IILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/ValueType$Own;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getResource-F_YxZi8 ()I
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/charlietap/chasm/ast/component/ValueType$Record : io/github/charlietap/chasm/ast/component/ValueType {
-	public fun <init> (Ljava/util/List;)V
-	public final fun component1 ()Ljava/util/List;
-	public final fun copy (Ljava/util/List;)Lio/github/charlietap/chasm/ast/component/ValueType$Record;
-	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/ValueType$Record;Ljava/util/List;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/ValueType$Record;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getFields ()Ljava/util/List;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/charlietap/chasm/ast/component/ValueType$Result : io/github/charlietap/chasm/ast/component/ValueType {
-	public fun <init> (Lio/github/charlietap/chasm/ast/component/ValueType;Lio/github/charlietap/chasm/ast/component/ValueType;)V
-	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/ValueType;
-	public final fun component2 ()Lio/github/charlietap/chasm/ast/component/ValueType;
-	public final fun copy (Lio/github/charlietap/chasm/ast/component/ValueType;Lio/github/charlietap/chasm/ast/component/ValueType;)Lio/github/charlietap/chasm/ast/component/ValueType$Result;
-	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/ValueType$Result;Lio/github/charlietap/chasm/ast/component/ValueType;Lio/github/charlietap/chasm/ast/component/ValueType;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/ValueType$Result;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getError ()Lio/github/charlietap/chasm/ast/component/ValueType;
-	public final fun getOk ()Lio/github/charlietap/chasm/ast/component/ValueType;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/charlietap/chasm/ast/component/ValueType$S16 : io/github/charlietap/chasm/ast/component/ValueType {
+public final class io/github/charlietap/chasm/ast/component/ValueType$S16 : io/github/charlietap/chasm/ast/component/PrimitiveValueType {
 	public static final field INSTANCE Lio/github/charlietap/chasm/ast/component/ValueType$S16;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/charlietap/chasm/ast/component/ValueType$S32 : io/github/charlietap/chasm/ast/component/ValueType {
+public final class io/github/charlietap/chasm/ast/component/ValueType$S32 : io/github/charlietap/chasm/ast/component/PrimitiveValueType {
 	public static final field INSTANCE Lio/github/charlietap/chasm/ast/component/ValueType$S32;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/charlietap/chasm/ast/component/ValueType$S64 : io/github/charlietap/chasm/ast/component/ValueType {
+public final class io/github/charlietap/chasm/ast/component/ValueType$S64 : io/github/charlietap/chasm/ast/component/PrimitiveValueType {
 	public static final field INSTANCE Lio/github/charlietap/chasm/ast/component/ValueType$S64;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/charlietap/chasm/ast/component/ValueType$S8 : io/github/charlietap/chasm/ast/component/ValueType {
+public final class io/github/charlietap/chasm/ast/component/ValueType$S8 : io/github/charlietap/chasm/ast/component/PrimitiveValueType {
 	public static final field INSTANCE Lio/github/charlietap/chasm/ast/component/ValueType$S8;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/charlietap/chasm/ast/component/ValueType$Stream : io/github/charlietap/chasm/ast/component/ValueType {
-	public fun <init> (Lio/github/charlietap/chasm/ast/component/ValueType;)V
-	public final fun component1 ()Lio/github/charlietap/chasm/ast/component/ValueType;
-	public final fun copy (Lio/github/charlietap/chasm/ast/component/ValueType;)Lio/github/charlietap/chasm/ast/component/ValueType$Stream;
-	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/ValueType$Stream;Lio/github/charlietap/chasm/ast/component/ValueType;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/ValueType$Stream;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getElement ()Lio/github/charlietap/chasm/ast/component/ValueType;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/charlietap/chasm/ast/component/ValueType$String : io/github/charlietap/chasm/ast/component/ValueType {
+public final class io/github/charlietap/chasm/ast/component/ValueType$String : io/github/charlietap/chasm/ast/component/PrimitiveValueType {
 	public static final field INSTANCE Lio/github/charlietap/chasm/ast/component/ValueType$String;
 	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/charlietap/chasm/ast/component/ValueType$Tuple : io/github/charlietap/chasm/ast/component/ValueType {
-	public fun <init> (Ljava/util/List;)V
-	public final fun component1 ()Ljava/util/List;
-	public final fun copy (Ljava/util/List;)Lio/github/charlietap/chasm/ast/component/ValueType$Tuple;
-	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/ValueType$Tuple;Ljava/util/List;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/ValueType$Tuple;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getElements ()Ljava/util/List;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -2682,41 +2699,30 @@ public final class io/github/charlietap/chasm/ast/component/ValueType$TypeIndex 
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/charlietap/chasm/ast/component/ValueType$U16 : io/github/charlietap/chasm/ast/component/ValueType {
+public final class io/github/charlietap/chasm/ast/component/ValueType$U16 : io/github/charlietap/chasm/ast/component/PrimitiveValueType {
 	public static final field INSTANCE Lio/github/charlietap/chasm/ast/component/ValueType$U16;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/charlietap/chasm/ast/component/ValueType$U32 : io/github/charlietap/chasm/ast/component/ValueType {
+public final class io/github/charlietap/chasm/ast/component/ValueType$U32 : io/github/charlietap/chasm/ast/component/PrimitiveValueType {
 	public static final field INSTANCE Lio/github/charlietap/chasm/ast/component/ValueType$U32;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/charlietap/chasm/ast/component/ValueType$U64 : io/github/charlietap/chasm/ast/component/ValueType {
+public final class io/github/charlietap/chasm/ast/component/ValueType$U64 : io/github/charlietap/chasm/ast/component/PrimitiveValueType {
 	public static final field INSTANCE Lio/github/charlietap/chasm/ast/component/ValueType$U64;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/charlietap/chasm/ast/component/ValueType$U8 : io/github/charlietap/chasm/ast/component/ValueType {
+public final class io/github/charlietap/chasm/ast/component/ValueType$U8 : io/github/charlietap/chasm/ast/component/PrimitiveValueType {
 	public static final field INSTANCE Lio/github/charlietap/chasm/ast/component/ValueType$U8;
 	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/charlietap/chasm/ast/component/ValueType$Variant : io/github/charlietap/chasm/ast/component/ValueType {
-	public fun <init> (Ljava/util/List;)V
-	public final fun component1 ()Ljava/util/List;
-	public final fun copy (Ljava/util/List;)Lio/github/charlietap/chasm/ast/component/ValueType$Variant;
-	public static synthetic fun copy$default (Lio/github/charlietap/chasm/ast/component/ValueType$Variant;Ljava/util/List;ILjava/lang/Object;)Lio/github/charlietap/chasm/ast/component/ValueType$Variant;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getCases ()Ljava/util/List;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }

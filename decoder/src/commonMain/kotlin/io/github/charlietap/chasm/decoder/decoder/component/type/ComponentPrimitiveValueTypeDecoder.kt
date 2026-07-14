@@ -3,6 +3,7 @@ package io.github.charlietap.chasm.decoder.decoder.component.type
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
+import io.github.charlietap.chasm.ast.component.PrimitiveValueType
 import io.github.charlietap.chasm.ast.component.ValueType
 import io.github.charlietap.chasm.decoder.context.ComponentDecoderContext
 import io.github.charlietap.chasm.decoder.error.ComponentTypeDecodeError
@@ -10,7 +11,7 @@ import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 
 internal fun ComponentPrimitiveValueTypeDecoder(
     context: ComponentDecoderContext,
-): Result<ValueType, WasmDecodeError> = binding {
+): Result<PrimitiveValueType, WasmDecodeError> = binding {
     when (val opcode = context.reader.ubyte()) {
         TYPE_BOOL -> ValueType.Bool
         TYPE_S8 -> ValueType.S8
@@ -26,7 +27,7 @@ internal fun ComponentPrimitiveValueTypeDecoder(
         TYPE_CHAR -> ValueType.Char
         TYPE_STRING -> ValueType.String
         TYPE_ERROR_CONTEXT -> ValueType.ErrorContext
-        else -> Err(ComponentTypeDecodeError.UnknownPrimitiveValueType(opcode)).bind<ValueType>()
+        else -> Err(ComponentTypeDecodeError.UnknownPrimitiveValueType(opcode)).bind<PrimitiveValueType>()
     }
 }
 

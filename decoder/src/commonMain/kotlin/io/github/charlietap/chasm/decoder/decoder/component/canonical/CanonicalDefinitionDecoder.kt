@@ -13,10 +13,10 @@ import io.github.charlietap.chasm.decoder.decoder.ComponentDecoder
 import io.github.charlietap.chasm.decoder.decoder.component.index.ComponentFunctionIndexDecoder
 import io.github.charlietap.chasm.decoder.decoder.component.index.ComponentTypeIndexDecoder
 import io.github.charlietap.chasm.decoder.decoder.component.type.ComponentResultListDecoder
-import io.github.charlietap.chasm.decoder.decoder.component.type.ComponentValueTypeDecoder
 import io.github.charlietap.chasm.decoder.decoder.section.index.FunctionIndexDecoder
 import io.github.charlietap.chasm.decoder.decoder.section.index.MemoryIndexDecoder
 import io.github.charlietap.chasm.decoder.decoder.section.index.TableIndexDecoder
+import io.github.charlietap.chasm.decoder.decoder.type.value.ValueTypeDecoder
 import io.github.charlietap.chasm.decoder.decoder.vector.ComponentVectorDecoder
 import io.github.charlietap.chasm.decoder.decoder.vector.ReaderVectorDecoder
 import io.github.charlietap.chasm.decoder.error.ComponentCanonicalDecodeError
@@ -25,6 +25,7 @@ import io.github.charlietap.chasm.decoder.error.WasmDecodeError
 import io.github.charlietap.chasm.ast.module.Index.FunctionIndex as ModuleFunctionIndex
 import io.github.charlietap.chasm.ast.module.Index.MemoryIndex as ModuleMemoryIndex
 import io.github.charlietap.chasm.ast.module.Index.TableIndex as ModuleTableIndex
+import io.github.charlietap.chasm.type.ValueType as CoreValueType
 
 internal fun CanonicalDefinitionDecoder(
     context: ComponentDecoderContext,
@@ -43,7 +44,9 @@ internal fun CanonicalDefinitionDecoder(
     },
     canonicalOptionDecoder = ::CanonicalOptionDecoder,
     optionVectorDecoder = ::ReaderVectorDecoder,
-    valueTypeDecoder = ::ComponentValueTypeDecoder,
+    coreValueTypeDecoder = { componentContext ->
+        ValueTypeDecoder(componentContext.moduleContext)
+    },
     resultListDecoder = ::ComponentResultListDecoder,
     asyncFlagDecoder = ::AsyncFlagDecoder,
     cancellableFlagDecoder = ::CancellableFlagDecoder,
@@ -60,7 +63,7 @@ internal inline fun CanonicalDefinitionDecoder(
     crossinline moduleTableIndexDecoder: ComponentDecoder<ModuleTableIndex>,
     noinline canonicalOptionDecoder: ComponentDecoder<CanonicalOption>,
     crossinline optionVectorDecoder: ComponentVectorDecoder<CanonicalOption>,
-    crossinline valueTypeDecoder: ComponentDecoder<ValueType>,
+    crossinline coreValueTypeDecoder: ComponentDecoder<CoreValueType>,
     crossinline resultListDecoder: ComponentDecoder<ValueType?>,
     crossinline asyncFlagDecoder: ComponentDecoder<Boolean>,
     crossinline cancellableFlagDecoder: ComponentDecoder<Boolean>,
@@ -99,11 +102,11 @@ internal inline fun CanonicalDefinitionDecoder(
             options = optionVectorDecoder(context, canonicalOptionDecoder).bind().vector,
         )
         CANON_CONTEXT_GET -> CanonicalDefinition.ContextGet(
-            type = valueTypeDecoder(context).bind(),
+            type = coreValueTypeDecoder(context).bind(),
             index = context.reader.uint(),
         )
         CANON_CONTEXT_SET -> CanonicalDefinition.ContextSet(
-            type = valueTypeDecoder(context).bind(),
+            type = coreValueTypeDecoder(context).bind(),
             index = context.reader.uint(),
         )
         CANON_THREAD_YIELD -> CanonicalDefinition.ThreadYield(cancellableFlagDecoder(context).bind())

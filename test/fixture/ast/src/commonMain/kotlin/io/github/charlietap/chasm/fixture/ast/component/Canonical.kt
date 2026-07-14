@@ -8,7 +8,9 @@ import io.github.charlietap.chasm.ast.component.ValueType
 import io.github.charlietap.chasm.fixture.ast.module.functionIndex
 import io.github.charlietap.chasm.fixture.ast.module.memoryIndex
 import io.github.charlietap.chasm.fixture.ast.module.tableIndex
+import io.github.charlietap.chasm.fixture.type.i32ValueType
 import io.github.charlietap.chasm.ast.module.Index as ModuleIndex
+import io.github.charlietap.chasm.type.ValueType as CoreValueType
 
 fun canonicalDefinition(): CanonicalDefinition = liftCanonicalDefinition()
 
@@ -65,7 +67,7 @@ fun taskReturnCanonicalDefinition(
 fun taskCancelCanonicalDefinition() = CanonicalDefinition.TaskCancel
 
 fun contextGetCanonicalDefinition(
-    type: ValueType = componentValueType(),
+    type: CoreValueType = i32ValueType(),
     index: UInt = 0u,
 ) = CanonicalDefinition.ContextGet(
     type = type,
@@ -73,7 +75,7 @@ fun contextGetCanonicalDefinition(
 )
 
 fun contextSetCanonicalDefinition(
-    type: ValueType = componentValueType(),
+    type: CoreValueType = i32ValueType(),
     index: UInt = 0u,
 ) = CanonicalDefinition.ContextSet(
     type = type,

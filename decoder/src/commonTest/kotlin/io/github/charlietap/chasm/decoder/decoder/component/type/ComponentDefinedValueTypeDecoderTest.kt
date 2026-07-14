@@ -2,9 +2,11 @@ package io.github.charlietap.chasm.decoder.decoder.component.type
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
+import io.github.charlietap.chasm.ast.component.DefinedValueType
 import io.github.charlietap.chasm.ast.component.Index.ComponentTypeIndex
 import io.github.charlietap.chasm.ast.component.KeyType
 import io.github.charlietap.chasm.ast.component.LabeledValueType
+import io.github.charlietap.chasm.ast.component.PrimitiveValueType
 import io.github.charlietap.chasm.ast.component.ValueType
 import io.github.charlietap.chasm.ast.component.VariantCase
 import io.github.charlietap.chasm.ast.value.NameValue
@@ -40,7 +42,7 @@ class ComponentDefinedValueTypeDecoderTest {
     @Test
     fun `can decode each defined value type`() {
         val valueType = boolComponentValueType()
-        val primitiveValueTypeDecoder: ComponentDecoder<ValueType> = {
+        val primitiveValueTypeDecoder: ComponentDecoder<PrimitiveValueType> = {
             Ok(valueType)
         }
 
@@ -96,7 +98,7 @@ class ComponentDefinedValueTypeDecoderTest {
             Ok(keyType)
         }
 
-        val decoder: ComponentDecoder<ValueType> = { context ->
+        val decoder: ComponentDecoder<DefinedValueType> = { context ->
             ComponentDefinedValueTypeDecoder(
                 context = context,
                 primitiveValueTypeDecoder = primitiveValueTypeDecoder,
@@ -155,7 +157,7 @@ class ComponentDefinedValueTypeDecoderTest {
 
     private data class Case(
         val bytes: ByteArray,
-        val expected: ValueType,
+        val expected: DefinedValueType,
         val optionalValues: List<ValueType?> = emptyList(),
     )
 }

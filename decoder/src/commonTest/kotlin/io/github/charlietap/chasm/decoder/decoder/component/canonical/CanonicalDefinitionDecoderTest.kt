@@ -73,12 +73,14 @@ import io.github.charlietap.chasm.fixture.ast.component.waitableSetWaitCanonical
 import io.github.charlietap.chasm.fixture.ast.module.functionIndex
 import io.github.charlietap.chasm.fixture.ast.module.memoryIndex
 import io.github.charlietap.chasm.fixture.ast.module.tableIndex
+import io.github.charlietap.chasm.fixture.type.i32ValueType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.fail
 import io.github.charlietap.chasm.ast.module.Index.FunctionIndex as ModuleFunctionIndex
 import io.github.charlietap.chasm.ast.module.Index.MemoryIndex as ModuleMemoryIndex
 import io.github.charlietap.chasm.ast.module.Index.TableIndex as ModuleTableIndex
+import io.github.charlietap.chasm.type.ValueType as CoreValueType
 
 class CanonicalDefinitionDecoderTest {
 
@@ -90,7 +92,7 @@ class CanonicalDefinitionDecoderTest {
         val moduleMemoryIndex = memoryIndex(index = 4u)
         val moduleTableIndex = tableIndex(index = 5u)
         val options = listOf(asyncCanonicalOption())
-        val valueType = stringComponentValueType()
+        val coreValueType = i32ValueType()
         val resultType = boolComponentValueType()
         val cases = listOf(
             bytes(0x00, 0x00) to liftCanonicalDefinition(
@@ -119,11 +121,11 @@ class CanonicalDefinitionDecoderTest {
                 options = options,
             ),
             bytes(0x0A, 0x04) to contextGetCanonicalDefinition(
-                type = valueType,
+                type = coreValueType,
                 index = 4u,
             ),
             bytes(0x0B, 0x05) to contextSetCanonicalDefinition(
-                type = valueType,
+                type = coreValueType,
                 index = 5u,
             ),
             bytes(0x0C) to threadYieldCanonicalDefinition(cancellable = true),
@@ -227,7 +229,7 @@ class CanonicalDefinitionDecoderTest {
         val moduleMemoryIndexDecoder: ComponentDecoder<ModuleMemoryIndex> = { Ok(moduleMemoryIndex) }
         val moduleTableIndexDecoder: ComponentDecoder<ModuleTableIndex> = { Ok(moduleTableIndex) }
         val optionVectorDecoder: ComponentVectorDecoder<CanonicalOption> = { _, _ -> Ok(Vector(options)) }
-        val valueTypeDecoder: ComponentDecoder<ValueType> = { Ok(valueType) }
+        val coreValueTypeDecoder: ComponentDecoder<CoreValueType> = { Ok(coreValueType) }
         val resultListDecoder: ComponentDecoder<ValueType?> = { Ok(resultType) }
         val asyncFlagDecoder: ComponentDecoder<Boolean> = { Ok(true) }
         val cancellableFlagDecoder: ComponentDecoder<Boolean> = { Ok(true) }
@@ -242,7 +244,7 @@ class CanonicalDefinitionDecoderTest {
                 moduleTableIndexDecoder = moduleTableIndexDecoder,
                 canonicalOptionDecoder = neverCanonicalOptionDecoder,
                 optionVectorDecoder = optionVectorDecoder,
-                valueTypeDecoder = valueTypeDecoder,
+                coreValueTypeDecoder = coreValueTypeDecoder,
                 resultListDecoder = resultListDecoder,
                 asyncFlagDecoder = asyncFlagDecoder,
                 cancellableFlagDecoder = cancellableFlagDecoder,
@@ -277,7 +279,7 @@ class CanonicalDefinitionDecoderTest {
                 moduleTableIndexDecoder = neverModuleTableIndexDecoder,
                 canonicalOptionDecoder = neverCanonicalOptionDecoder,
                 optionVectorDecoder = optionVectorDecoder,
-                valueTypeDecoder = neverValueTypeDecoder,
+                coreValueTypeDecoder = neverCoreValueTypeDecoder,
                 resultListDecoder = neverResultListDecoder,
                 asyncFlagDecoder = neverFlagDecoder,
                 cancellableFlagDecoder = neverFlagDecoder,
@@ -336,7 +338,7 @@ class CanonicalDefinitionDecoderTest {
                 moduleTableIndexDecoder = neverModuleTableIndexDecoder,
                 canonicalOptionDecoder = neverCanonicalOptionDecoder,
                 optionVectorDecoder = neverOptionVectorDecoder,
-                valueTypeDecoder = neverValueTypeDecoder,
+                coreValueTypeDecoder = neverCoreValueTypeDecoder,
                 resultListDecoder = neverResultListDecoder,
                 asyncFlagDecoder = neverFlagDecoder,
                 cancellableFlagDecoder = neverFlagDecoder,
@@ -364,8 +366,8 @@ class CanonicalDefinitionDecoderTest {
         val neverOptionVectorDecoder: ComponentVectorDecoder<CanonicalOption> = { _, _ ->
             fail("canonical option vector decoder should not be called")
         }
-        val neverValueTypeDecoder: ComponentDecoder<ValueType> = {
-            fail("component value type decoder should not be called")
+        val neverCoreValueTypeDecoder: ComponentDecoder<CoreValueType> = {
+            fail("core value type decoder should not be called")
         }
         val neverResultListDecoder: ComponentDecoder<ValueType?> = {
             fail("component result list decoder should not be called")

@@ -1,9 +1,9 @@
 package io.github.charlietap.chasm.decoder.decoder.component.type
 
 import com.github.michaelbull.result.Ok
+import io.github.charlietap.chasm.ast.component.DefinedValueType
 import io.github.charlietap.chasm.ast.component.FunctionType
 import io.github.charlietap.chasm.ast.component.TypeDefinition
-import io.github.charlietap.chasm.ast.component.ValueType
 import io.github.charlietap.chasm.decoder.decoder.ComponentDecoder
 import io.github.charlietap.chasm.fixture.ast.component.componentFunctionType
 import io.github.charlietap.chasm.fixture.ast.component.componentTypeDefinition
@@ -20,7 +20,7 @@ class ComponentTypeDefinitionDecoderTest {
     @Test
     fun `delegates each type definition to its decoder`() {
         val valueType = u32ComponentValueType()
-        val definedValueTypeDecoder: ComponentDecoder<ValueType> = {
+        val definedValueTypeDecoder: ComponentDecoder<DefinedValueType> = {
             Ok(valueType)
         }
 

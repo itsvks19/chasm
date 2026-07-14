@@ -26,9 +26,7 @@ import io.github.charlietap.chasm.fixture.ast.component.f32ComponentValueLiteral
 import io.github.charlietap.chasm.fixture.ast.component.f32ComponentValueType
 import io.github.charlietap.chasm.fixture.ast.component.f64ComponentValueLiteral
 import io.github.charlietap.chasm.fixture.ast.component.f64ComponentValueType
-import io.github.charlietap.chasm.fixture.ast.component.labeledComponentValueType
 import io.github.charlietap.chasm.fixture.ast.component.nanComponentValueLiteral
-import io.github.charlietap.chasm.fixture.ast.component.recordComponentValueType
 import io.github.charlietap.chasm.fixture.ast.component.s16ComponentValueLiteral
 import io.github.charlietap.chasm.fixture.ast.component.s16ComponentValueType
 import io.github.charlietap.chasm.fixture.ast.component.s32ComponentValueLiteral
@@ -227,14 +225,6 @@ class ComponentValueLiteralDecoderTest {
     fun `rejects value types without a direct literal grammar`() {
         val unsupported = listOf(
             errorContextComponentValueType(),
-            recordComponentValueType(
-                fields = listOf(
-                    labeledComponentValueType(
-                        label = nameValue("x"),
-                        type = boolComponentValueType(),
-                    ),
-                ),
-            ),
         )
         val nameDecoder: ReaderDecoder<NameValue> = {
             fail("name decoder must not be used for unsupported value types")

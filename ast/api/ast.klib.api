@@ -85,32 +85,32 @@ sealed interface io.github.charlietap.chasm.ast.component/AliasDefinition { // i
 
 sealed interface io.github.charlietap.chasm.ast.component/CanonicalDefinition { // io.github.charlietap.chasm.ast.component/CanonicalDefinition|null[0]
     final class ContextGet : io.github.charlietap.chasm.ast.component/CanonicalDefinition { // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextGet|null[0]
-        constructor <init>(io.github.charlietap.chasm.ast.component/ValueType, kotlin/UInt) // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextGet.<init>|<init>(io.github.charlietap.chasm.ast.component.ValueType;kotlin.UInt){}[0]
+        constructor <init>(io.github.charlietap.chasm.type/ValueType, kotlin/UInt) // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextGet.<init>|<init>(io.github.charlietap.chasm.type.ValueType;kotlin.UInt){}[0]
 
         final val index // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextGet.index|{}index[0]
             final fun <get-index>(): kotlin/UInt // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextGet.index.<get-index>|<get-index>(){}[0]
         final val type // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextGet.type|{}type[0]
-            final fun <get-type>(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextGet.type.<get-type>|<get-type>(){}[0]
+            final fun <get-type>(): io.github.charlietap.chasm.type/ValueType // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextGet.type.<get-type>|<get-type>(){}[0]
 
-        final fun component1(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextGet.component1|component1(){}[0]
+        final fun component1(): io.github.charlietap.chasm.type/ValueType // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextGet.component1|component1(){}[0]
         final fun component2(): kotlin/UInt // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextGet.component2|component2(){}[0]
-        final fun copy(io.github.charlietap.chasm.ast.component/ValueType = ..., kotlin/UInt = ...): io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextGet // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextGet.copy|copy(io.github.charlietap.chasm.ast.component.ValueType;kotlin.UInt){}[0]
+        final fun copy(io.github.charlietap.chasm.type/ValueType = ..., kotlin/UInt = ...): io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextGet // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextGet.copy|copy(io.github.charlietap.chasm.type.ValueType;kotlin.UInt){}[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextGet.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextGet.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextGet.toString|toString(){}[0]
     }
 
     final class ContextSet : io.github.charlietap.chasm.ast.component/CanonicalDefinition { // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextSet|null[0]
-        constructor <init>(io.github.charlietap.chasm.ast.component/ValueType, kotlin/UInt) // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextSet.<init>|<init>(io.github.charlietap.chasm.ast.component.ValueType;kotlin.UInt){}[0]
+        constructor <init>(io.github.charlietap.chasm.type/ValueType, kotlin/UInt) // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextSet.<init>|<init>(io.github.charlietap.chasm.type.ValueType;kotlin.UInt){}[0]
 
         final val index // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextSet.index|{}index[0]
             final fun <get-index>(): kotlin/UInt // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextSet.index.<get-index>|<get-index>(){}[0]
         final val type // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextSet.type|{}type[0]
-            final fun <get-type>(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextSet.type.<get-type>|<get-type>(){}[0]
+            final fun <get-type>(): io.github.charlietap.chasm.type/ValueType // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextSet.type.<get-type>|<get-type>(){}[0]
 
-        final fun component1(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextSet.component1|component1(){}[0]
+        final fun component1(): io.github.charlietap.chasm.type/ValueType // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextSet.component1|component1(){}[0]
         final fun component2(): kotlin/UInt // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextSet.component2|component2(){}[0]
-        final fun copy(io.github.charlietap.chasm.ast.component/ValueType = ..., kotlin/UInt = ...): io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextSet // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextSet.copy|copy(io.github.charlietap.chasm.ast.component.ValueType;kotlin.UInt){}[0]
+        final fun copy(io.github.charlietap.chasm.type/ValueType = ..., kotlin/UInt = ...): io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextSet // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextSet.copy|copy(io.github.charlietap.chasm.type.ValueType;kotlin.UInt){}[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextSet.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextSet.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/CanonicalDefinition.ContextSet.toString|toString(){}[0]
@@ -1599,6 +1599,199 @@ sealed interface io.github.charlietap.chasm.ast.component/CoreTypeDefinition { /
 
 sealed interface io.github.charlietap.chasm.ast.component/Custom // io.github.charlietap.chasm.ast.component/Custom|null[0]
 
+sealed interface io.github.charlietap.chasm.ast.component/DefinedValueType { // io.github.charlietap.chasm.ast.component/DefinedValueType|null[0]
+    final class Borrow : io.github.charlietap.chasm.ast.component/DefinedValueType { // io.github.charlietap.chasm.ast.component/DefinedValueType.Borrow|null[0]
+        constructor <init>(io.github.charlietap.chasm.ast.component/Index.ComponentTypeIndex) // io.github.charlietap.chasm.ast.component/DefinedValueType.Borrow.<init>|<init>(io.github.charlietap.chasm.ast.component.Index.ComponentTypeIndex){}[0]
+
+        final val resource // io.github.charlietap.chasm.ast.component/DefinedValueType.Borrow.resource|{}resource[0]
+            final fun <get-resource>(): io.github.charlietap.chasm.ast.component/Index.ComponentTypeIndex // io.github.charlietap.chasm.ast.component/DefinedValueType.Borrow.resource.<get-resource>|<get-resource>(){}[0]
+
+        final fun component1(): io.github.charlietap.chasm.ast.component/Index.ComponentTypeIndex // io.github.charlietap.chasm.ast.component/DefinedValueType.Borrow.component1|component1(){}[0]
+        final fun copy(io.github.charlietap.chasm.ast.component/Index.ComponentTypeIndex = ...): io.github.charlietap.chasm.ast.component/DefinedValueType.Borrow // io.github.charlietap.chasm.ast.component/DefinedValueType.Borrow.copy|copy(io.github.charlietap.chasm.ast.component.Index.ComponentTypeIndex){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/DefinedValueType.Borrow.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/DefinedValueType.Borrow.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/DefinedValueType.Borrow.toString|toString(){}[0]
+    }
+
+    final class Enum : io.github.charlietap.chasm.ast.component/DefinedValueType { // io.github.charlietap.chasm.ast.component/DefinedValueType.Enum|null[0]
+        constructor <init>(kotlin.collections/List<io.github.charlietap.chasm.ast.value/NameValue>) // io.github.charlietap.chasm.ast.component/DefinedValueType.Enum.<init>|<init>(kotlin.collections.List<io.github.charlietap.chasm.ast.value.NameValue>){}[0]
+
+        final val labels // io.github.charlietap.chasm.ast.component/DefinedValueType.Enum.labels|{}labels[0]
+            final fun <get-labels>(): kotlin.collections/List<io.github.charlietap.chasm.ast.value/NameValue> // io.github.charlietap.chasm.ast.component/DefinedValueType.Enum.labels.<get-labels>|<get-labels>(){}[0]
+
+        final fun component1(): kotlin.collections/List<io.github.charlietap.chasm.ast.value/NameValue> // io.github.charlietap.chasm.ast.component/DefinedValueType.Enum.component1|component1(){}[0]
+        final fun copy(kotlin.collections/List<io.github.charlietap.chasm.ast.value/NameValue> = ...): io.github.charlietap.chasm.ast.component/DefinedValueType.Enum // io.github.charlietap.chasm.ast.component/DefinedValueType.Enum.copy|copy(kotlin.collections.List<io.github.charlietap.chasm.ast.value.NameValue>){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/DefinedValueType.Enum.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/DefinedValueType.Enum.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/DefinedValueType.Enum.toString|toString(){}[0]
+    }
+
+    final class FixedLengthList : io.github.charlietap.chasm.ast.component/DefinedValueType { // io.github.charlietap.chasm.ast.component/DefinedValueType.FixedLengthList|null[0]
+        constructor <init>(io.github.charlietap.chasm.ast.component/ValueType, kotlin/UInt) // io.github.charlietap.chasm.ast.component/DefinedValueType.FixedLengthList.<init>|<init>(io.github.charlietap.chasm.ast.component.ValueType;kotlin.UInt){}[0]
+
+        final val element // io.github.charlietap.chasm.ast.component/DefinedValueType.FixedLengthList.element|{}element[0]
+            final fun <get-element>(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/DefinedValueType.FixedLengthList.element.<get-element>|<get-element>(){}[0]
+        final val length // io.github.charlietap.chasm.ast.component/DefinedValueType.FixedLengthList.length|{}length[0]
+            final fun <get-length>(): kotlin/UInt // io.github.charlietap.chasm.ast.component/DefinedValueType.FixedLengthList.length.<get-length>|<get-length>(){}[0]
+
+        final fun component1(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/DefinedValueType.FixedLengthList.component1|component1(){}[0]
+        final fun component2(): kotlin/UInt // io.github.charlietap.chasm.ast.component/DefinedValueType.FixedLengthList.component2|component2(){}[0]
+        final fun copy(io.github.charlietap.chasm.ast.component/ValueType = ..., kotlin/UInt = ...): io.github.charlietap.chasm.ast.component/DefinedValueType.FixedLengthList // io.github.charlietap.chasm.ast.component/DefinedValueType.FixedLengthList.copy|copy(io.github.charlietap.chasm.ast.component.ValueType;kotlin.UInt){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/DefinedValueType.FixedLengthList.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/DefinedValueType.FixedLengthList.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/DefinedValueType.FixedLengthList.toString|toString(){}[0]
+    }
+
+    final class Flags : io.github.charlietap.chasm.ast.component/DefinedValueType { // io.github.charlietap.chasm.ast.component/DefinedValueType.Flags|null[0]
+        constructor <init>(kotlin.collections/List<io.github.charlietap.chasm.ast.value/NameValue>) // io.github.charlietap.chasm.ast.component/DefinedValueType.Flags.<init>|<init>(kotlin.collections.List<io.github.charlietap.chasm.ast.value.NameValue>){}[0]
+
+        final val labels // io.github.charlietap.chasm.ast.component/DefinedValueType.Flags.labels|{}labels[0]
+            final fun <get-labels>(): kotlin.collections/List<io.github.charlietap.chasm.ast.value/NameValue> // io.github.charlietap.chasm.ast.component/DefinedValueType.Flags.labels.<get-labels>|<get-labels>(){}[0]
+
+        final fun component1(): kotlin.collections/List<io.github.charlietap.chasm.ast.value/NameValue> // io.github.charlietap.chasm.ast.component/DefinedValueType.Flags.component1|component1(){}[0]
+        final fun copy(kotlin.collections/List<io.github.charlietap.chasm.ast.value/NameValue> = ...): io.github.charlietap.chasm.ast.component/DefinedValueType.Flags // io.github.charlietap.chasm.ast.component/DefinedValueType.Flags.copy|copy(kotlin.collections.List<io.github.charlietap.chasm.ast.value.NameValue>){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/DefinedValueType.Flags.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/DefinedValueType.Flags.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/DefinedValueType.Flags.toString|toString(){}[0]
+    }
+
+    final class Future : io.github.charlietap.chasm.ast.component/DefinedValueType { // io.github.charlietap.chasm.ast.component/DefinedValueType.Future|null[0]
+        constructor <init>(io.github.charlietap.chasm.ast.component/ValueType?) // io.github.charlietap.chasm.ast.component/DefinedValueType.Future.<init>|<init>(io.github.charlietap.chasm.ast.component.ValueType?){}[0]
+
+        final val value // io.github.charlietap.chasm.ast.component/DefinedValueType.Future.value|{}value[0]
+            final fun <get-value>(): io.github.charlietap.chasm.ast.component/ValueType? // io.github.charlietap.chasm.ast.component/DefinedValueType.Future.value.<get-value>|<get-value>(){}[0]
+
+        final fun component1(): io.github.charlietap.chasm.ast.component/ValueType? // io.github.charlietap.chasm.ast.component/DefinedValueType.Future.component1|component1(){}[0]
+        final fun copy(io.github.charlietap.chasm.ast.component/ValueType? = ...): io.github.charlietap.chasm.ast.component/DefinedValueType.Future // io.github.charlietap.chasm.ast.component/DefinedValueType.Future.copy|copy(io.github.charlietap.chasm.ast.component.ValueType?){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/DefinedValueType.Future.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/DefinedValueType.Future.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/DefinedValueType.Future.toString|toString(){}[0]
+    }
+
+    final class List : io.github.charlietap.chasm.ast.component/DefinedValueType { // io.github.charlietap.chasm.ast.component/DefinedValueType.List|null[0]
+        constructor <init>(io.github.charlietap.chasm.ast.component/ValueType) // io.github.charlietap.chasm.ast.component/DefinedValueType.List.<init>|<init>(io.github.charlietap.chasm.ast.component.ValueType){}[0]
+
+        final val element // io.github.charlietap.chasm.ast.component/DefinedValueType.List.element|{}element[0]
+            final fun <get-element>(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/DefinedValueType.List.element.<get-element>|<get-element>(){}[0]
+
+        final fun component1(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/DefinedValueType.List.component1|component1(){}[0]
+        final fun copy(io.github.charlietap.chasm.ast.component/ValueType = ...): io.github.charlietap.chasm.ast.component/DefinedValueType.List // io.github.charlietap.chasm.ast.component/DefinedValueType.List.copy|copy(io.github.charlietap.chasm.ast.component.ValueType){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/DefinedValueType.List.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/DefinedValueType.List.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/DefinedValueType.List.toString|toString(){}[0]
+    }
+
+    final class Map : io.github.charlietap.chasm.ast.component/DefinedValueType { // io.github.charlietap.chasm.ast.component/DefinedValueType.Map|null[0]
+        constructor <init>(io.github.charlietap.chasm.ast.component/KeyType, io.github.charlietap.chasm.ast.component/ValueType) // io.github.charlietap.chasm.ast.component/DefinedValueType.Map.<init>|<init>(io.github.charlietap.chasm.ast.component.KeyType;io.github.charlietap.chasm.ast.component.ValueType){}[0]
+
+        final val key // io.github.charlietap.chasm.ast.component/DefinedValueType.Map.key|{}key[0]
+            final fun <get-key>(): io.github.charlietap.chasm.ast.component/KeyType // io.github.charlietap.chasm.ast.component/DefinedValueType.Map.key.<get-key>|<get-key>(){}[0]
+        final val value // io.github.charlietap.chasm.ast.component/DefinedValueType.Map.value|{}value[0]
+            final fun <get-value>(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/DefinedValueType.Map.value.<get-value>|<get-value>(){}[0]
+
+        final fun component1(): io.github.charlietap.chasm.ast.component/KeyType // io.github.charlietap.chasm.ast.component/DefinedValueType.Map.component1|component1(){}[0]
+        final fun component2(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/DefinedValueType.Map.component2|component2(){}[0]
+        final fun copy(io.github.charlietap.chasm.ast.component/KeyType = ..., io.github.charlietap.chasm.ast.component/ValueType = ...): io.github.charlietap.chasm.ast.component/DefinedValueType.Map // io.github.charlietap.chasm.ast.component/DefinedValueType.Map.copy|copy(io.github.charlietap.chasm.ast.component.KeyType;io.github.charlietap.chasm.ast.component.ValueType){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/DefinedValueType.Map.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/DefinedValueType.Map.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/DefinedValueType.Map.toString|toString(){}[0]
+    }
+
+    final class Option : io.github.charlietap.chasm.ast.component/DefinedValueType { // io.github.charlietap.chasm.ast.component/DefinedValueType.Option|null[0]
+        constructor <init>(io.github.charlietap.chasm.ast.component/ValueType) // io.github.charlietap.chasm.ast.component/DefinedValueType.Option.<init>|<init>(io.github.charlietap.chasm.ast.component.ValueType){}[0]
+
+        final val value // io.github.charlietap.chasm.ast.component/DefinedValueType.Option.value|{}value[0]
+            final fun <get-value>(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/DefinedValueType.Option.value.<get-value>|<get-value>(){}[0]
+
+        final fun component1(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/DefinedValueType.Option.component1|component1(){}[0]
+        final fun copy(io.github.charlietap.chasm.ast.component/ValueType = ...): io.github.charlietap.chasm.ast.component/DefinedValueType.Option // io.github.charlietap.chasm.ast.component/DefinedValueType.Option.copy|copy(io.github.charlietap.chasm.ast.component.ValueType){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/DefinedValueType.Option.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/DefinedValueType.Option.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/DefinedValueType.Option.toString|toString(){}[0]
+    }
+
+    final class Own : io.github.charlietap.chasm.ast.component/DefinedValueType { // io.github.charlietap.chasm.ast.component/DefinedValueType.Own|null[0]
+        constructor <init>(io.github.charlietap.chasm.ast.component/Index.ComponentTypeIndex) // io.github.charlietap.chasm.ast.component/DefinedValueType.Own.<init>|<init>(io.github.charlietap.chasm.ast.component.Index.ComponentTypeIndex){}[0]
+
+        final val resource // io.github.charlietap.chasm.ast.component/DefinedValueType.Own.resource|{}resource[0]
+            final fun <get-resource>(): io.github.charlietap.chasm.ast.component/Index.ComponentTypeIndex // io.github.charlietap.chasm.ast.component/DefinedValueType.Own.resource.<get-resource>|<get-resource>(){}[0]
+
+        final fun component1(): io.github.charlietap.chasm.ast.component/Index.ComponentTypeIndex // io.github.charlietap.chasm.ast.component/DefinedValueType.Own.component1|component1(){}[0]
+        final fun copy(io.github.charlietap.chasm.ast.component/Index.ComponentTypeIndex = ...): io.github.charlietap.chasm.ast.component/DefinedValueType.Own // io.github.charlietap.chasm.ast.component/DefinedValueType.Own.copy|copy(io.github.charlietap.chasm.ast.component.Index.ComponentTypeIndex){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/DefinedValueType.Own.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/DefinedValueType.Own.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/DefinedValueType.Own.toString|toString(){}[0]
+    }
+
+    final class Record : io.github.charlietap.chasm.ast.component/DefinedValueType { // io.github.charlietap.chasm.ast.component/DefinedValueType.Record|null[0]
+        constructor <init>(kotlin.collections/List<io.github.charlietap.chasm.ast.component/LabeledValueType>) // io.github.charlietap.chasm.ast.component/DefinedValueType.Record.<init>|<init>(kotlin.collections.List<io.github.charlietap.chasm.ast.component.LabeledValueType>){}[0]
+
+        final val fields // io.github.charlietap.chasm.ast.component/DefinedValueType.Record.fields|{}fields[0]
+            final fun <get-fields>(): kotlin.collections/List<io.github.charlietap.chasm.ast.component/LabeledValueType> // io.github.charlietap.chasm.ast.component/DefinedValueType.Record.fields.<get-fields>|<get-fields>(){}[0]
+
+        final fun component1(): kotlin.collections/List<io.github.charlietap.chasm.ast.component/LabeledValueType> // io.github.charlietap.chasm.ast.component/DefinedValueType.Record.component1|component1(){}[0]
+        final fun copy(kotlin.collections/List<io.github.charlietap.chasm.ast.component/LabeledValueType> = ...): io.github.charlietap.chasm.ast.component/DefinedValueType.Record // io.github.charlietap.chasm.ast.component/DefinedValueType.Record.copy|copy(kotlin.collections.List<io.github.charlietap.chasm.ast.component.LabeledValueType>){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/DefinedValueType.Record.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/DefinedValueType.Record.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/DefinedValueType.Record.toString|toString(){}[0]
+    }
+
+    final class Result : io.github.charlietap.chasm.ast.component/DefinedValueType { // io.github.charlietap.chasm.ast.component/DefinedValueType.Result|null[0]
+        constructor <init>(io.github.charlietap.chasm.ast.component/ValueType?, io.github.charlietap.chasm.ast.component/ValueType?) // io.github.charlietap.chasm.ast.component/DefinedValueType.Result.<init>|<init>(io.github.charlietap.chasm.ast.component.ValueType?;io.github.charlietap.chasm.ast.component.ValueType?){}[0]
+
+        final val error // io.github.charlietap.chasm.ast.component/DefinedValueType.Result.error|{}error[0]
+            final fun <get-error>(): io.github.charlietap.chasm.ast.component/ValueType? // io.github.charlietap.chasm.ast.component/DefinedValueType.Result.error.<get-error>|<get-error>(){}[0]
+        final val ok // io.github.charlietap.chasm.ast.component/DefinedValueType.Result.ok|{}ok[0]
+            final fun <get-ok>(): io.github.charlietap.chasm.ast.component/ValueType? // io.github.charlietap.chasm.ast.component/DefinedValueType.Result.ok.<get-ok>|<get-ok>(){}[0]
+
+        final fun component1(): io.github.charlietap.chasm.ast.component/ValueType? // io.github.charlietap.chasm.ast.component/DefinedValueType.Result.component1|component1(){}[0]
+        final fun component2(): io.github.charlietap.chasm.ast.component/ValueType? // io.github.charlietap.chasm.ast.component/DefinedValueType.Result.component2|component2(){}[0]
+        final fun copy(io.github.charlietap.chasm.ast.component/ValueType? = ..., io.github.charlietap.chasm.ast.component/ValueType? = ...): io.github.charlietap.chasm.ast.component/DefinedValueType.Result // io.github.charlietap.chasm.ast.component/DefinedValueType.Result.copy|copy(io.github.charlietap.chasm.ast.component.ValueType?;io.github.charlietap.chasm.ast.component.ValueType?){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/DefinedValueType.Result.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/DefinedValueType.Result.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/DefinedValueType.Result.toString|toString(){}[0]
+    }
+
+    final class Stream : io.github.charlietap.chasm.ast.component/DefinedValueType { // io.github.charlietap.chasm.ast.component/DefinedValueType.Stream|null[0]
+        constructor <init>(io.github.charlietap.chasm.ast.component/ValueType?) // io.github.charlietap.chasm.ast.component/DefinedValueType.Stream.<init>|<init>(io.github.charlietap.chasm.ast.component.ValueType?){}[0]
+
+        final val element // io.github.charlietap.chasm.ast.component/DefinedValueType.Stream.element|{}element[0]
+            final fun <get-element>(): io.github.charlietap.chasm.ast.component/ValueType? // io.github.charlietap.chasm.ast.component/DefinedValueType.Stream.element.<get-element>|<get-element>(){}[0]
+
+        final fun component1(): io.github.charlietap.chasm.ast.component/ValueType? // io.github.charlietap.chasm.ast.component/DefinedValueType.Stream.component1|component1(){}[0]
+        final fun copy(io.github.charlietap.chasm.ast.component/ValueType? = ...): io.github.charlietap.chasm.ast.component/DefinedValueType.Stream // io.github.charlietap.chasm.ast.component/DefinedValueType.Stream.copy|copy(io.github.charlietap.chasm.ast.component.ValueType?){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/DefinedValueType.Stream.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/DefinedValueType.Stream.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/DefinedValueType.Stream.toString|toString(){}[0]
+    }
+
+    final class Tuple : io.github.charlietap.chasm.ast.component/DefinedValueType { // io.github.charlietap.chasm.ast.component/DefinedValueType.Tuple|null[0]
+        constructor <init>(kotlin.collections/List<io.github.charlietap.chasm.ast.component/ValueType>) // io.github.charlietap.chasm.ast.component/DefinedValueType.Tuple.<init>|<init>(kotlin.collections.List<io.github.charlietap.chasm.ast.component.ValueType>){}[0]
+
+        final val elements // io.github.charlietap.chasm.ast.component/DefinedValueType.Tuple.elements|{}elements[0]
+            final fun <get-elements>(): kotlin.collections/List<io.github.charlietap.chasm.ast.component/ValueType> // io.github.charlietap.chasm.ast.component/DefinedValueType.Tuple.elements.<get-elements>|<get-elements>(){}[0]
+
+        final fun component1(): kotlin.collections/List<io.github.charlietap.chasm.ast.component/ValueType> // io.github.charlietap.chasm.ast.component/DefinedValueType.Tuple.component1|component1(){}[0]
+        final fun copy(kotlin.collections/List<io.github.charlietap.chasm.ast.component/ValueType> = ...): io.github.charlietap.chasm.ast.component/DefinedValueType.Tuple // io.github.charlietap.chasm.ast.component/DefinedValueType.Tuple.copy|copy(kotlin.collections.List<io.github.charlietap.chasm.ast.component.ValueType>){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/DefinedValueType.Tuple.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/DefinedValueType.Tuple.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/DefinedValueType.Tuple.toString|toString(){}[0]
+    }
+
+    final class Variant : io.github.charlietap.chasm.ast.component/DefinedValueType { // io.github.charlietap.chasm.ast.component/DefinedValueType.Variant|null[0]
+        constructor <init>(kotlin.collections/List<io.github.charlietap.chasm.ast.component/VariantCase>) // io.github.charlietap.chasm.ast.component/DefinedValueType.Variant.<init>|<init>(kotlin.collections.List<io.github.charlietap.chasm.ast.component.VariantCase>){}[0]
+
+        final val cases // io.github.charlietap.chasm.ast.component/DefinedValueType.Variant.cases|{}cases[0]
+            final fun <get-cases>(): kotlin.collections/List<io.github.charlietap.chasm.ast.component/VariantCase> // io.github.charlietap.chasm.ast.component/DefinedValueType.Variant.cases.<get-cases>|<get-cases>(){}[0]
+
+        final fun component1(): kotlin.collections/List<io.github.charlietap.chasm.ast.component/VariantCase> // io.github.charlietap.chasm.ast.component/DefinedValueType.Variant.component1|component1(){}[0]
+        final fun copy(kotlin.collections/List<io.github.charlietap.chasm.ast.component/VariantCase> = ...): io.github.charlietap.chasm.ast.component/DefinedValueType.Variant // io.github.charlietap.chasm.ast.component/DefinedValueType.Variant.copy|copy(kotlin.collections.List<io.github.charlietap.chasm.ast.component.VariantCase>){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/DefinedValueType.Variant.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/DefinedValueType.Variant.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/DefinedValueType.Variant.toString|toString(){}[0]
+    }
+}
+
 sealed interface io.github.charlietap.chasm.ast.component/Definition // io.github.charlietap.chasm.ast.component/Definition|null[0]
 
 sealed interface io.github.charlietap.chasm.ast.component/ExportTarget { // io.github.charlietap.chasm.ast.component/ExportTarget|null[0]
@@ -2286,6 +2479,8 @@ sealed interface io.github.charlietap.chasm.ast.component/OuterAliasTarget { // 
     }
 }
 
+sealed interface io.github.charlietap.chasm.ast.component/PrimitiveValueType : io.github.charlietap.chasm.ast.component/DefinedValueType, io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/PrimitiveValueType|null[0]
+
 sealed interface io.github.charlietap.chasm.ast.component/TypeBound { // io.github.charlietap.chasm.ast.component/TypeBound|null[0]
     final class Equals : io.github.charlietap.chasm.ast.component/TypeBound { // io.github.charlietap.chasm.ast.component/TypeBound.Equals|null[0]
         constructor <init>(io.github.charlietap.chasm.ast.component/Index.ComponentTypeIndex) // io.github.charlietap.chasm.ast.component/TypeBound.Equals.<init>|<init>(io.github.charlietap.chasm.ast.component.Index.ComponentTypeIndex){}[0]
@@ -2348,29 +2543,29 @@ sealed interface io.github.charlietap.chasm.ast.component/TypeDefinition { // io
     }
 
     final class Resource : io.github.charlietap.chasm.ast.component/TypeDefinition { // io.github.charlietap.chasm.ast.component/TypeDefinition.Resource|null[0]
-        constructor <init>(io.github.charlietap.chasm.ast.component/ValueType, io.github.charlietap.chasm.ast.module/Index.FunctionIndex?) // io.github.charlietap.chasm.ast.component/TypeDefinition.Resource.<init>|<init>(io.github.charlietap.chasm.ast.component.ValueType;io.github.charlietap.chasm.ast.module.Index.FunctionIndex?){}[0]
+        constructor <init>(io.github.charlietap.chasm.type/ValueType, io.github.charlietap.chasm.ast.module/Index.FunctionIndex?) // io.github.charlietap.chasm.ast.component/TypeDefinition.Resource.<init>|<init>(io.github.charlietap.chasm.type.ValueType;io.github.charlietap.chasm.ast.module.Index.FunctionIndex?){}[0]
 
         final val destructor // io.github.charlietap.chasm.ast.component/TypeDefinition.Resource.destructor|{}destructor[0]
             final fun <get-destructor>(): io.github.charlietap.chasm.ast.module/Index.FunctionIndex? // io.github.charlietap.chasm.ast.component/TypeDefinition.Resource.destructor.<get-destructor>|<get-destructor>(){}[0]
         final val representation // io.github.charlietap.chasm.ast.component/TypeDefinition.Resource.representation|{}representation[0]
-            final fun <get-representation>(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/TypeDefinition.Resource.representation.<get-representation>|<get-representation>(){}[0]
+            final fun <get-representation>(): io.github.charlietap.chasm.type/ValueType // io.github.charlietap.chasm.ast.component/TypeDefinition.Resource.representation.<get-representation>|<get-representation>(){}[0]
 
-        final fun component1(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/TypeDefinition.Resource.component1|component1(){}[0]
+        final fun component1(): io.github.charlietap.chasm.type/ValueType // io.github.charlietap.chasm.ast.component/TypeDefinition.Resource.component1|component1(){}[0]
         final fun component2(): io.github.charlietap.chasm.ast.module/Index.FunctionIndex? // io.github.charlietap.chasm.ast.component/TypeDefinition.Resource.component2|component2(){}[0]
-        final fun copy(io.github.charlietap.chasm.ast.component/ValueType = ..., io.github.charlietap.chasm.ast.module/Index.FunctionIndex? = ...): io.github.charlietap.chasm.ast.component/TypeDefinition.Resource // io.github.charlietap.chasm.ast.component/TypeDefinition.Resource.copy|copy(io.github.charlietap.chasm.ast.component.ValueType;io.github.charlietap.chasm.ast.module.Index.FunctionIndex?){}[0]
+        final fun copy(io.github.charlietap.chasm.type/ValueType = ..., io.github.charlietap.chasm.ast.module/Index.FunctionIndex? = ...): io.github.charlietap.chasm.ast.component/TypeDefinition.Resource // io.github.charlietap.chasm.ast.component/TypeDefinition.Resource.copy|copy(io.github.charlietap.chasm.type.ValueType;io.github.charlietap.chasm.ast.module.Index.FunctionIndex?){}[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/TypeDefinition.Resource.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/TypeDefinition.Resource.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/TypeDefinition.Resource.toString|toString(){}[0]
     }
 
     final class Value : io.github.charlietap.chasm.ast.component/TypeDefinition { // io.github.charlietap.chasm.ast.component/TypeDefinition.Value|null[0]
-        constructor <init>(io.github.charlietap.chasm.ast.component/ValueType) // io.github.charlietap.chasm.ast.component/TypeDefinition.Value.<init>|<init>(io.github.charlietap.chasm.ast.component.ValueType){}[0]
+        constructor <init>(io.github.charlietap.chasm.ast.component/DefinedValueType) // io.github.charlietap.chasm.ast.component/TypeDefinition.Value.<init>|<init>(io.github.charlietap.chasm.ast.component.DefinedValueType){}[0]
 
         final val type // io.github.charlietap.chasm.ast.component/TypeDefinition.Value.type|{}type[0]
-            final fun <get-type>(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/TypeDefinition.Value.type.<get-type>|<get-type>(){}[0]
+            final fun <get-type>(): io.github.charlietap.chasm.ast.component/DefinedValueType // io.github.charlietap.chasm.ast.component/TypeDefinition.Value.type.<get-type>|<get-type>(){}[0]
 
-        final fun component1(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/TypeDefinition.Value.component1|component1(){}[0]
-        final fun copy(io.github.charlietap.chasm.ast.component/ValueType = ...): io.github.charlietap.chasm.ast.component/TypeDefinition.Value // io.github.charlietap.chasm.ast.component/TypeDefinition.Value.copy|copy(io.github.charlietap.chasm.ast.component.ValueType){}[0]
+        final fun component1(): io.github.charlietap.chasm.ast.component/DefinedValueType // io.github.charlietap.chasm.ast.component/TypeDefinition.Value.component1|component1(){}[0]
+        final fun copy(io.github.charlietap.chasm.ast.component/DefinedValueType = ...): io.github.charlietap.chasm.ast.component/TypeDefinition.Value // io.github.charlietap.chasm.ast.component/TypeDefinition.Value.copy|copy(io.github.charlietap.chasm.ast.component.DefinedValueType){}[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/TypeDefinition.Value.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/TypeDefinition.Value.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/TypeDefinition.Value.toString|toString(){}[0]
@@ -2406,184 +2601,6 @@ sealed interface io.github.charlietap.chasm.ast.component/ValueBound { // io.git
 }
 
 sealed interface io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType|null[0]
-    final class Borrow : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.Borrow|null[0]
-        constructor <init>(io.github.charlietap.chasm.ast.component/Index.ComponentTypeIndex) // io.github.charlietap.chasm.ast.component/ValueType.Borrow.<init>|<init>(io.github.charlietap.chasm.ast.component.Index.ComponentTypeIndex){}[0]
-
-        final val resource // io.github.charlietap.chasm.ast.component/ValueType.Borrow.resource|{}resource[0]
-            final fun <get-resource>(): io.github.charlietap.chasm.ast.component/Index.ComponentTypeIndex // io.github.charlietap.chasm.ast.component/ValueType.Borrow.resource.<get-resource>|<get-resource>(){}[0]
-
-        final fun component1(): io.github.charlietap.chasm.ast.component/Index.ComponentTypeIndex // io.github.charlietap.chasm.ast.component/ValueType.Borrow.component1|component1(){}[0]
-        final fun copy(io.github.charlietap.chasm.ast.component/Index.ComponentTypeIndex = ...): io.github.charlietap.chasm.ast.component/ValueType.Borrow // io.github.charlietap.chasm.ast.component/ValueType.Borrow.copy|copy(io.github.charlietap.chasm.ast.component.Index.ComponentTypeIndex){}[0]
-        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.Borrow.equals|equals(kotlin.Any?){}[0]
-        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.Borrow.hashCode|hashCode(){}[0]
-        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.Borrow.toString|toString(){}[0]
-    }
-
-    final class Enum : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.Enum|null[0]
-        constructor <init>(kotlin.collections/List<io.github.charlietap.chasm.ast.value/NameValue>) // io.github.charlietap.chasm.ast.component/ValueType.Enum.<init>|<init>(kotlin.collections.List<io.github.charlietap.chasm.ast.value.NameValue>){}[0]
-
-        final val labels // io.github.charlietap.chasm.ast.component/ValueType.Enum.labels|{}labels[0]
-            final fun <get-labels>(): kotlin.collections/List<io.github.charlietap.chasm.ast.value/NameValue> // io.github.charlietap.chasm.ast.component/ValueType.Enum.labels.<get-labels>|<get-labels>(){}[0]
-
-        final fun component1(): kotlin.collections/List<io.github.charlietap.chasm.ast.value/NameValue> // io.github.charlietap.chasm.ast.component/ValueType.Enum.component1|component1(){}[0]
-        final fun copy(kotlin.collections/List<io.github.charlietap.chasm.ast.value/NameValue> = ...): io.github.charlietap.chasm.ast.component/ValueType.Enum // io.github.charlietap.chasm.ast.component/ValueType.Enum.copy|copy(kotlin.collections.List<io.github.charlietap.chasm.ast.value.NameValue>){}[0]
-        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.Enum.equals|equals(kotlin.Any?){}[0]
-        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.Enum.hashCode|hashCode(){}[0]
-        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.Enum.toString|toString(){}[0]
-    }
-
-    final class FixedLengthList : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.FixedLengthList|null[0]
-        constructor <init>(io.github.charlietap.chasm.ast.component/ValueType, kotlin/UInt) // io.github.charlietap.chasm.ast.component/ValueType.FixedLengthList.<init>|<init>(io.github.charlietap.chasm.ast.component.ValueType;kotlin.UInt){}[0]
-
-        final val element // io.github.charlietap.chasm.ast.component/ValueType.FixedLengthList.element|{}element[0]
-            final fun <get-element>(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/ValueType.FixedLengthList.element.<get-element>|<get-element>(){}[0]
-        final val length // io.github.charlietap.chasm.ast.component/ValueType.FixedLengthList.length|{}length[0]
-            final fun <get-length>(): kotlin/UInt // io.github.charlietap.chasm.ast.component/ValueType.FixedLengthList.length.<get-length>|<get-length>(){}[0]
-
-        final fun component1(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/ValueType.FixedLengthList.component1|component1(){}[0]
-        final fun component2(): kotlin/UInt // io.github.charlietap.chasm.ast.component/ValueType.FixedLengthList.component2|component2(){}[0]
-        final fun copy(io.github.charlietap.chasm.ast.component/ValueType = ..., kotlin/UInt = ...): io.github.charlietap.chasm.ast.component/ValueType.FixedLengthList // io.github.charlietap.chasm.ast.component/ValueType.FixedLengthList.copy|copy(io.github.charlietap.chasm.ast.component.ValueType;kotlin.UInt){}[0]
-        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.FixedLengthList.equals|equals(kotlin.Any?){}[0]
-        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.FixedLengthList.hashCode|hashCode(){}[0]
-        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.FixedLengthList.toString|toString(){}[0]
-    }
-
-    final class Flags : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.Flags|null[0]
-        constructor <init>(kotlin.collections/List<io.github.charlietap.chasm.ast.value/NameValue>) // io.github.charlietap.chasm.ast.component/ValueType.Flags.<init>|<init>(kotlin.collections.List<io.github.charlietap.chasm.ast.value.NameValue>){}[0]
-
-        final val labels // io.github.charlietap.chasm.ast.component/ValueType.Flags.labels|{}labels[0]
-            final fun <get-labels>(): kotlin.collections/List<io.github.charlietap.chasm.ast.value/NameValue> // io.github.charlietap.chasm.ast.component/ValueType.Flags.labels.<get-labels>|<get-labels>(){}[0]
-
-        final fun component1(): kotlin.collections/List<io.github.charlietap.chasm.ast.value/NameValue> // io.github.charlietap.chasm.ast.component/ValueType.Flags.component1|component1(){}[0]
-        final fun copy(kotlin.collections/List<io.github.charlietap.chasm.ast.value/NameValue> = ...): io.github.charlietap.chasm.ast.component/ValueType.Flags // io.github.charlietap.chasm.ast.component/ValueType.Flags.copy|copy(kotlin.collections.List<io.github.charlietap.chasm.ast.value.NameValue>){}[0]
-        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.Flags.equals|equals(kotlin.Any?){}[0]
-        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.Flags.hashCode|hashCode(){}[0]
-        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.Flags.toString|toString(){}[0]
-    }
-
-    final class Future : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.Future|null[0]
-        constructor <init>(io.github.charlietap.chasm.ast.component/ValueType?) // io.github.charlietap.chasm.ast.component/ValueType.Future.<init>|<init>(io.github.charlietap.chasm.ast.component.ValueType?){}[0]
-
-        final val value // io.github.charlietap.chasm.ast.component/ValueType.Future.value|{}value[0]
-            final fun <get-value>(): io.github.charlietap.chasm.ast.component/ValueType? // io.github.charlietap.chasm.ast.component/ValueType.Future.value.<get-value>|<get-value>(){}[0]
-
-        final fun component1(): io.github.charlietap.chasm.ast.component/ValueType? // io.github.charlietap.chasm.ast.component/ValueType.Future.component1|component1(){}[0]
-        final fun copy(io.github.charlietap.chasm.ast.component/ValueType? = ...): io.github.charlietap.chasm.ast.component/ValueType.Future // io.github.charlietap.chasm.ast.component/ValueType.Future.copy|copy(io.github.charlietap.chasm.ast.component.ValueType?){}[0]
-        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.Future.equals|equals(kotlin.Any?){}[0]
-        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.Future.hashCode|hashCode(){}[0]
-        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.Future.toString|toString(){}[0]
-    }
-
-    final class List : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.List|null[0]
-        constructor <init>(io.github.charlietap.chasm.ast.component/ValueType) // io.github.charlietap.chasm.ast.component/ValueType.List.<init>|<init>(io.github.charlietap.chasm.ast.component.ValueType){}[0]
-
-        final val element // io.github.charlietap.chasm.ast.component/ValueType.List.element|{}element[0]
-            final fun <get-element>(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/ValueType.List.element.<get-element>|<get-element>(){}[0]
-
-        final fun component1(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/ValueType.List.component1|component1(){}[0]
-        final fun copy(io.github.charlietap.chasm.ast.component/ValueType = ...): io.github.charlietap.chasm.ast.component/ValueType.List // io.github.charlietap.chasm.ast.component/ValueType.List.copy|copy(io.github.charlietap.chasm.ast.component.ValueType){}[0]
-        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.List.equals|equals(kotlin.Any?){}[0]
-        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.List.hashCode|hashCode(){}[0]
-        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.List.toString|toString(){}[0]
-    }
-
-    final class Map : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.Map|null[0]
-        constructor <init>(io.github.charlietap.chasm.ast.component/KeyType, io.github.charlietap.chasm.ast.component/ValueType) // io.github.charlietap.chasm.ast.component/ValueType.Map.<init>|<init>(io.github.charlietap.chasm.ast.component.KeyType;io.github.charlietap.chasm.ast.component.ValueType){}[0]
-
-        final val key // io.github.charlietap.chasm.ast.component/ValueType.Map.key|{}key[0]
-            final fun <get-key>(): io.github.charlietap.chasm.ast.component/KeyType // io.github.charlietap.chasm.ast.component/ValueType.Map.key.<get-key>|<get-key>(){}[0]
-        final val value // io.github.charlietap.chasm.ast.component/ValueType.Map.value|{}value[0]
-            final fun <get-value>(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/ValueType.Map.value.<get-value>|<get-value>(){}[0]
-
-        final fun component1(): io.github.charlietap.chasm.ast.component/KeyType // io.github.charlietap.chasm.ast.component/ValueType.Map.component1|component1(){}[0]
-        final fun component2(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/ValueType.Map.component2|component2(){}[0]
-        final fun copy(io.github.charlietap.chasm.ast.component/KeyType = ..., io.github.charlietap.chasm.ast.component/ValueType = ...): io.github.charlietap.chasm.ast.component/ValueType.Map // io.github.charlietap.chasm.ast.component/ValueType.Map.copy|copy(io.github.charlietap.chasm.ast.component.KeyType;io.github.charlietap.chasm.ast.component.ValueType){}[0]
-        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.Map.equals|equals(kotlin.Any?){}[0]
-        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.Map.hashCode|hashCode(){}[0]
-        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.Map.toString|toString(){}[0]
-    }
-
-    final class Option : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.Option|null[0]
-        constructor <init>(io.github.charlietap.chasm.ast.component/ValueType) // io.github.charlietap.chasm.ast.component/ValueType.Option.<init>|<init>(io.github.charlietap.chasm.ast.component.ValueType){}[0]
-
-        final val value // io.github.charlietap.chasm.ast.component/ValueType.Option.value|{}value[0]
-            final fun <get-value>(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/ValueType.Option.value.<get-value>|<get-value>(){}[0]
-
-        final fun component1(): io.github.charlietap.chasm.ast.component/ValueType // io.github.charlietap.chasm.ast.component/ValueType.Option.component1|component1(){}[0]
-        final fun copy(io.github.charlietap.chasm.ast.component/ValueType = ...): io.github.charlietap.chasm.ast.component/ValueType.Option // io.github.charlietap.chasm.ast.component/ValueType.Option.copy|copy(io.github.charlietap.chasm.ast.component.ValueType){}[0]
-        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.Option.equals|equals(kotlin.Any?){}[0]
-        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.Option.hashCode|hashCode(){}[0]
-        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.Option.toString|toString(){}[0]
-    }
-
-    final class Own : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.Own|null[0]
-        constructor <init>(io.github.charlietap.chasm.ast.component/Index.ComponentTypeIndex) // io.github.charlietap.chasm.ast.component/ValueType.Own.<init>|<init>(io.github.charlietap.chasm.ast.component.Index.ComponentTypeIndex){}[0]
-
-        final val resource // io.github.charlietap.chasm.ast.component/ValueType.Own.resource|{}resource[0]
-            final fun <get-resource>(): io.github.charlietap.chasm.ast.component/Index.ComponentTypeIndex // io.github.charlietap.chasm.ast.component/ValueType.Own.resource.<get-resource>|<get-resource>(){}[0]
-
-        final fun component1(): io.github.charlietap.chasm.ast.component/Index.ComponentTypeIndex // io.github.charlietap.chasm.ast.component/ValueType.Own.component1|component1(){}[0]
-        final fun copy(io.github.charlietap.chasm.ast.component/Index.ComponentTypeIndex = ...): io.github.charlietap.chasm.ast.component/ValueType.Own // io.github.charlietap.chasm.ast.component/ValueType.Own.copy|copy(io.github.charlietap.chasm.ast.component.Index.ComponentTypeIndex){}[0]
-        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.Own.equals|equals(kotlin.Any?){}[0]
-        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.Own.hashCode|hashCode(){}[0]
-        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.Own.toString|toString(){}[0]
-    }
-
-    final class Record : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.Record|null[0]
-        constructor <init>(kotlin.collections/List<io.github.charlietap.chasm.ast.component/LabeledValueType>) // io.github.charlietap.chasm.ast.component/ValueType.Record.<init>|<init>(kotlin.collections.List<io.github.charlietap.chasm.ast.component.LabeledValueType>){}[0]
-
-        final val fields // io.github.charlietap.chasm.ast.component/ValueType.Record.fields|{}fields[0]
-            final fun <get-fields>(): kotlin.collections/List<io.github.charlietap.chasm.ast.component/LabeledValueType> // io.github.charlietap.chasm.ast.component/ValueType.Record.fields.<get-fields>|<get-fields>(){}[0]
-
-        final fun component1(): kotlin.collections/List<io.github.charlietap.chasm.ast.component/LabeledValueType> // io.github.charlietap.chasm.ast.component/ValueType.Record.component1|component1(){}[0]
-        final fun copy(kotlin.collections/List<io.github.charlietap.chasm.ast.component/LabeledValueType> = ...): io.github.charlietap.chasm.ast.component/ValueType.Record // io.github.charlietap.chasm.ast.component/ValueType.Record.copy|copy(kotlin.collections.List<io.github.charlietap.chasm.ast.component.LabeledValueType>){}[0]
-        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.Record.equals|equals(kotlin.Any?){}[0]
-        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.Record.hashCode|hashCode(){}[0]
-        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.Record.toString|toString(){}[0]
-    }
-
-    final class Result : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.Result|null[0]
-        constructor <init>(io.github.charlietap.chasm.ast.component/ValueType?, io.github.charlietap.chasm.ast.component/ValueType?) // io.github.charlietap.chasm.ast.component/ValueType.Result.<init>|<init>(io.github.charlietap.chasm.ast.component.ValueType?;io.github.charlietap.chasm.ast.component.ValueType?){}[0]
-
-        final val error // io.github.charlietap.chasm.ast.component/ValueType.Result.error|{}error[0]
-            final fun <get-error>(): io.github.charlietap.chasm.ast.component/ValueType? // io.github.charlietap.chasm.ast.component/ValueType.Result.error.<get-error>|<get-error>(){}[0]
-        final val ok // io.github.charlietap.chasm.ast.component/ValueType.Result.ok|{}ok[0]
-            final fun <get-ok>(): io.github.charlietap.chasm.ast.component/ValueType? // io.github.charlietap.chasm.ast.component/ValueType.Result.ok.<get-ok>|<get-ok>(){}[0]
-
-        final fun component1(): io.github.charlietap.chasm.ast.component/ValueType? // io.github.charlietap.chasm.ast.component/ValueType.Result.component1|component1(){}[0]
-        final fun component2(): io.github.charlietap.chasm.ast.component/ValueType? // io.github.charlietap.chasm.ast.component/ValueType.Result.component2|component2(){}[0]
-        final fun copy(io.github.charlietap.chasm.ast.component/ValueType? = ..., io.github.charlietap.chasm.ast.component/ValueType? = ...): io.github.charlietap.chasm.ast.component/ValueType.Result // io.github.charlietap.chasm.ast.component/ValueType.Result.copy|copy(io.github.charlietap.chasm.ast.component.ValueType?;io.github.charlietap.chasm.ast.component.ValueType?){}[0]
-        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.Result.equals|equals(kotlin.Any?){}[0]
-        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.Result.hashCode|hashCode(){}[0]
-        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.Result.toString|toString(){}[0]
-    }
-
-    final class Stream : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.Stream|null[0]
-        constructor <init>(io.github.charlietap.chasm.ast.component/ValueType?) // io.github.charlietap.chasm.ast.component/ValueType.Stream.<init>|<init>(io.github.charlietap.chasm.ast.component.ValueType?){}[0]
-
-        final val element // io.github.charlietap.chasm.ast.component/ValueType.Stream.element|{}element[0]
-            final fun <get-element>(): io.github.charlietap.chasm.ast.component/ValueType? // io.github.charlietap.chasm.ast.component/ValueType.Stream.element.<get-element>|<get-element>(){}[0]
-
-        final fun component1(): io.github.charlietap.chasm.ast.component/ValueType? // io.github.charlietap.chasm.ast.component/ValueType.Stream.component1|component1(){}[0]
-        final fun copy(io.github.charlietap.chasm.ast.component/ValueType? = ...): io.github.charlietap.chasm.ast.component/ValueType.Stream // io.github.charlietap.chasm.ast.component/ValueType.Stream.copy|copy(io.github.charlietap.chasm.ast.component.ValueType?){}[0]
-        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.Stream.equals|equals(kotlin.Any?){}[0]
-        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.Stream.hashCode|hashCode(){}[0]
-        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.Stream.toString|toString(){}[0]
-    }
-
-    final class Tuple : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.Tuple|null[0]
-        constructor <init>(kotlin.collections/List<io.github.charlietap.chasm.ast.component/ValueType>) // io.github.charlietap.chasm.ast.component/ValueType.Tuple.<init>|<init>(kotlin.collections.List<io.github.charlietap.chasm.ast.component.ValueType>){}[0]
-
-        final val elements // io.github.charlietap.chasm.ast.component/ValueType.Tuple.elements|{}elements[0]
-            final fun <get-elements>(): kotlin.collections/List<io.github.charlietap.chasm.ast.component/ValueType> // io.github.charlietap.chasm.ast.component/ValueType.Tuple.elements.<get-elements>|<get-elements>(){}[0]
-
-        final fun component1(): kotlin.collections/List<io.github.charlietap.chasm.ast.component/ValueType> // io.github.charlietap.chasm.ast.component/ValueType.Tuple.component1|component1(){}[0]
-        final fun copy(kotlin.collections/List<io.github.charlietap.chasm.ast.component/ValueType> = ...): io.github.charlietap.chasm.ast.component/ValueType.Tuple // io.github.charlietap.chasm.ast.component/ValueType.Tuple.copy|copy(kotlin.collections.List<io.github.charlietap.chasm.ast.component.ValueType>){}[0]
-        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.Tuple.equals|equals(kotlin.Any?){}[0]
-        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.Tuple.hashCode|hashCode(){}[0]
-        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.Tuple.toString|toString(){}[0]
-    }
-
     final class TypeIndex : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.TypeIndex|null[0]
         constructor <init>(io.github.charlietap.chasm.ast.component/Index.ComponentTypeIndex) // io.github.charlietap.chasm.ast.component/ValueType.TypeIndex.<init>|<init>(io.github.charlietap.chasm.ast.component.Index.ComponentTypeIndex){}[0]
 
@@ -2597,98 +2614,85 @@ sealed interface io.github.charlietap.chasm.ast.component/ValueType { // io.gith
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.TypeIndex.toString|toString(){}[0]
     }
 
-    final class Variant : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.Variant|null[0]
-        constructor <init>(kotlin.collections/List<io.github.charlietap.chasm.ast.component/VariantCase>) // io.github.charlietap.chasm.ast.component/ValueType.Variant.<init>|<init>(kotlin.collections.List<io.github.charlietap.chasm.ast.component.VariantCase>){}[0]
-
-        final val cases // io.github.charlietap.chasm.ast.component/ValueType.Variant.cases|{}cases[0]
-            final fun <get-cases>(): kotlin.collections/List<io.github.charlietap.chasm.ast.component/VariantCase> // io.github.charlietap.chasm.ast.component/ValueType.Variant.cases.<get-cases>|<get-cases>(){}[0]
-
-        final fun component1(): kotlin.collections/List<io.github.charlietap.chasm.ast.component/VariantCase> // io.github.charlietap.chasm.ast.component/ValueType.Variant.component1|component1(){}[0]
-        final fun copy(kotlin.collections/List<io.github.charlietap.chasm.ast.component/VariantCase> = ...): io.github.charlietap.chasm.ast.component/ValueType.Variant // io.github.charlietap.chasm.ast.component/ValueType.Variant.copy|copy(kotlin.collections.List<io.github.charlietap.chasm.ast.component.VariantCase>){}[0]
-        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.Variant.equals|equals(kotlin.Any?){}[0]
-        final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.Variant.hashCode|hashCode(){}[0]
-        final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.Variant.toString|toString(){}[0]
-    }
-
-    final object Bool : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.Bool|null[0]
+    final object Bool : io.github.charlietap.chasm.ast.component/PrimitiveValueType { // io.github.charlietap.chasm.ast.component/ValueType.Bool|null[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.Bool.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.Bool.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.Bool.toString|toString(){}[0]
     }
 
-    final object Char : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.Char|null[0]
+    final object Char : io.github.charlietap.chasm.ast.component/PrimitiveValueType { // io.github.charlietap.chasm.ast.component/ValueType.Char|null[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.Char.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.Char.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.Char.toString|toString(){}[0]
     }
 
-    final object ErrorContext : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.ErrorContext|null[0]
+    final object ErrorContext : io.github.charlietap.chasm.ast.component/PrimitiveValueType { // io.github.charlietap.chasm.ast.component/ValueType.ErrorContext|null[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.ErrorContext.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.ErrorContext.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.ErrorContext.toString|toString(){}[0]
     }
 
-    final object F32 : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.F32|null[0]
+    final object F32 : io.github.charlietap.chasm.ast.component/PrimitiveValueType { // io.github.charlietap.chasm.ast.component/ValueType.F32|null[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.F32.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.F32.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.F32.toString|toString(){}[0]
     }
 
-    final object F64 : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.F64|null[0]
+    final object F64 : io.github.charlietap.chasm.ast.component/PrimitiveValueType { // io.github.charlietap.chasm.ast.component/ValueType.F64|null[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.F64.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.F64.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.F64.toString|toString(){}[0]
     }
 
-    final object S16 : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.S16|null[0]
+    final object S16 : io.github.charlietap.chasm.ast.component/PrimitiveValueType { // io.github.charlietap.chasm.ast.component/ValueType.S16|null[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.S16.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.S16.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.S16.toString|toString(){}[0]
     }
 
-    final object S32 : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.S32|null[0]
+    final object S32 : io.github.charlietap.chasm.ast.component/PrimitiveValueType { // io.github.charlietap.chasm.ast.component/ValueType.S32|null[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.S32.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.S32.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.S32.toString|toString(){}[0]
     }
 
-    final object S64 : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.S64|null[0]
+    final object S64 : io.github.charlietap.chasm.ast.component/PrimitiveValueType { // io.github.charlietap.chasm.ast.component/ValueType.S64|null[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.S64.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.S64.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.S64.toString|toString(){}[0]
     }
 
-    final object S8 : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.S8|null[0]
+    final object S8 : io.github.charlietap.chasm.ast.component/PrimitiveValueType { // io.github.charlietap.chasm.ast.component/ValueType.S8|null[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.S8.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.S8.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.S8.toString|toString(){}[0]
     }
 
-    final object String : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.String|null[0]
+    final object String : io.github.charlietap.chasm.ast.component/PrimitiveValueType { // io.github.charlietap.chasm.ast.component/ValueType.String|null[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.String.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.String.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.String.toString|toString(){}[0]
     }
 
-    final object U16 : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.U16|null[0]
+    final object U16 : io.github.charlietap.chasm.ast.component/PrimitiveValueType { // io.github.charlietap.chasm.ast.component/ValueType.U16|null[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.U16.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.U16.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.U16.toString|toString(){}[0]
     }
 
-    final object U32 : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.U32|null[0]
+    final object U32 : io.github.charlietap.chasm.ast.component/PrimitiveValueType { // io.github.charlietap.chasm.ast.component/ValueType.U32|null[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.U32.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.U32.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.U32.toString|toString(){}[0]
     }
 
-    final object U64 : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.U64|null[0]
+    final object U64 : io.github.charlietap.chasm.ast.component/PrimitiveValueType { // io.github.charlietap.chasm.ast.component/ValueType.U64|null[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.U64.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.U64.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.U64.toString|toString(){}[0]
     }
 
-    final object U8 : io.github.charlietap.chasm.ast.component/ValueType { // io.github.charlietap.chasm.ast.component/ValueType.U8|null[0]
+    final object U8 : io.github.charlietap.chasm.ast.component/PrimitiveValueType { // io.github.charlietap.chasm.ast.component/ValueType.U8|null[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.ast.component/ValueType.U8.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.ast.component/ValueType.U8.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.charlietap.chasm.ast.component/ValueType.U8.toString|toString(){}[0]

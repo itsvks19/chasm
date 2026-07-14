@@ -2,9 +2,9 @@ package io.github.charlietap.chasm.decoder.decoder.component.type
 
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
+import io.github.charlietap.chasm.ast.component.DefinedValueType
 import io.github.charlietap.chasm.ast.component.FunctionType
 import io.github.charlietap.chasm.ast.component.TypeDefinition
-import io.github.charlietap.chasm.ast.component.ValueType
 import io.github.charlietap.chasm.decoder.context.ComponentDecoderContext
 import io.github.charlietap.chasm.decoder.decoder.ComponentDecoder
 import io.github.charlietap.chasm.decoder.error.WasmDecodeError
@@ -22,7 +22,7 @@ internal fun ComponentTypeDefinitionDecoder(
 
 internal inline fun ComponentTypeDefinitionDecoder(
     context: ComponentDecoderContext,
-    crossinline definedValueTypeDecoder: ComponentDecoder<ValueType>,
+    crossinline definedValueTypeDecoder: ComponentDecoder<DefinedValueType>,
     crossinline functionTypeDecoder: ComponentDecoder<FunctionType>,
     crossinline componentTypeDecoder: ComponentDecoder<TypeDefinition.Component>,
     crossinline instanceTypeDecoder: ComponentDecoder<TypeDefinition.Instance>,

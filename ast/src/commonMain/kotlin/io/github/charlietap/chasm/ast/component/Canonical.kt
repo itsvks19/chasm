@@ -5,6 +5,7 @@ import io.github.charlietap.chasm.ast.component.Index.ComponentTypeIndex
 import io.github.charlietap.chasm.ast.module.Index.FunctionIndex as ModuleFunctionIndex
 import io.github.charlietap.chasm.ast.module.Index.MemoryIndex as ModuleMemoryIndex
 import io.github.charlietap.chasm.ast.module.Index.TableIndex as ModuleTableIndex
+import io.github.charlietap.chasm.type.ValueType as CoreValueType
 
 sealed interface CanonicalDefinition {
 
@@ -39,12 +40,12 @@ sealed interface CanonicalDefinition {
     data object TaskCancel : CanonicalDefinition
 
     data class ContextGet(
-        val type: ValueType,
+        val type: CoreValueType,
         val index: UInt,
     ) : CanonicalDefinition
 
     data class ContextSet(
-        val type: ValueType,
+        val type: CoreValueType,
         val index: UInt,
     ) : CanonicalDefinition
 
