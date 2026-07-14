@@ -26,9 +26,11 @@ internal inline fun <C : ReaderContext, T> ReaderVectorDecoder(
     crossinline elementDecoder: ContextDecoder<C, T>,
 ): Result<Vector<T>, WasmDecodeError> = binding {
     val size = context.reader.uint()
-    if (size > Int.MAX_VALUE.toUInt()) {
+    if (size > MAX_COMPONENT_VECTOR_SIZE) {
         Err(ComponentDecodeError.VectorTooLarge(size)).bind<Unit>()
     }
 
     Vector(List(size.toInt()) { elementDecoder(context).bind() })
 }
+
+internal const val MAX_COMPONENT_VECTOR_SIZE = 1_000_000u
