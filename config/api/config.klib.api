@@ -6,6 +6,23 @@
 // - Show declarations: true
 
 // Library unique name: <io.github.charlietap.chasm:config>
+final enum class io.github.charlietap.chasm.config/ComponentFeature : kotlin/Enum<io.github.charlietap.chasm.config/ComponentFeature> { // io.github.charlietap.chasm.config/ComponentFeature|null[0]
+    enum entry Async // io.github.charlietap.chasm.config/ComponentFeature.Async|null[0]
+    enum entry FixedLengthLists // io.github.charlietap.chasm.config/ComponentFeature.FixedLengthLists|null[0]
+    enum entry Maps // io.github.charlietap.chasm.config/ComponentFeature.Maps|null[0]
+    enum entry Memory64 // io.github.charlietap.chasm.config/ComponentFeature.Memory64|null[0]
+    enum entry MoreAsyncBuiltins // io.github.charlietap.chasm.config/ComponentFeature.MoreAsyncBuiltins|null[0]
+    enum entry StackfulAsync // io.github.charlietap.chasm.config/ComponentFeature.StackfulAsync|null[0]
+    enum entry Threading // io.github.charlietap.chasm.config/ComponentFeature.Threading|null[0]
+    enum entry Values // io.github.charlietap.chasm.config/ComponentFeature.Values|null[0]
+
+    final val entries // io.github.charlietap.chasm.config/ComponentFeature.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.charlietap.chasm.config/ComponentFeature> // io.github.charlietap.chasm.config/ComponentFeature.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.github.charlietap.chasm.config/ComponentFeature // io.github.charlietap.chasm.config/ComponentFeature.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.github.charlietap.chasm.config/ComponentFeature> // io.github.charlietap.chasm.config/ComponentFeature.values|values#static(){}[0]
+}
+
 final enum class io.github.charlietap.chasm.config/GCStrategy : kotlin/Enum<io.github.charlietap.chasm.config/GCStrategy> { // io.github.charlietap.chasm.config/GCStrategy|null[0]
     enum entry ARENA // io.github.charlietap.chasm.config/GCStrategy.ARENA|null[0]
     enum entry MANUAL // io.github.charlietap.chasm.config/GCStrategy.MANUAL|null[0]
@@ -76,16 +93,19 @@ sealed interface io.github.charlietap.chasm.config/GCThreshold { // io.github.ch
 }
 
 final class io.github.charlietap.chasm.config/ComponentConfig { // io.github.charlietap.chasm.config/ComponentConfig|null[0]
-    constructor <init>(io.github.charlietap.chasm.config/ModuleConfig = ..., kotlin/Boolean = ...) // io.github.charlietap.chasm.config/ComponentConfig.<init>|<init>(io.github.charlietap.chasm.config.ModuleConfig;kotlin.Boolean){}[0]
+    constructor <init>(io.github.charlietap.chasm.config/ModuleConfig = ..., kotlin.collections/Set<io.github.charlietap.chasm.config/ComponentFeature> = ..., kotlin/Boolean = ...) // io.github.charlietap.chasm.config/ComponentConfig.<init>|<init>(io.github.charlietap.chasm.config.ModuleConfig;kotlin.collections.Set<io.github.charlietap.chasm.config.ComponentFeature>;kotlin.Boolean){}[0]
 
     final val decodeNameSection // io.github.charlietap.chasm.config/ComponentConfig.decodeNameSection|{}decodeNameSection[0]
         final fun <get-decodeNameSection>(): kotlin/Boolean // io.github.charlietap.chasm.config/ComponentConfig.decodeNameSection.<get-decodeNameSection>|<get-decodeNameSection>(){}[0]
+    final val features // io.github.charlietap.chasm.config/ComponentConfig.features|{}features[0]
+        final fun <get-features>(): kotlin.collections/Set<io.github.charlietap.chasm.config/ComponentFeature> // io.github.charlietap.chasm.config/ComponentConfig.features.<get-features>|<get-features>(){}[0]
     final val moduleConfig // io.github.charlietap.chasm.config/ComponentConfig.moduleConfig|{}moduleConfig[0]
         final fun <get-moduleConfig>(): io.github.charlietap.chasm.config/ModuleConfig // io.github.charlietap.chasm.config/ComponentConfig.moduleConfig.<get-moduleConfig>|<get-moduleConfig>(){}[0]
 
     final fun component1(): io.github.charlietap.chasm.config/ModuleConfig // io.github.charlietap.chasm.config/ComponentConfig.component1|component1(){}[0]
-    final fun component2(): kotlin/Boolean // io.github.charlietap.chasm.config/ComponentConfig.component2|component2(){}[0]
-    final fun copy(io.github.charlietap.chasm.config/ModuleConfig = ..., kotlin/Boolean = ...): io.github.charlietap.chasm.config/ComponentConfig // io.github.charlietap.chasm.config/ComponentConfig.copy|copy(io.github.charlietap.chasm.config.ModuleConfig;kotlin.Boolean){}[0]
+    final fun component2(): kotlin.collections/Set<io.github.charlietap.chasm.config/ComponentFeature> // io.github.charlietap.chasm.config/ComponentConfig.component2|component2(){}[0]
+    final fun component3(): kotlin/Boolean // io.github.charlietap.chasm.config/ComponentConfig.component3|component3(){}[0]
+    final fun copy(io.github.charlietap.chasm.config/ModuleConfig = ..., kotlin.collections/Set<io.github.charlietap.chasm.config/ComponentFeature> = ..., kotlin/Boolean = ...): io.github.charlietap.chasm.config/ComponentConfig // io.github.charlietap.chasm.config/ComponentConfig.copy|copy(io.github.charlietap.chasm.config.ModuleConfig;kotlin.collections.Set<io.github.charlietap.chasm.config.ComponentFeature>;kotlin.Boolean){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.charlietap.chasm.config/ComponentConfig.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.charlietap.chasm.config/ComponentConfig.hashCode|hashCode(){}[0]
     final fun toString(): kotlin/String // io.github.charlietap.chasm.config/ComponentConfig.toString|toString(){}[0]

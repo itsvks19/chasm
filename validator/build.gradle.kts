@@ -12,7 +12,7 @@ kotlin {
                 api(projects.config)
                 api(libs.result)
 
-                implementation(projects.typeSystem)
+                api(projects.typeSystem)
                 implementation(projects.libs.stack)
             }
         }
