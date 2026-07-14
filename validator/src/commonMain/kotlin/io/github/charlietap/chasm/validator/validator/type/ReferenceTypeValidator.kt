@@ -4,12 +4,12 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.type.HeapType
 import io.github.charlietap.chasm.type.ReferenceType
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.CoreTypeValidator
+import io.github.charlietap.chasm.validator.context.CoreTypeValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 
 internal fun ReferenceTypeValidator(
-    context: ValidationContext,
+    context: CoreTypeValidationContext,
     type: ReferenceType,
 ): Result<Unit, ModuleValidatorError> =
     ReferenceTypeValidator(
@@ -19,9 +19,9 @@ internal fun ReferenceTypeValidator(
     )
 
 internal inline fun ReferenceTypeValidator(
-    context: ValidationContext,
+    context: CoreTypeValidationContext,
     type: ReferenceType,
-    crossinline heapTypeValidator: Validator<HeapType>,
+    crossinline heapTypeValidator: CoreTypeValidator<HeapType>,
 ): Result<Unit, ModuleValidatorError> = binding {
     heapTypeValidator(context, type.heapType).bind()
 }

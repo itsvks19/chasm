@@ -7,8 +7,8 @@ import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.instruction.Instruction
 import io.github.charlietap.chasm.ast.module.Function
 import io.github.charlietap.chasm.type.ValueType
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.context.scope.FunctionScope
 import io.github.charlietap.chasm.validator.context.scope.NewScope
 import io.github.charlietap.chasm.validator.context.scope.Scope
@@ -21,7 +21,7 @@ import io.github.charlietap.chasm.validator.validator.instruction.InstructionBlo
 import io.github.charlietap.chasm.validator.validator.type.ValueTypeValidator
 
 internal fun FunctionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     function: Function,
 ): Result<Unit, ModuleValidatorError> =
     FunctionValidator(
@@ -33,11 +33,11 @@ internal fun FunctionValidator(
     )
 
 internal inline fun FunctionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     function: Function,
     crossinline scope: NewScope<Function>,
-    crossinline instructionBlockValidator: Validator<List<Instruction>>,
-    crossinline valueTypeValidator: Validator<ValueType>,
+    crossinline instructionBlockValidator: ModuleValidator<List<Instruction>>,
+    crossinline valueTypeValidator: ModuleValidator<ValueType>,
 ): Result<Unit, ModuleValidatorError> = binding {
     scope(context, function) { scopedContext ->
         function.locals.forEach { local ->

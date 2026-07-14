@@ -6,13 +6,13 @@ import io.github.charlietap.chasm.ast.instruction.ControlInstruction
 import io.github.charlietap.chasm.type.AbstractHeapType
 import io.github.charlietap.chasm.type.ReferenceType
 import io.github.charlietap.chasm.type.ValueType
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.ext.pop
 import io.github.charlietap.chasm.validator.ext.unreachable
 
 internal fun ThrowRefInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: ControlInstruction.ThrowRef,
 ): Result<Unit, ModuleValidatorError> = binding {
     val exnref = ValueType.Reference(ReferenceType.RefNull(AbstractHeapType.Exception))

@@ -2,12 +2,12 @@ package io.github.charlietap.chasm.validator.validator.instruction.table
 
 import com.github.michaelbull.result.Result
 import io.github.charlietap.chasm.ast.instruction.TableInstruction
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 
 internal fun TableInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: TableInstruction,
 ): Result<Unit, ModuleValidatorError> =
     TableInstructionValidator(
@@ -24,16 +24,16 @@ internal fun TableInstructionValidator(
     )
 
 internal inline fun TableInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: TableInstruction,
-    crossinline elementDropValidator: Validator<TableInstruction.ElemDrop>,
-    crossinline tableCopyValidator: Validator<TableInstruction.TableCopy>,
-    crossinline tableFillValidator: Validator<TableInstruction.TableFill>,
-    crossinline tableGetValidator: Validator<TableInstruction.TableGet>,
-    crossinline tableSetValidator: Validator<TableInstruction.TableSet>,
-    crossinline tableGrowValidator: Validator<TableInstruction.TableGrow>,
-    crossinline tableInitValidator: Validator<TableInstruction.TableInit>,
-    crossinline tableSizeValidator: Validator<TableInstruction.TableSize>,
+    crossinline elementDropValidator: ModuleValidator<TableInstruction.ElemDrop>,
+    crossinline tableCopyValidator: ModuleValidator<TableInstruction.TableCopy>,
+    crossinline tableFillValidator: ModuleValidator<TableInstruction.TableFill>,
+    crossinline tableGetValidator: ModuleValidator<TableInstruction.TableGet>,
+    crossinline tableSetValidator: ModuleValidator<TableInstruction.TableSet>,
+    crossinline tableGrowValidator: ModuleValidator<TableInstruction.TableGrow>,
+    crossinline tableInitValidator: ModuleValidator<TableInstruction.TableInit>,
+    crossinline tableSizeValidator: ModuleValidator<TableInstruction.TableSize>,
 ): Result<Unit, ModuleValidatorError> {
     return when (instruction) {
         is TableInstruction.ElemDrop -> elementDropValidator(context, instruction)

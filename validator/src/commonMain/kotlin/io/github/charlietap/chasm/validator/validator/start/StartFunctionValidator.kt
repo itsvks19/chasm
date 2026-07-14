@@ -4,13 +4,13 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.module.StartFunction
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.error.StartFunctionValidatorError
 import io.github.charlietap.chasm.validator.ext.functionType
 
 internal fun StartFunctionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     startFunction: StartFunction,
 ): Result<Unit, ModuleValidatorError> = binding {
 

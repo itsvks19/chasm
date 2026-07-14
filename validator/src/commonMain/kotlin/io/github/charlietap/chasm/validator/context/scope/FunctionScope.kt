@@ -12,14 +12,14 @@ import io.github.charlietap.chasm.type.ReferenceType
 import io.github.charlietap.chasm.type.ValueType
 import io.github.charlietap.chasm.validator.context.FunctionContextImpl
 import io.github.charlietap.chasm.validator.context.Label
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.ext.functionType
 
 internal fun FunctionScope(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     function: Function,
-    block: (ValidationContext) -> Result<Unit, ModuleValidatorError>,
+    block: (ModuleValidationContext) -> Result<Unit, ModuleValidatorError>,
 ): Result<Unit, ModuleValidatorError> {
 
     val functionType = context.functionType(function.typeIndex).getOrElse { error ->

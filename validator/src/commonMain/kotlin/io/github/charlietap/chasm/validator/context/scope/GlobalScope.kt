@@ -1,24 +1,25 @@
 package io.github.charlietap.chasm.validator.context.scope
 
-import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import io.github.charlietap.chasm.ast.module.Global
 import io.github.charlietap.chasm.type.ResultType
-import io.github.charlietap.chasm.validator.context.ExpressionContextImpl
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 
 internal fun GlobalScope(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     global: Global,
-): Result<ValidationContext, ModuleValidatorError> = context
-    .copy(
-        module = context.module.copy(
-            globals = context.module.globals.filter { glob ->
-                glob.idx.idx < global.idx.idx
-            },
-        ),
-        expressionContext = ExpressionContextImpl(
-            expressionResultType = ResultType(listOf(global.type.valueType)),
-        ),
-    ).let(::Ok)
+    block: (ModuleValidationContext) -> Result<Unit, ModuleValidatorError>,
+): Result<Unit, ModuleValidatorError> {
+    val previousGlobals = context.globals.toList()
+    val previousResultType = context.expressionResultType
+    context.globals.clear()
+    context.globals.addAll(previousGlobals.take(global.idx.idx.toInt()))
+    context.expressionResultType = ResultType(listOf(global.type.valueType))
+
+    val result = block(context)
+    context.globals.clear()
+    context.globals.addAll(previousGlobals)
+    context.expressionResultType = previousResultType
+    return result
+}

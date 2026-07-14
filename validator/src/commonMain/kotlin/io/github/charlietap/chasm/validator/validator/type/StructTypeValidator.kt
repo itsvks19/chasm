@@ -4,12 +4,12 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.type.FieldType
 import io.github.charlietap.chasm.type.StructType
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.CoreTypeValidator
+import io.github.charlietap.chasm.validator.context.CoreTypeValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 
 internal fun StructTypeValidator(
-    context: ValidationContext,
+    context: CoreTypeValidationContext,
     type: StructType,
 ): Result<Unit, ModuleValidatorError> =
     StructTypeValidator(
@@ -19,9 +19,9 @@ internal fun StructTypeValidator(
     )
 
 internal inline fun StructTypeValidator(
-    context: ValidationContext,
+    context: CoreTypeValidationContext,
     type: StructType,
-    crossinline fieldTypeValidator: Validator<FieldType>,
+    crossinline fieldTypeValidator: CoreTypeValidator<FieldType>,
 ): Result<Unit, ModuleValidatorError> = binding {
     type.fields.forEach { field ->
         fieldTypeValidator(context, field).bind()

@@ -10,14 +10,14 @@ import io.github.charlietap.chasm.ast.instruction.ReferenceInstruction
 import io.github.charlietap.chasm.ast.instruction.VariableInstruction
 import io.github.charlietap.chasm.ast.instruction.VectorInstruction
 import io.github.charlietap.chasm.type.Mutability
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.InstructionValidatorError
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.ext.globalType
 
 internal fun ConstInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: Instruction,
 ): Result<Unit, ModuleValidatorError> =
     ConstInstructionValidator(
@@ -27,9 +27,9 @@ internal fun ConstInstructionValidator(
     )
 
 internal inline fun ConstInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: Instruction,
-    crossinline instructionValidator: Validator<Instruction>,
+    crossinline instructionValidator: ModuleValidator<Instruction>,
 ): Result<Unit, ModuleValidatorError> = binding {
     when (instruction) {
         is AggregateInstruction.AnyConvertExtern,

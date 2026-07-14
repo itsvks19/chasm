@@ -13,8 +13,8 @@ import io.github.charlietap.chasm.ast.instruction.ReferenceInstruction
 import io.github.charlietap.chasm.ast.instruction.TableInstruction
 import io.github.charlietap.chasm.ast.instruction.VariableInstruction
 import io.github.charlietap.chasm.ast.instruction.VectorInstruction
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.context.scope.InstructionScope
 import io.github.charlietap.chasm.validator.context.scope.NewScope
 import io.github.charlietap.chasm.validator.context.scope.Scope
@@ -31,7 +31,7 @@ import io.github.charlietap.chasm.validator.validator.instruction.variable.Varia
 import io.github.charlietap.chasm.validator.validator.instruction.vector.VectorInstructionValidator
 
 internal fun InstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: Instruction,
 ): Result<Unit, ModuleValidatorError> =
     InstructionValidator(
@@ -51,19 +51,19 @@ internal fun InstructionValidator(
     )
 
 internal inline fun InstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: Instruction,
     crossinline scope: NewScope<Instruction>,
-    crossinline aggregateInstructionValidator: Validator<AggregateInstruction>,
-    crossinline atomicMemoryInstructionValidator: Validator<AtomicMemoryInstruction>,
-    crossinline controlInstructionValidator: Validator<ControlInstruction>,
-    crossinline memoryInstructionValidator: Validator<MemoryInstruction>,
-    crossinline numericInstructionValidator: Validator<NumericInstruction>,
-    crossinline parametricInstructionValidator: Validator<ParametricInstruction>,
-    crossinline referenceInstructionValidator: Validator<ReferenceInstruction>,
-    crossinline tableInstructionValidator: Validator<TableInstruction>,
-    crossinline variableInstructionValidator: Validator<VariableInstruction>,
-    crossinline vectorInstructionValidator: Validator<VectorInstruction>,
+    crossinline aggregateInstructionValidator: ModuleValidator<AggregateInstruction>,
+    crossinline atomicMemoryInstructionValidator: ModuleValidator<AtomicMemoryInstruction>,
+    crossinline controlInstructionValidator: ModuleValidator<ControlInstruction>,
+    crossinline memoryInstructionValidator: ModuleValidator<MemoryInstruction>,
+    crossinline numericInstructionValidator: ModuleValidator<NumericInstruction>,
+    crossinline parametricInstructionValidator: ModuleValidator<ParametricInstruction>,
+    crossinline referenceInstructionValidator: ModuleValidator<ReferenceInstruction>,
+    crossinline tableInstructionValidator: ModuleValidator<TableInstruction>,
+    crossinline variableInstructionValidator: ModuleValidator<VariableInstruction>,
+    crossinline vectorInstructionValidator: ModuleValidator<VectorInstruction>,
 ): Result<Unit, ModuleValidatorError> = binding {
     scope(context, instruction) { scopedContext ->
         when (instruction) {

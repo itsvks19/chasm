@@ -3,9 +3,9 @@ package io.github.charlietap.chasm.validator.context
 import io.github.charlietap.chasm.type.ResultType
 
 internal interface ExpressionContext {
-    val expressionResultType: ResultType?
+    var expressionResultType: ResultType?
 }
 
-internal data class ExpressionContextImpl(
-    override val expressionResultType: ResultType? = null,
+internal class ExpressionContextImpl(
+    override var expressionResultType: ResultType? = null,
 ) : ExpressionContext

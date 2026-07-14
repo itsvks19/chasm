@@ -6,8 +6,8 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.instruction.Expression
 import io.github.charlietap.chasm.ast.instruction.Instruction
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.context.scope.ExpressionScope
 import io.github.charlietap.chasm.validator.context.scope.NewScope
 import io.github.charlietap.chasm.validator.context.scope.Scope
@@ -17,7 +17,7 @@ import io.github.charlietap.chasm.validator.ext.expressionResultType
 import io.github.charlietap.chasm.validator.ext.popValues
 
 internal fun ExpressionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     expression: Expression,
 ): Result<Unit, ModuleValidatorError> =
     ExpressionValidator(
@@ -28,10 +28,10 @@ internal fun ExpressionValidator(
     )
 
 internal inline fun ExpressionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     expression: Expression,
     crossinline scope: NewScope<Expression>,
-    crossinline constInstructionValidator: Validator<Instruction>,
+    crossinline constInstructionValidator: ModuleValidator<Instruction>,
 ): Result<Unit, ModuleValidatorError> = binding {
     scope(context, expression) { scopedContext ->
         expression.instructions.forEach { instruction ->

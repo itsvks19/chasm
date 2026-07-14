@@ -2,12 +2,12 @@ package io.github.charlietap.chasm.validator.validator.instruction.aggregate
 
 import com.github.michaelbull.result.Result
 import io.github.charlietap.chasm.ast.instruction.AggregateInstruction
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 
 internal fun AggregateInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: AggregateInstruction,
 ): Result<Unit, ModuleValidatorError> =
     AggregateInstructionValidator(
@@ -41,33 +41,33 @@ internal fun AggregateInstructionValidator(
     )
 
 internal inline fun AggregateInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: AggregateInstruction,
-    crossinline refI31Validator: Validator<AggregateInstruction.RefI31>,
-    crossinline anyConvertExternValidator: Validator<AggregateInstruction.AnyConvertExtern>,
-    crossinline arrayCopyValidator: Validator<AggregateInstruction.ArrayCopy>,
-    crossinline arrayFillValidator: Validator<AggregateInstruction.ArrayFill>,
-    crossinline arrayGetValidator: Validator<AggregateInstruction.ArrayGet>,
-    crossinline arrayGetSignedValidator: Validator<AggregateInstruction.ArrayGetSigned>,
-    crossinline arrayGetUnsignedValidator: Validator<AggregateInstruction.ArrayGetUnsigned>,
-    crossinline arrayInitDataValidator: Validator<AggregateInstruction.ArrayInitData>,
-    crossinline arrayInitElementValidator: Validator<AggregateInstruction.ArrayInitElement>,
-    crossinline arrayLenValidator: Validator<AggregateInstruction.ArrayLen>,
-    crossinline arrayNewValidator: Validator<AggregateInstruction.ArrayNew>,
-    crossinline arrayNewDataValidator: Validator<AggregateInstruction.ArrayNewData>,
-    crossinline arrayNewDefaultValidator: Validator<AggregateInstruction.ArrayNewDefault>,
-    crossinline arrayNewElementValidator: Validator<AggregateInstruction.ArrayNewElement>,
-    crossinline arrayNewFixedValidator: Validator<AggregateInstruction.ArrayNewFixed>,
-    crossinline arraySetValidator: Validator<AggregateInstruction.ArraySet>,
-    crossinline externConvertAnyValidator: Validator<AggregateInstruction.ExternConvertAny>,
-    crossinline structGetValidator: Validator<AggregateInstruction.StructGet>,
-    crossinline structGetSignedValidator: Validator<AggregateInstruction.StructGetSigned>,
-    crossinline structGetUnsignedValidator: Validator<AggregateInstruction.StructGetUnsigned>,
-    crossinline structNewValidator: Validator<AggregateInstruction.StructNew>,
-    crossinline structNewDefaultValidator: Validator<AggregateInstruction.StructNewDefault>,
-    crossinline structSetValidator: Validator<AggregateInstruction.StructSet>,
-    crossinline i31GetSignedValidator: Validator<AggregateInstruction.I31GetSigned>,
-    crossinline i31GetUnsignedValidator: Validator<AggregateInstruction.I31GetUnsigned>,
+    crossinline refI31Validator: ModuleValidator<AggregateInstruction.RefI31>,
+    crossinline anyConvertExternValidator: ModuleValidator<AggregateInstruction.AnyConvertExtern>,
+    crossinline arrayCopyValidator: ModuleValidator<AggregateInstruction.ArrayCopy>,
+    crossinline arrayFillValidator: ModuleValidator<AggregateInstruction.ArrayFill>,
+    crossinline arrayGetValidator: ModuleValidator<AggregateInstruction.ArrayGet>,
+    crossinline arrayGetSignedValidator: ModuleValidator<AggregateInstruction.ArrayGetSigned>,
+    crossinline arrayGetUnsignedValidator: ModuleValidator<AggregateInstruction.ArrayGetUnsigned>,
+    crossinline arrayInitDataValidator: ModuleValidator<AggregateInstruction.ArrayInitData>,
+    crossinline arrayInitElementValidator: ModuleValidator<AggregateInstruction.ArrayInitElement>,
+    crossinline arrayLenValidator: ModuleValidator<AggregateInstruction.ArrayLen>,
+    crossinline arrayNewValidator: ModuleValidator<AggregateInstruction.ArrayNew>,
+    crossinline arrayNewDataValidator: ModuleValidator<AggregateInstruction.ArrayNewData>,
+    crossinline arrayNewDefaultValidator: ModuleValidator<AggregateInstruction.ArrayNewDefault>,
+    crossinline arrayNewElementValidator: ModuleValidator<AggregateInstruction.ArrayNewElement>,
+    crossinline arrayNewFixedValidator: ModuleValidator<AggregateInstruction.ArrayNewFixed>,
+    crossinline arraySetValidator: ModuleValidator<AggregateInstruction.ArraySet>,
+    crossinline externConvertAnyValidator: ModuleValidator<AggregateInstruction.ExternConvertAny>,
+    crossinline structGetValidator: ModuleValidator<AggregateInstruction.StructGet>,
+    crossinline structGetSignedValidator: ModuleValidator<AggregateInstruction.StructGetSigned>,
+    crossinline structGetUnsignedValidator: ModuleValidator<AggregateInstruction.StructGetUnsigned>,
+    crossinline structNewValidator: ModuleValidator<AggregateInstruction.StructNew>,
+    crossinline structNewDefaultValidator: ModuleValidator<AggregateInstruction.StructNewDefault>,
+    crossinline structSetValidator: ModuleValidator<AggregateInstruction.StructSet>,
+    crossinline i31GetSignedValidator: ModuleValidator<AggregateInstruction.I31GetSigned>,
+    crossinline i31GetUnsignedValidator: ModuleValidator<AggregateInstruction.I31GetUnsigned>,
 ): Result<Unit, ModuleValidatorError> {
     return when (instruction) {
         is AggregateInstruction.AnyConvertExtern -> anyConvertExternValidator(context, instruction)

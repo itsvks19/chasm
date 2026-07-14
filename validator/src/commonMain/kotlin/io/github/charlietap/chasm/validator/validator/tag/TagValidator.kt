@@ -4,13 +4,13 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.module.Tag
 import io.github.charlietap.chasm.type.TagType
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.validator.type.TagTypeValidator
 
 internal fun TagValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     tag: Tag,
 ): Result<Unit, ModuleValidatorError> =
     TagValidator(
@@ -20,9 +20,9 @@ internal fun TagValidator(
     )
 
 internal inline fun TagValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     tag: Tag,
-    crossinline typeValidator: Validator<TagType>,
+    crossinline typeValidator: ModuleValidator<TagType>,
 ): Result<Unit, ModuleValidatorError> = binding {
     typeValidator(context, tag.type).bind()
 }

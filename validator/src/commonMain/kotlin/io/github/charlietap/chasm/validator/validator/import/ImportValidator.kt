@@ -3,12 +3,12 @@ package io.github.charlietap.chasm.validator.validator.import
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.module.Import
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 
 internal fun ImportValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     import: Import,
 ): Result<Unit, ModuleValidatorError> =
     ImportValidator(
@@ -22,13 +22,13 @@ internal fun ImportValidator(
     )
 
 internal inline fun ImportValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     import: Import,
-    crossinline functionImportValidator: Validator<Import.Descriptor.Function>,
-    crossinline globalImportValidator: Validator<Import.Descriptor.Global>,
-    crossinline memoryImportValidator: Validator<Import.Descriptor.Memory>,
-    crossinline tableImportValidator: Validator<Import.Descriptor.Table>,
-    crossinline tagImportValidator: Validator<Import.Descriptor.Tag>,
+    crossinline functionImportValidator: ModuleValidator<Import.Descriptor.Function>,
+    crossinline globalImportValidator: ModuleValidator<Import.Descriptor.Global>,
+    crossinline memoryImportValidator: ModuleValidator<Import.Descriptor.Memory>,
+    crossinline tableImportValidator: ModuleValidator<Import.Descriptor.Table>,
+    crossinline tagImportValidator: ModuleValidator<Import.Descriptor.Tag>,
 ): Result<Unit, ModuleValidatorError> = binding {
     when (val descriptor = import.descriptor) {
         is Import.Descriptor.Function -> functionImportValidator(context, descriptor).bind()

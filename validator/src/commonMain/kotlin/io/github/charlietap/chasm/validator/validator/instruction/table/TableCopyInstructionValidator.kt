@@ -8,7 +8,7 @@ import io.github.charlietap.chasm.type.AddressType
 import io.github.charlietap.chasm.type.ReferenceType
 import io.github.charlietap.chasm.type.matching.ReferenceTypeMatcher
 import io.github.charlietap.chasm.type.matching.TypeMatcher
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.error.TypeValidatorError
 import io.github.charlietap.chasm.validator.ext.popI32
@@ -17,7 +17,7 @@ import io.github.charlietap.chasm.validator.ext.popTableAddress
 import io.github.charlietap.chasm.validator.ext.tableType
 
 internal fun TableCopyInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: TableInstruction.TableCopy,
 ): Result<Unit, ModuleValidatorError> =
     TableCopyInstructionValidator(
@@ -27,7 +27,7 @@ internal fun TableCopyInstructionValidator(
     )
 
 internal inline fun TableCopyInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: TableInstruction.TableCopy,
     crossinline typeMatcher: TypeMatcher<ReferenceType>,
 ): Result<Unit, ModuleValidatorError> = binding {

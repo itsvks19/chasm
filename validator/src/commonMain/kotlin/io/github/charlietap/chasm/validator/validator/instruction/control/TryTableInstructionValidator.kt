@@ -10,9 +10,9 @@ import io.github.charlietap.chasm.type.ReferenceType
 import io.github.charlietap.chasm.type.ValueType
 import io.github.charlietap.chasm.type.matching.TypeMatcher
 import io.github.charlietap.chasm.type.matching.ValueTypeMatcher
-import io.github.charlietap.chasm.validator.Validator
+import io.github.charlietap.chasm.validator.ModuleValidator
 import io.github.charlietap.chasm.validator.context.Label
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.error.TypeValidatorError
 import io.github.charlietap.chasm.validator.ext.functionType
@@ -25,7 +25,7 @@ import io.github.charlietap.chasm.validator.validator.instruction.InstructionBlo
 import kotlin.math.max
 
 internal fun TryTableInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: ControlInstruction.TryTable,
 ): Result<Unit, ModuleValidatorError> = TryTableInstructionValidator(
     context = context,
@@ -35,9 +35,9 @@ internal fun TryTableInstructionValidator(
 )
 
 internal inline fun TryTableInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: ControlInstruction.TryTable,
-    crossinline instructionBlockValidator: Validator<List<Instruction>>,
+    crossinline instructionBlockValidator: ModuleValidator<List<Instruction>>,
     crossinline typeMatcher: TypeMatcher<ValueType>,
 ): Result<Unit, ModuleValidatorError> = binding {
 

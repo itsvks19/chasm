@@ -5,8 +5,8 @@ import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.instruction.AtomicMemoryInstruction
 import io.github.charlietap.chasm.ast.instruction.MemArg
 import io.github.charlietap.chasm.ast.module.Index
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.ext.popI32
 import io.github.charlietap.chasm.validator.ext.popMemoryAddress
@@ -15,7 +15,7 @@ import io.github.charlietap.chasm.validator.validator.index.MemoryIndexValidator
 import io.github.charlietap.chasm.validator.validator.instruction.MemArgValidator
 
 internal fun AtomicNotifyInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: AtomicMemoryInstruction.Notify,
 ): Result<Unit, ModuleValidatorError> =
     AtomicNotifyInstructionValidator(
@@ -26,10 +26,10 @@ internal fun AtomicNotifyInstructionValidator(
     )
 
 internal inline fun AtomicNotifyInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: AtomicMemoryInstruction.Notify,
-    crossinline memArgValidator: Validator<MemArg>,
-    crossinline memoryIndexValidator: Validator<Index.MemoryIndex>,
+    crossinline memArgValidator: ModuleValidator<MemArg>,
+    crossinline memoryIndexValidator: ModuleValidator<Index.MemoryIndex>,
 ): Result<Unit, ModuleValidatorError> = binding {
 
     memoryIndexValidator(context, instruction.memoryIndex).bind()

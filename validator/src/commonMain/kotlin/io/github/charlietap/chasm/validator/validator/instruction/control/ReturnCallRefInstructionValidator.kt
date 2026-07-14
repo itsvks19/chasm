@@ -10,7 +10,7 @@ import io.github.charlietap.chasm.type.ResultType
 import io.github.charlietap.chasm.type.ValueType
 import io.github.charlietap.chasm.type.matching.ResultTypeMatcher
 import io.github.charlietap.chasm.type.matching.TypeMatcher
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.error.TypeValidatorError
 import io.github.charlietap.chasm.validator.ext.functionType
@@ -20,7 +20,7 @@ import io.github.charlietap.chasm.validator.ext.type
 import io.github.charlietap.chasm.validator.ext.unreachable
 
 internal fun ReturnCallRefInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: ControlInstruction.ReturnCallRef,
 ): Result<Unit, ModuleValidatorError> =
     ReturnCallRefInstructionValidator(
@@ -30,7 +30,7 @@ internal fun ReturnCallRefInstructionValidator(
     )
 
 internal inline fun ReturnCallRefInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: ControlInstruction.ReturnCallRef,
     crossinline resultTypeMatcher: TypeMatcher<ResultType>,
 ): Result<Unit, ModuleValidatorError> = binding {

@@ -3,12 +3,12 @@ package io.github.charlietap.chasm.validator.validator.instruction.atomic
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.instruction.AtomicMemoryInstruction
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 
 internal fun AtomicMemoryInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: AtomicMemoryInstruction,
 ): Result<Unit, ModuleValidatorError> =
     AtomicMemoryInstructionValidator(
@@ -25,16 +25,16 @@ internal fun AtomicMemoryInstructionValidator(
     )
 
 internal inline fun AtomicMemoryInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: AtomicMemoryInstruction,
-    crossinline fenceValidator: Validator<AtomicMemoryInstruction.Fence>,
-    crossinline notifyValidator: Validator<AtomicMemoryInstruction.Notify>,
-    crossinline i32WaitValidator: Validator<AtomicMemoryInstruction.I32Wait>,
-    crossinline i64WaitValidator: Validator<AtomicMemoryInstruction.I64Wait>,
-    crossinline loadValidator: Validator<AtomicMemoryInstruction.Load>,
-    crossinline storeValidator: Validator<AtomicMemoryInstruction.Store>,
-    crossinline readModifyWriteValidator: Validator<AtomicMemoryInstruction.ReadModifyWrite>,
-    crossinline compareExchangeValidator: Validator<AtomicMemoryInstruction.CompareExchange>,
+    crossinline fenceValidator: ModuleValidator<AtomicMemoryInstruction.Fence>,
+    crossinline notifyValidator: ModuleValidator<AtomicMemoryInstruction.Notify>,
+    crossinline i32WaitValidator: ModuleValidator<AtomicMemoryInstruction.I32Wait>,
+    crossinline i64WaitValidator: ModuleValidator<AtomicMemoryInstruction.I64Wait>,
+    crossinline loadValidator: ModuleValidator<AtomicMemoryInstruction.Load>,
+    crossinline storeValidator: ModuleValidator<AtomicMemoryInstruction.Store>,
+    crossinline readModifyWriteValidator: ModuleValidator<AtomicMemoryInstruction.ReadModifyWrite>,
+    crossinline compareExchangeValidator: ModuleValidator<AtomicMemoryInstruction.CompareExchange>,
 ): Result<Unit, ModuleValidatorError> = binding {
     when (instruction) {
         AtomicMemoryInstruction.Fence -> fenceValidator(context, AtomicMemoryInstruction.Fence).bind()

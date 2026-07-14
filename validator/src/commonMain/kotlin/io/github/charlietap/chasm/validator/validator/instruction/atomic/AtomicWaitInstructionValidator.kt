@@ -5,8 +5,8 @@ import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.instruction.AtomicMemoryInstruction
 import io.github.charlietap.chasm.ast.instruction.MemArg
 import io.github.charlietap.chasm.ast.module.Index
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.ext.popI32
 import io.github.charlietap.chasm.validator.ext.popI64
@@ -16,7 +16,7 @@ import io.github.charlietap.chasm.validator.validator.index.MemoryIndexValidator
 import io.github.charlietap.chasm.validator.validator.instruction.MemArgValidator
 
 internal fun AtomicI32WaitInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: AtomicMemoryInstruction.I32Wait,
 ): Result<Unit, ModuleValidatorError> =
     AtomicWaitInstructionValidator(
@@ -27,7 +27,7 @@ internal fun AtomicI32WaitInstructionValidator(
     )
 
 internal fun AtomicI64WaitInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: AtomicMemoryInstruction.I64Wait,
 ): Result<Unit, ModuleValidatorError> =
     AtomicWaitInstructionValidator(
@@ -38,10 +38,10 @@ internal fun AtomicI64WaitInstructionValidator(
     )
 
 internal inline fun AtomicWaitInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: AtomicMemoryInstruction.I32Wait,
-    crossinline memArgValidator: Validator<MemArg>,
-    crossinline memoryIndexValidator: Validator<Index.MemoryIndex>,
+    crossinline memArgValidator: ModuleValidator<MemArg>,
+    crossinline memoryIndexValidator: ModuleValidator<Index.MemoryIndex>,
 ): Result<Unit, ModuleValidatorError> = binding {
 
     memoryIndexValidator(context, instruction.memoryIndex).bind()
@@ -54,10 +54,10 @@ internal inline fun AtomicWaitInstructionValidator(
 }
 
 internal inline fun AtomicWaitInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: AtomicMemoryInstruction.I64Wait,
-    crossinline memArgValidator: Validator<MemArg>,
-    crossinline memoryIndexValidator: Validator<Index.MemoryIndex>,
+    crossinline memArgValidator: ModuleValidator<MemArg>,
+    crossinline memoryIndexValidator: ModuleValidator<Index.MemoryIndex>,
 ): Result<Unit, ModuleValidatorError> = binding {
 
     memoryIndexValidator(context, instruction.memoryIndex).bind()

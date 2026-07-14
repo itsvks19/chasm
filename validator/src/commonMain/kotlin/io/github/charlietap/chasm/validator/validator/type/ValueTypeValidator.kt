@@ -4,12 +4,12 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.type.ReferenceType
 import io.github.charlietap.chasm.type.ValueType
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.CoreTypeValidator
+import io.github.charlietap.chasm.validator.context.CoreTypeValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 
 internal fun ValueTypeValidator(
-    context: ValidationContext,
+    context: CoreTypeValidationContext,
     type: ValueType,
 ): Result<Unit, ModuleValidatorError> =
     ValueTypeValidator(
@@ -19,9 +19,9 @@ internal fun ValueTypeValidator(
     )
 
 internal inline fun ValueTypeValidator(
-    context: ValidationContext,
+    context: CoreTypeValidationContext,
     type: ValueType,
-    crossinline referenceTypeValidator: Validator<ReferenceType>,
+    crossinline referenceTypeValidator: CoreTypeValidator<ReferenceType>,
 ): Result<Unit, ModuleValidatorError> = binding {
     when (type) {
         is ValueType.Bottom,

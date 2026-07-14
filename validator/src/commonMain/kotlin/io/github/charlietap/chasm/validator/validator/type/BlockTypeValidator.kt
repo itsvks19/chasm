@@ -5,13 +5,13 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.type.BlockType
 import io.github.charlietap.chasm.type.ValueType
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.FunctionValidatorError
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 
 internal fun BlockTypeValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     type: BlockType,
 ): Result<Unit, ModuleValidatorError> =
     BlockTypeValidator(
@@ -21,9 +21,9 @@ internal fun BlockTypeValidator(
     )
 
 internal inline fun BlockTypeValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     type: BlockType,
-    crossinline valueTypeValidator: Validator<ValueType>,
+    crossinline valueTypeValidator: ModuleValidator<ValueType>,
 ): Result<Unit, ModuleValidatorError> = binding {
     when (type) {
         BlockType.Empty -> Unit

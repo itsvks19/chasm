@@ -2,12 +2,12 @@ package io.github.charlietap.chasm.validator.validator.instruction.variable
 
 import com.github.michaelbull.result.Result
 import io.github.charlietap.chasm.ast.instruction.VariableInstruction
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 
 internal fun VariableInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: VariableInstruction,
 ): Result<Unit, ModuleValidatorError> =
     VariableInstructionValidator(
@@ -21,13 +21,13 @@ internal fun VariableInstructionValidator(
     )
 
 internal inline fun VariableInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: VariableInstruction,
-    crossinline globalGetValidator: Validator<VariableInstruction.GlobalGet>,
-    crossinline globalSetValidator: Validator<VariableInstruction.GlobalSet>,
-    crossinline localGetValidator: Validator<VariableInstruction.LocalGet>,
-    crossinline localSetValidator: Validator<VariableInstruction.LocalSet>,
-    crossinline localTeeValidator: Validator<VariableInstruction.LocalTee>,
+    crossinline globalGetValidator: ModuleValidator<VariableInstruction.GlobalGet>,
+    crossinline globalSetValidator: ModuleValidator<VariableInstruction.GlobalSet>,
+    crossinline localGetValidator: ModuleValidator<VariableInstruction.LocalGet>,
+    crossinline localSetValidator: ModuleValidator<VariableInstruction.LocalSet>,
+    crossinline localTeeValidator: ModuleValidator<VariableInstruction.LocalTee>,
 ): Result<Unit, ModuleValidatorError> {
     return when (instruction) {
         is VariableInstruction.GlobalGet -> globalGetValidator(context, instruction)

@@ -2,13 +2,13 @@ package io.github.charlietap.chasm.validator.context.scope
 
 import com.github.michaelbull.result.Result
 import io.github.charlietap.chasm.ast.instruction.Expression
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 
 internal fun ExpressionScope(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     expression: Expression,
-    block: (ValidationContext) -> Result<Unit, ModuleValidatorError>,
+    block: (ModuleValidationContext) -> Result<Unit, ModuleValidatorError>,
 ): Result<Unit, ModuleValidatorError> {
 
     val labels = context.functionContext.labels

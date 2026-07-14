@@ -5,8 +5,8 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.instruction.ParametricInstruction
 import io.github.charlietap.chasm.type.ValueType
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.error.TypeValidatorError
 import io.github.charlietap.chasm.validator.ext.pop
@@ -15,7 +15,7 @@ import io.github.charlietap.chasm.validator.ext.push
 import io.github.charlietap.chasm.validator.validator.type.ValueTypeValidator
 
 internal fun ParametricInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: ParametricInstruction,
 ): Result<Unit, ModuleValidatorError> =
     ParametricInstructionValidator(
@@ -25,9 +25,9 @@ internal fun ParametricInstructionValidator(
     )
 
 internal inline fun ParametricInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: ParametricInstruction,
-    crossinline valueTypeValidator: Validator<ValueType>,
+    crossinline valueTypeValidator: ModuleValidator<ValueType>,
 ): Result<Unit, ModuleValidatorError> = binding {
     when (instruction) {
         ParametricInstruction.Drop -> {

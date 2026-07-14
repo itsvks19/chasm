@@ -5,14 +5,14 @@ import com.github.michaelbull.result.binding
 import com.github.michaelbull.result.mapError
 import io.github.charlietap.chasm.ast.module.Export
 import io.github.charlietap.chasm.ast.module.Index
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ExportValidatorError
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.validator.index.FunctionIndexValidator
 
 internal fun FunctionExportValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     descriptor: Export.Descriptor.Function,
 ): Result<Unit, ModuleValidatorError> =
     FunctionExportValidator(
@@ -22,9 +22,9 @@ internal fun FunctionExportValidator(
     )
 
 internal inline fun FunctionExportValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     descriptor: Export.Descriptor.Function,
-    crossinline functionIndexValidator: Validator<Index.FunctionIndex>,
+    crossinline functionIndexValidator: ModuleValidator<Index.FunctionIndex>,
 ): Result<Unit, ModuleValidatorError> = binding {
     functionIndexValidator(context, descriptor.functionIndex)
         .mapError {

@@ -5,8 +5,8 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.instruction.Instruction
 import io.github.charlietap.chasm.type.LocalType
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.error.TypeValidatorError
 import io.github.charlietap.chasm.validator.ext.peek
@@ -14,7 +14,7 @@ import io.github.charlietap.chasm.validator.ext.popValues
 import io.github.charlietap.chasm.validator.ext.pushValues
 
 internal fun InstructionBlockValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instructions: List<Instruction>,
 ): Result<Unit, ModuleValidatorError> =
     InstructionBlockValidator(
@@ -24,9 +24,9 @@ internal fun InstructionBlockValidator(
     )
 
 internal inline fun InstructionBlockValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instructions: List<Instruction>,
-    crossinline instructionValidator: Validator<Instruction>,
+    crossinline instructionValidator: ModuleValidator<Instruction>,
 ): Result<Unit, ModuleValidatorError> = binding {
 
     val locals = context.locals.map(LocalType::status)

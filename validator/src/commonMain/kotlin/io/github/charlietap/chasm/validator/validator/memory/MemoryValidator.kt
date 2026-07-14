@@ -4,13 +4,13 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.module.Memory
 import io.github.charlietap.chasm.type.MemoryType
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.validator.type.MemoryTypeValidator
 
 internal fun MemoryValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     memory: Memory,
 ): Result<Unit, ModuleValidatorError> =
     MemoryValidator(
@@ -20,9 +20,9 @@ internal fun MemoryValidator(
     )
 
 internal inline fun MemoryValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     memory: Memory,
-    crossinline typeValidator: Validator<MemoryType>,
+    crossinline typeValidator: ModuleValidator<MemoryType>,
 ): Result<Unit, ModuleValidatorError> = binding {
     typeValidator(context, memory.type).bind()
 }

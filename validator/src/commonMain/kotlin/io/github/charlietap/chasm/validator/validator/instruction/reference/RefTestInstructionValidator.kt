@@ -9,14 +9,14 @@ import io.github.charlietap.chasm.type.ReferenceType
 import io.github.charlietap.chasm.type.ValueType
 import io.github.charlietap.chasm.type.extremas.TopOf
 import io.github.charlietap.chasm.type.extremas.TopOfHeapType
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.error.TypeValidatorError
 import io.github.charlietap.chasm.validator.ext.pop
 import io.github.charlietap.chasm.validator.ext.pushI32
 
 internal fun RefTestInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: ReferenceInstruction.RefTest,
 ): Result<Unit, ModuleValidatorError> =
     RefTestInstructionValidator(
@@ -26,7 +26,7 @@ internal fun RefTestInstructionValidator(
     )
 
 internal inline fun RefTestInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: ReferenceInstruction.RefTest,
     crossinline topOfHeapType: TopOf<HeapType>,
 ): Result<Unit, ModuleValidatorError> = binding {

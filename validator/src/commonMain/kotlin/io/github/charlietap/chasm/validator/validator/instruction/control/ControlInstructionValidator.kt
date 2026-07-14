@@ -3,12 +3,12 @@ package io.github.charlietap.chasm.validator.validator.instruction.control
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import io.github.charlietap.chasm.ast.instruction.ControlInstruction
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 
 internal fun ControlInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: ControlInstruction,
 ): Result<Unit, ModuleValidatorError> =
     ControlInstructionValidator(
@@ -38,29 +38,29 @@ internal fun ControlInstructionValidator(
     )
 
 internal inline fun ControlInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: ControlInstruction,
-    crossinline blockValidator: Validator<ControlInstruction.Block>,
-    crossinline breakValidator: Validator<ControlInstruction.Br>,
-    crossinline breakIfValidator: Validator<ControlInstruction.BrIf>,
-    crossinline breakOnCastValidator: Validator<ControlInstruction.BrOnCast>,
-    crossinline breakOnCastFailValidator: Validator<ControlInstruction.BrOnCastFail>,
-    crossinline breakOnNullValidator: Validator<ControlInstruction.BrOnNull>,
-    crossinline breakOnNonNullValidator: Validator<ControlInstruction.BrOnNonNull>,
-    crossinline breakTableValidator: Validator<ControlInstruction.BrTable>,
-    crossinline callValidator: Validator<ControlInstruction.Call>,
-    crossinline callIndirectValidator: Validator<ControlInstruction.CallIndirect>,
-    crossinline callRefValidator: Validator<ControlInstruction.CallRef>,
-    crossinline ifValidator: Validator<ControlInstruction.If>,
-    crossinline throwValidator: Validator<ControlInstruction.Throw>,
-    crossinline throwRefValidator: Validator<ControlInstruction.ThrowRef>,
-    crossinline tryTableValidator: Validator<ControlInstruction.TryTable>,
-    crossinline returnValidator: Validator<ControlInstruction.Return>,
-    crossinline returnCallValidator: Validator<ControlInstruction.ReturnCall>,
-    crossinline returnCallIndirectValidator: Validator<ControlInstruction.ReturnCallIndirect>,
-    crossinline returnCallRefValidator: Validator<ControlInstruction.ReturnCallRef>,
-    crossinline loopValidator: Validator<ControlInstruction.Loop>,
-    crossinline unreachableValidator: Validator<ControlInstruction.Unreachable>,
+    crossinline blockValidator: ModuleValidator<ControlInstruction.Block>,
+    crossinline breakValidator: ModuleValidator<ControlInstruction.Br>,
+    crossinline breakIfValidator: ModuleValidator<ControlInstruction.BrIf>,
+    crossinline breakOnCastValidator: ModuleValidator<ControlInstruction.BrOnCast>,
+    crossinline breakOnCastFailValidator: ModuleValidator<ControlInstruction.BrOnCastFail>,
+    crossinline breakOnNullValidator: ModuleValidator<ControlInstruction.BrOnNull>,
+    crossinline breakOnNonNullValidator: ModuleValidator<ControlInstruction.BrOnNonNull>,
+    crossinline breakTableValidator: ModuleValidator<ControlInstruction.BrTable>,
+    crossinline callValidator: ModuleValidator<ControlInstruction.Call>,
+    crossinline callIndirectValidator: ModuleValidator<ControlInstruction.CallIndirect>,
+    crossinline callRefValidator: ModuleValidator<ControlInstruction.CallRef>,
+    crossinline ifValidator: ModuleValidator<ControlInstruction.If>,
+    crossinline throwValidator: ModuleValidator<ControlInstruction.Throw>,
+    crossinline throwRefValidator: ModuleValidator<ControlInstruction.ThrowRef>,
+    crossinline tryTableValidator: ModuleValidator<ControlInstruction.TryTable>,
+    crossinline returnValidator: ModuleValidator<ControlInstruction.Return>,
+    crossinline returnCallValidator: ModuleValidator<ControlInstruction.ReturnCall>,
+    crossinline returnCallIndirectValidator: ModuleValidator<ControlInstruction.ReturnCallIndirect>,
+    crossinline returnCallRefValidator: ModuleValidator<ControlInstruction.ReturnCallRef>,
+    crossinline loopValidator: ModuleValidator<ControlInstruction.Loop>,
+    crossinline unreachableValidator: ModuleValidator<ControlInstruction.Unreachable>,
 ): Result<Unit, ModuleValidatorError> {
     return when (instruction) {
         is ControlInstruction.Block -> blockValidator(context, instruction)

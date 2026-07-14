@@ -6,13 +6,13 @@ import io.github.charlietap.chasm.ast.instruction.AggregateInstruction
 import io.github.charlietap.chasm.type.AbstractHeapType
 import io.github.charlietap.chasm.type.ReferenceType
 import io.github.charlietap.chasm.type.ValueType
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.ext.pop
 import io.github.charlietap.chasm.validator.ext.push
 
 internal fun AnyConvertExternInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: AggregateInstruction.AnyConvertExtern,
 ): Result<Unit, ModuleValidatorError> = binding {
     val actual = context.pop(ValueType.Reference(ReferenceType.RefNull(AbstractHeapType.Extern))).bind()

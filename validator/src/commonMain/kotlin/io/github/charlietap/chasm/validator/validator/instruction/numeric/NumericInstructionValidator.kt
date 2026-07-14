@@ -3,7 +3,7 @@ package io.github.charlietap.chasm.validator.validator.instruction.numeric
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.instruction.NumericInstruction
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.ext.popF32
 import io.github.charlietap.chasm.validator.ext.popF64
@@ -15,7 +15,7 @@ import io.github.charlietap.chasm.validator.ext.pushI32
 import io.github.charlietap.chasm.validator.ext.pushI64
 
 internal fun NumericInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: NumericInstruction,
 ): Result<Unit, ModuleValidatorError> = binding {
     when (instruction) {

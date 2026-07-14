@@ -4,7 +4,7 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.instruction.ControlInstruction
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.error.TypeValidatorError
 import io.github.charlietap.chasm.validator.ext.peek
@@ -14,7 +14,7 @@ import io.github.charlietap.chasm.validator.ext.pushValues
 import io.github.charlietap.chasm.validator.ext.unreachable
 
 internal fun BreakTableInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: ControlInstruction.BrTable,
 ): Result<Unit, ModuleValidatorError> = binding {
 

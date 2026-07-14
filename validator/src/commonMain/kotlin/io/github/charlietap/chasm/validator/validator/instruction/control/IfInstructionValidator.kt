@@ -5,9 +5,9 @@ import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.instruction.ControlInstruction
 import io.github.charlietap.chasm.ast.instruction.Instruction
 import io.github.charlietap.chasm.type.BlockType
-import io.github.charlietap.chasm.validator.Validator
+import io.github.charlietap.chasm.validator.ModuleValidator
 import io.github.charlietap.chasm.validator.context.Label
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.ext.functionType
 import io.github.charlietap.chasm.validator.ext.pop
@@ -18,7 +18,7 @@ import io.github.charlietap.chasm.validator.validator.instruction.InstructionBlo
 import io.github.charlietap.chasm.validator.validator.type.BlockTypeValidator
 
 internal fun IfInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: ControlInstruction.If,
 ): Result<Unit, ModuleValidatorError> =
     IfInstructionValidator(
@@ -29,10 +29,10 @@ internal fun IfInstructionValidator(
     )
 
 internal inline fun IfInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: ControlInstruction.If,
-    crossinline blockTypeValidator: Validator<BlockType>,
-    crossinline instructionBlockValidator: Validator<List<Instruction>>,
+    crossinline blockTypeValidator: ModuleValidator<BlockType>,
+    crossinline instructionBlockValidator: ModuleValidator<List<Instruction>>,
 ): Result<Unit, ModuleValidatorError> = binding {
 
     blockTypeValidator(context, instruction.blockType).bind()

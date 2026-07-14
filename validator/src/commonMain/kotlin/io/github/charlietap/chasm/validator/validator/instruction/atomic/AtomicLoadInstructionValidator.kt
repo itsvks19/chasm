@@ -7,8 +7,8 @@ import io.github.charlietap.chasm.ast.instruction.MemArg
 import io.github.charlietap.chasm.ast.module.Index
 import io.github.charlietap.chasm.type.NumberType
 import io.github.charlietap.chasm.type.ValueType
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.ext.popMemoryAddress
 import io.github.charlietap.chasm.validator.ext.push
@@ -16,7 +16,7 @@ import io.github.charlietap.chasm.validator.validator.index.MemoryIndexValidator
 import io.github.charlietap.chasm.validator.validator.instruction.MemArgValidator
 
 internal fun AtomicLoadInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: AtomicMemoryInstruction.Load,
 ): Result<Unit, ModuleValidatorError> =
     AtomicLoadInstructionValidator(
@@ -27,10 +27,10 @@ internal fun AtomicLoadInstructionValidator(
     )
 
 internal inline fun AtomicLoadInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: AtomicMemoryInstruction.Load,
-    crossinline memArgValidator: Validator<MemArg>,
-    crossinline memoryIndexValidator: Validator<Index.MemoryIndex>,
+    crossinline memArgValidator: ModuleValidator<MemArg>,
+    crossinline memoryIndexValidator: ModuleValidator<Index.MemoryIndex>,
 ): Result<Unit, ModuleValidatorError> = binding {
 
     memoryIndexValidator(context, instruction.memoryIndex).bind()

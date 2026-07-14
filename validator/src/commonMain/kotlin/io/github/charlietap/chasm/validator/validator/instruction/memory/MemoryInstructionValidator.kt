@@ -2,12 +2,12 @@ package io.github.charlietap.chasm.validator.validator.instruction.memory
 
 import com.github.michaelbull.result.Result
 import io.github.charlietap.chasm.ast.instruction.MemoryInstruction
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 
 internal fun MemoryInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: MemoryInstruction,
 ): Result<Unit, ModuleValidatorError> =
     MemoryInstructionValidator(
@@ -24,16 +24,16 @@ internal fun MemoryInstructionValidator(
     )
 
 internal inline fun MemoryInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: MemoryInstruction,
-    crossinline dataDropValidator: Validator<MemoryInstruction.DataDrop>,
-    crossinline loadValidator: Validator<MemoryInstruction.Load>,
-    crossinline storeValidator: Validator<MemoryInstruction.Store>,
-    crossinline memoryCopyValidator: Validator<MemoryInstruction.MemoryCopy>,
-    crossinline memoryFillValidator: Validator<MemoryInstruction.MemoryFill>,
-    crossinline memoryGrowValidator: Validator<MemoryInstruction.MemoryGrow>,
-    crossinline memoryInitValidator: Validator<MemoryInstruction.MemoryInit>,
-    crossinline memorySizeValidator: Validator<MemoryInstruction.MemorySize>,
+    crossinline dataDropValidator: ModuleValidator<MemoryInstruction.DataDrop>,
+    crossinline loadValidator: ModuleValidator<MemoryInstruction.Load>,
+    crossinline storeValidator: ModuleValidator<MemoryInstruction.Store>,
+    crossinline memoryCopyValidator: ModuleValidator<MemoryInstruction.MemoryCopy>,
+    crossinline memoryFillValidator: ModuleValidator<MemoryInstruction.MemoryFill>,
+    crossinline memoryGrowValidator: ModuleValidator<MemoryInstruction.MemoryGrow>,
+    crossinline memoryInitValidator: ModuleValidator<MemoryInstruction.MemoryInit>,
+    crossinline memorySizeValidator: ModuleValidator<MemoryInstruction.MemorySize>,
 ): Result<Unit, ModuleValidatorError> {
     return when (instruction) {
         is MemoryInstruction.Load -> loadValidator(context, instruction)

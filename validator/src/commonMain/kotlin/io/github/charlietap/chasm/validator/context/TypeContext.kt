@@ -1,9 +1,9 @@
 package io.github.charlietap.chasm.validator.context
 
 internal interface TypeContext {
-    val limitsMaximum: ULong
+    var limitsMaximum: ULong
 }
 
-internal data class TypeContextImpl(
-    override val limitsMaximum: ULong = ULong.MAX_VALUE,
+internal class TypeContextImpl(
+    override var limitsMaximum: ULong = ULong.MAX_VALUE,
 ) : TypeContext

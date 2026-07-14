@@ -7,7 +7,7 @@ import io.github.charlietap.chasm.ast.instruction.TableInstruction
 import io.github.charlietap.chasm.type.ReferenceType
 import io.github.charlietap.chasm.type.matching.ReferenceTypeMatcher
 import io.github.charlietap.chasm.type.matching.TypeMatcher
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.error.TypeValidatorError
 import io.github.charlietap.chasm.validator.ext.popI32
@@ -16,7 +16,7 @@ import io.github.charlietap.chasm.validator.ext.referenceType
 import io.github.charlietap.chasm.validator.ext.tableType
 
 internal fun TableInitInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: TableInstruction.TableInit,
 ): Result<Unit, ModuleValidatorError> =
     TableInitInstructionValidator(
@@ -26,7 +26,7 @@ internal fun TableInitInstructionValidator(
     )
 
 internal inline fun TableInitInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: TableInstruction.TableInit,
     crossinline typeMatcher: TypeMatcher<ReferenceType>,
 ): Result<Unit, ModuleValidatorError> = binding {

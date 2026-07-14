@@ -16,13 +16,14 @@ import io.github.charlietap.chasm.type.TagType
 import io.github.charlietap.chasm.type.expansion.BlockTypeExpander
 import io.github.charlietap.chasm.type.expansion.LegacyBlockTypeExpander
 import io.github.charlietap.chasm.type.ext.functionType
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.CoreTypeValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.FunctionValidatorError
 import io.github.charlietap.chasm.validator.error.InstructionValidatorError
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.error.TypeValidatorError
 
-internal inline fun ValidationContext.type(
+internal inline fun ModuleValidationContext.type(
     index: Index.FunctionIndex,
 ): Result<DefinedType, ModuleValidatorError> {
     return functions.getOrNull(index.idx.toInt()).toResultOr {
@@ -30,7 +31,7 @@ internal inline fun ValidationContext.type(
     }
 }
 
-internal inline fun ValidationContext.type(
+internal inline fun ModuleValidationContext.type(
     index: Index.TypeIndex,
 ): Result<DefinedType, ModuleValidatorError> {
     return types.getOrNull(index.idx.toInt()).toResultOr {
@@ -38,15 +39,13 @@ internal inline fun ValidationContext.type(
     }
 }
 
-internal inline fun ValidationContext.type(
+internal inline fun CoreTypeValidationContext.type(
     index: Int,
 ): Result<DefinedType, ModuleValidatorError> {
-    return types.getOrNull(index).toResultOr {
-        FunctionValidatorError.UnknownType
-    }
+    return definedType(index)
 }
 
-internal inline fun ValidationContext.functionType(
+internal inline fun ModuleValidationContext.functionType(
     index: Index.FunctionIndex,
 ): Result<FunctionType, ModuleValidatorError> {
     return functions.getOrNull(index.idx.toInt())?.functionType().toResultOr {
@@ -54,7 +53,7 @@ internal inline fun ValidationContext.functionType(
     }
 }
 
-internal inline fun ValidationContext.functionType(
+internal inline fun ModuleValidationContext.functionType(
     index: Index.TypeIndex,
 ): Result<FunctionType, ModuleValidatorError> {
     return types.getOrNull(index.idx.toInt())?.functionType().toResultOr {
@@ -62,7 +61,7 @@ internal inline fun ValidationContext.functionType(
     }
 }
 
-internal inline fun ValidationContext.functionType(
+internal inline fun ModuleValidationContext.functionType(
     blockType: BlockType,
     blockTypeExpander: LegacyBlockTypeExpander = ::LegacyBlockTypeExpander,
 ): Result<FunctionType, ModuleValidatorError> {
@@ -71,7 +70,7 @@ internal inline fun ValidationContext.functionType(
     }
 }
 
-internal inline fun ValidationContext.globalType(
+internal inline fun ModuleValidationContext.globalType(
     index: Index.GlobalIndex,
 ): Result<GlobalType, ModuleValidatorError> {
     return globals.getOrNull(index.idx.toInt()).toResultOr {
@@ -79,7 +78,7 @@ internal inline fun ValidationContext.globalType(
     }
 }
 
-internal inline fun ValidationContext.memoryType(
+internal inline fun ModuleValidationContext.memoryType(
     index: Index.MemoryIndex,
 ): Result<MemoryType, ModuleValidatorError> {
     return memories.getOrNull(index.idx.toInt()).toResultOr {
@@ -87,13 +86,13 @@ internal inline fun ValidationContext.memoryType(
     }
 }
 
-internal inline fun ValidationContext.elementSegmentType(): Result<ReferenceType, ModuleValidatorError> {
+internal inline fun ModuleValidationContext.elementSegmentType(): Result<ReferenceType, ModuleValidatorError> {
     return elementSegmentType.toResultOr {
         InstructionValidatorError.UnknownElementSegment
     }
 }
 
-internal inline fun ValidationContext.localType(
+internal inline fun ModuleValidationContext.localType(
     index: Index.LocalIndex,
 ): Result<LocalType, ModuleValidatorError> {
     return locals.getOrNull(index.idx.toInt()).toResultOr {
@@ -101,7 +100,7 @@ internal inline fun ValidationContext.localType(
     }
 }
 
-internal inline fun ValidationContext.referenceType(
+internal inline fun ModuleValidationContext.referenceType(
     index: Index.ElementIndex,
 ): Result<ReferenceType, ModuleValidatorError> {
     return elems.getOrNull(index.idx.toInt()).toResultOr {
@@ -109,19 +108,19 @@ internal inline fun ValidationContext.referenceType(
     }
 }
 
-internal inline fun ValidationContext.expressionResultType(): Result<ResultType, ModuleValidatorError> {
+internal inline fun ModuleValidationContext.expressionResultType(): Result<ResultType, ModuleValidatorError> {
     return expressionResultType.toResultOr {
         TypeValidatorError.TypeMismatch
     }
 }
 
-internal inline fun ValidationContext.resultType(): Result<ResultType, ModuleValidatorError> {
+internal inline fun ModuleValidationContext.resultType(): Result<ResultType, ModuleValidatorError> {
     return result.toResultOr {
         TypeValidatorError.TypeMismatch
     }
 }
 
-internal inline fun ValidationContext.tableType(
+internal inline fun ModuleValidationContext.tableType(
     index: Index.TableIndex,
 ): Result<TableType, ModuleValidatorError> {
     return tables.getOrNull(index.idx.toInt()).toResultOr {
@@ -129,7 +128,7 @@ internal inline fun ValidationContext.tableType(
     }
 }
 
-internal inline fun ValidationContext.tagType(
+internal inline fun ModuleValidationContext.tagType(
     index: Index.TagIndex,
 ): Result<TagType, ModuleValidatorError> {
     return tags.getOrNull(index.idx.toInt()).toResultOr {

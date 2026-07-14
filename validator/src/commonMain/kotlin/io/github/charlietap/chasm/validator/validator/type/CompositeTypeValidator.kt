@@ -6,12 +6,12 @@ import io.github.charlietap.chasm.type.ArrayType
 import io.github.charlietap.chasm.type.CompositeType
 import io.github.charlietap.chasm.type.FunctionType
 import io.github.charlietap.chasm.type.StructType
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.CoreTypeValidator
+import io.github.charlietap.chasm.validator.context.CoreTypeValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 
 internal fun CompositeTypeValidator(
-    context: ValidationContext,
+    context: CoreTypeValidationContext,
     type: CompositeType,
 ): Result<Unit, ModuleValidatorError> =
     CompositeTypeValidator(
@@ -23,11 +23,11 @@ internal fun CompositeTypeValidator(
     )
 
 internal inline fun CompositeTypeValidator(
-    context: ValidationContext,
+    context: CoreTypeValidationContext,
     type: CompositeType,
-    crossinline arrayTypeValidator: Validator<ArrayType>,
-    crossinline functionTypeValidator: Validator<FunctionType>,
-    crossinline structTypeValidator: Validator<StructType>,
+    crossinline arrayTypeValidator: CoreTypeValidator<ArrayType>,
+    crossinline functionTypeValidator: CoreTypeValidator<FunctionType>,
+    crossinline structTypeValidator: CoreTypeValidator<StructType>,
 ): Result<Unit, ModuleValidatorError> = binding {
     when (type) {
         is CompositeType.Array -> arrayTypeValidator(context, type.arrayType).bind()

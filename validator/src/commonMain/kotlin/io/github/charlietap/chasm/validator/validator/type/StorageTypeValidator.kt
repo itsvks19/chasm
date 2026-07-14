@@ -4,12 +4,12 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.type.StorageType
 import io.github.charlietap.chasm.type.ValueType
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.CoreTypeValidator
+import io.github.charlietap.chasm.validator.context.CoreTypeValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 
 internal fun StorageTypeValidator(
-    context: ValidationContext,
+    context: CoreTypeValidationContext,
     type: StorageType,
 ): Result<Unit, ModuleValidatorError> =
     StorageTypeValidator(
@@ -19,9 +19,9 @@ internal fun StorageTypeValidator(
     )
 
 internal inline fun StorageTypeValidator(
-    context: ValidationContext,
+    context: CoreTypeValidationContext,
     type: StorageType,
-    crossinline valueTypeValidator: Validator<ValueType>,
+    crossinline valueTypeValidator: CoreTypeValidator<ValueType>,
 ): Result<Unit, ModuleValidatorError> = binding {
     when (type) {
         is StorageType.Packed -> Unit

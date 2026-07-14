@@ -8,7 +8,7 @@ import io.github.charlietap.chasm.type.ConcreteHeapType
 import io.github.charlietap.chasm.type.ReferenceType
 import io.github.charlietap.chasm.type.ValueType
 import io.github.charlietap.chasm.type.ext.structType
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.error.TypeValidatorError
 import io.github.charlietap.chasm.validator.ext.push
@@ -16,7 +16,7 @@ import io.github.charlietap.chasm.validator.ext.type
 import io.github.charlietap.chasm.validator.ext.unpackDefault
 
 internal fun StructNewDefaultInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: AggregateInstruction.StructNewDefault,
 ): Result<Unit, ModuleValidatorError> = binding {
 

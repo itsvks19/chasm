@@ -8,7 +8,7 @@ import io.github.charlietap.chasm.type.AbstractHeapType
 import io.github.charlietap.chasm.type.ReferenceType
 import io.github.charlietap.chasm.type.matching.ReferenceTypeMatcher
 import io.github.charlietap.chasm.type.matching.TypeMatcher
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.InstructionValidatorError
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.ext.functionType
@@ -18,7 +18,7 @@ import io.github.charlietap.chasm.validator.ext.pushValues
 import io.github.charlietap.chasm.validator.ext.tableType
 
 internal fun CallIndirectValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: ControlInstruction.CallIndirect,
 ): Result<Unit, ModuleValidatorError> =
     CallIndirectValidator(
@@ -28,7 +28,7 @@ internal fun CallIndirectValidator(
     )
 
 internal inline fun CallIndirectValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: ControlInstruction.CallIndirect,
     crossinline typeMatcher: TypeMatcher<ReferenceType>,
 ): Result<Unit, ModuleValidatorError> = binding {

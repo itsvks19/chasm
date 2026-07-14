@@ -12,7 +12,7 @@ import io.github.charlietap.chasm.type.ValueType
 import io.github.charlietap.chasm.type.ext.arrayType
 import io.github.charlietap.chasm.type.matching.ReferenceTypeMatcher
 import io.github.charlietap.chasm.type.matching.TypeMatcher
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.error.TypeValidatorError
 import io.github.charlietap.chasm.validator.ext.popI32
@@ -22,7 +22,7 @@ import io.github.charlietap.chasm.validator.ext.type
 import io.github.charlietap.chasm.validator.ext.unpack
 
 internal fun ArrayNewElementInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: AggregateInstruction.ArrayNewElement,
 ): Result<Unit, ModuleValidatorError> =
     ArrayNewElementInstructionValidator(
@@ -32,7 +32,7 @@ internal fun ArrayNewElementInstructionValidator(
     )
 
 internal inline fun ArrayNewElementInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: AggregateInstruction.ArrayNewElement,
     crossinline referenceTypeMatcher: TypeMatcher<ReferenceType>,
 ): Result<Unit, ModuleValidatorError> = binding {

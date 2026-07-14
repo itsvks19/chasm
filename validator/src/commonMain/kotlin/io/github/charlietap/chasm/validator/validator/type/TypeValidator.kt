@@ -4,12 +4,12 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.module.Type
 import io.github.charlietap.chasm.type.RecursiveType
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 
 internal fun TypeValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     type: Type,
 ): Result<Unit, ModuleValidatorError> =
     TypeValidator(
@@ -19,9 +19,9 @@ internal fun TypeValidator(
     )
 
 internal inline fun TypeValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     type: Type,
-    crossinline recursiveTypeValidator: Validator<RecursiveType>,
+    crossinline recursiveTypeValidator: ModuleValidator<RecursiveType>,
 ): Result<Unit, ModuleValidatorError> = binding {
     context.definedTypesValidated += type.recursiveType.subTypes.size
     recursiveTypeValidator(context, type.recursiveType).bind()

@@ -4,12 +4,12 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.type.GlobalType
 import io.github.charlietap.chasm.type.ValueType
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.CoreTypeValidator
+import io.github.charlietap.chasm.validator.context.CoreTypeValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 
 internal fun GlobalTypeValidator(
-    context: ValidationContext,
+    context: CoreTypeValidationContext,
     type: GlobalType,
 ): Result<Unit, ModuleValidatorError> =
     GlobalTypeValidator(
@@ -19,9 +19,9 @@ internal fun GlobalTypeValidator(
     )
 
 internal inline fun GlobalTypeValidator(
-    context: ValidationContext,
+    context: CoreTypeValidationContext,
     type: GlobalType,
-    crossinline valueTypeValidator: Validator<ValueType>,
+    crossinline valueTypeValidator: CoreTypeValidator<ValueType>,
 ): Result<Unit, ModuleValidatorError> = binding {
     valueTypeValidator(context, type.valueType).bind()
 }

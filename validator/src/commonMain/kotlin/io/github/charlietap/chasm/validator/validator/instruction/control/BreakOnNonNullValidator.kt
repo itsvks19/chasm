@@ -6,7 +6,7 @@ import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.instruction.ControlInstruction
 import io.github.charlietap.chasm.type.ReferenceType
 import io.github.charlietap.chasm.type.ValueType
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.error.TypeValidatorError
 import io.github.charlietap.chasm.validator.ext.peek
@@ -14,7 +14,7 @@ import io.github.charlietap.chasm.validator.ext.pop
 import io.github.charlietap.chasm.validator.ext.popAndReplaceValues
 
 internal fun BreakOnNonNullInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: ControlInstruction.BrOnNonNull,
 ): Result<Unit, ModuleValidatorError> = binding {
 

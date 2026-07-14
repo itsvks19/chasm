@@ -9,14 +9,14 @@ import io.github.charlietap.chasm.type.HeapType
 import io.github.charlietap.chasm.type.SubType
 import io.github.charlietap.chasm.type.matching.CompositeTypeMatcher
 import io.github.charlietap.chasm.type.matching.TypeMatcher
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.CoreTypeValidator
+import io.github.charlietap.chasm.validator.context.CoreTypeValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.error.TypeValidatorError
 import io.github.charlietap.chasm.validator.ext.type
 
 internal fun SubTypeValidator(
-    context: ValidationContext,
+    context: CoreTypeValidationContext,
     type: SubType,
 ): Result<Unit, ModuleValidatorError> =
     SubTypeValidator(
@@ -28,11 +28,11 @@ internal fun SubTypeValidator(
     )
 
 internal inline fun SubTypeValidator(
-    context: ValidationContext,
+    context: CoreTypeValidationContext,
     type: SubType,
     crossinline compositeTypeMatcher: TypeMatcher<CompositeType>,
-    crossinline compositeTypeValidator: Validator<CompositeType>,
-    crossinline heapTypeValidator: Validator<HeapType>,
+    crossinline compositeTypeValidator: CoreTypeValidator<CompositeType>,
+    crossinline heapTypeValidator: CoreTypeValidator<HeapType>,
 ): Result<Unit, ModuleValidatorError> = binding {
     compositeTypeValidator(context, type.compositeType).bind()
     type.superTypes.forEach { superType ->

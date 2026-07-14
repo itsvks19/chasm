@@ -4,7 +4,7 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.instruction.TableInstruction
 import io.github.charlietap.chasm.type.ValueType
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.ext.pop
 import io.github.charlietap.chasm.validator.ext.popTableAddress
@@ -12,7 +12,7 @@ import io.github.charlietap.chasm.validator.ext.pushTableAddress
 import io.github.charlietap.chasm.validator.ext.tableType
 
 internal fun TableGrowInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: TableInstruction.TableGrow,
 ): Result<Unit, ModuleValidatorError> = binding {
 

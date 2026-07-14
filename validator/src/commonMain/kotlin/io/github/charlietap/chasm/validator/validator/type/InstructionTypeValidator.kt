@@ -11,12 +11,12 @@ import io.github.charlietap.chasm.type.InstructionType
 import io.github.charlietap.chasm.type.ValueType
 import io.github.charlietap.chasm.type.matching.TypeMatcher
 import io.github.charlietap.chasm.type.matching.ValueTypeMatcher
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.error.TypeValidatorError
 
 internal fun InstructionTypeValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     type: InstructionType,
 ): Result<Unit, ModuleValidatorError> =
     InstructionTypeValidator(
@@ -26,7 +26,7 @@ internal fun InstructionTypeValidator(
     )
 
 internal fun InstructionTypeValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     type: InstructionType,
     valueTypeMatcher: TypeMatcher<ValueType>,
 ): Result<Unit, ModuleValidatorError> = binding {

@@ -8,8 +8,8 @@ import io.github.charlietap.chasm.ast.module.ElementSegment
 import io.github.charlietap.chasm.type.ReferenceType
 import io.github.charlietap.chasm.type.matching.ReferenceTypeMatcher
 import io.github.charlietap.chasm.type.matching.TypeMatcher
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.context.scope.ActiveElementSegmentModeScope
 import io.github.charlietap.chasm.validator.context.scope.Scope
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
@@ -19,7 +19,7 @@ import io.github.charlietap.chasm.validator.ext.tableType
 import io.github.charlietap.chasm.validator.validator.instruction.ExpressionValidator
 
 internal fun ElementSegmentModeValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     mode: ElementSegment.Mode,
 ): Result<Unit, ModuleValidatorError> =
     ElementSegmentModeValidator(
@@ -31,10 +31,10 @@ internal fun ElementSegmentModeValidator(
     )
 
 internal inline fun ElementSegmentModeValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     mode: ElementSegment.Mode,
     crossinline scope: Scope<ElementSegment.Mode.Active>,
-    crossinline expressionValidator: Validator<Expression>,
+    crossinline expressionValidator: ModuleValidator<Expression>,
     crossinline typeMatcher: TypeMatcher<ReferenceType>,
 ): Result<Unit, ModuleValidatorError> = binding {
 
@@ -48,8 +48,9 @@ internal inline fun ElementSegmentModeValidator(
                 Err(TypeValidatorError.TypeMismatch).bind<Unit>()
             }
 
-            val scopedContext = scope(context, mode).bind()
-            expressionValidator(scopedContext, mode.offsetExpr).bind()
+            scope(context, mode) { scopedContext ->
+                expressionValidator(scopedContext, mode.offsetExpr)
+            }.bind()
         }
         ElementSegment.Mode.Declarative -> Unit
         ElementSegment.Mode.Passive -> Unit

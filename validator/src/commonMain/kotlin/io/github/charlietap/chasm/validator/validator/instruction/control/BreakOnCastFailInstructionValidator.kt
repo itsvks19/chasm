@@ -11,8 +11,8 @@ import io.github.charlietap.chasm.type.differ.TypeDiffer
 import io.github.charlietap.chasm.type.matching.ReferenceTypeMatcher
 import io.github.charlietap.chasm.type.matching.TypeMatcher
 import io.github.charlietap.chasm.type.matching.ValueTypeMatcher
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.error.TypeValidatorError
 import io.github.charlietap.chasm.validator.ext.peek
@@ -21,7 +21,7 @@ import io.github.charlietap.chasm.validator.ext.pushValues
 import io.github.charlietap.chasm.validator.validator.type.ReferenceTypeValidator
 
 internal fun BreakOnCastFailInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: ControlInstruction.BrOnCastFail,
 ): Result<Unit, ModuleValidatorError> =
     BreakOnCastFailInstructionValidator(
@@ -34,10 +34,10 @@ internal fun BreakOnCastFailInstructionValidator(
     )
 
 internal inline fun BreakOnCastFailInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: ControlInstruction.BrOnCastFail,
     crossinline referenceTypeDiffer: TypeDiffer<ReferenceType>,
-    crossinline referenceTypeValidator: Validator<ReferenceType>,
+    crossinline referenceTypeValidator: ModuleValidator<ReferenceType>,
     crossinline referenceTypeMatcher: TypeMatcher<ReferenceType>,
     crossinline valueTypeMatcher: TypeMatcher<ValueType>,
 ): Result<Unit, ModuleValidatorError> = binding {

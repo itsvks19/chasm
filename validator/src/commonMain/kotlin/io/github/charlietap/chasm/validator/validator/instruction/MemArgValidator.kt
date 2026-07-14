@@ -9,7 +9,7 @@ import io.github.charlietap.chasm.ast.instruction.MemoryInstruction
 import io.github.charlietap.chasm.ast.instruction.VectorInstruction
 import io.github.charlietap.chasm.type.AddressType
 import io.github.charlietap.chasm.type.MemoryType
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.InstructionValidatorError
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.ext.memoryType
@@ -17,7 +17,7 @@ import io.github.charlietap.chasm.validator.ext.size
 import kotlin.math.pow
 
 internal inline fun MemArgValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     arg: MemArg,
 ): Result<Unit, ModuleValidatorError> = binding {
 
@@ -41,7 +41,7 @@ internal inline fun MemArgValidator(
     }
 }
 
-private fun ValidationContext.instructionMemoryType(): Result<MemoryType, ModuleValidatorError> {
+private fun ModuleValidationContext.instructionMemoryType(): Result<MemoryType, ModuleValidatorError> {
     return when (val instruction = this.instruction) {
         is MemoryInstruction.Load -> memoryType(instruction.memoryIndex)
         is MemoryInstruction.Store -> memoryType(instruction.memoryIndex)

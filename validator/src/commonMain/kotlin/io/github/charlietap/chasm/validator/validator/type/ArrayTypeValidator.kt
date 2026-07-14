@@ -4,12 +4,12 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.type.ArrayType
 import io.github.charlietap.chasm.type.FieldType
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.CoreTypeValidator
+import io.github.charlietap.chasm.validator.context.CoreTypeValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 
 internal fun ArrayTypeValidator(
-    context: ValidationContext,
+    context: CoreTypeValidationContext,
     type: ArrayType,
 ): Result<Unit, ModuleValidatorError> =
     ArrayTypeValidator(
@@ -19,9 +19,9 @@ internal fun ArrayTypeValidator(
     )
 
 internal inline fun ArrayTypeValidator(
-    context: ValidationContext,
+    context: CoreTypeValidationContext,
     type: ArrayType,
-    crossinline fieldTypeValidator: Validator<FieldType>,
+    crossinline fieldTypeValidator: CoreTypeValidator<FieldType>,
 ): Result<Unit, ModuleValidatorError> = binding {
     fieldTypeValidator(context, type.fieldType).bind()
 }

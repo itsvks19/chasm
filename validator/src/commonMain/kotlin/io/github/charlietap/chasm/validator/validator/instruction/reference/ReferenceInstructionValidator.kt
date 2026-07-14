@@ -2,12 +2,12 @@ package io.github.charlietap.chasm.validator.validator.instruction.reference
 
 import com.github.michaelbull.result.Result
 import io.github.charlietap.chasm.ast.instruction.ReferenceInstruction
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 
 internal fun ReferenceInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: ReferenceInstruction,
 ): Result<Unit, ModuleValidatorError> =
     ReferenceInstructionValidator(
@@ -23,15 +23,15 @@ internal fun ReferenceInstructionValidator(
     )
 
 internal inline fun ReferenceInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: ReferenceInstruction,
-    crossinline refFuncValidator: Validator<ReferenceInstruction.RefFunc>,
-    crossinline refIsNullValidator: Validator<ReferenceInstruction.RefIsNull>,
-    crossinline refAsNonNullValidator: Validator<ReferenceInstruction.RefAsNonNull>,
-    crossinline refCastValidator: Validator<ReferenceInstruction.RefCast>,
-    crossinline refEqValidator: Validator<ReferenceInstruction.RefEq>,
-    crossinline refNullValidator: Validator<ReferenceInstruction.RefNull>,
-    crossinline refTestValidator: Validator<ReferenceInstruction.RefTest>,
+    crossinline refFuncValidator: ModuleValidator<ReferenceInstruction.RefFunc>,
+    crossinline refIsNullValidator: ModuleValidator<ReferenceInstruction.RefIsNull>,
+    crossinline refAsNonNullValidator: ModuleValidator<ReferenceInstruction.RefAsNonNull>,
+    crossinline refCastValidator: ModuleValidator<ReferenceInstruction.RefCast>,
+    crossinline refEqValidator: ModuleValidator<ReferenceInstruction.RefEq>,
+    crossinline refNullValidator: ModuleValidator<ReferenceInstruction.RefNull>,
+    crossinline refTestValidator: ModuleValidator<ReferenceInstruction.RefTest>,
 ): Result<Unit, ModuleValidatorError> {
     return when (instruction) {
         is ReferenceInstruction.RefFunc -> refFuncValidator(context, instruction)

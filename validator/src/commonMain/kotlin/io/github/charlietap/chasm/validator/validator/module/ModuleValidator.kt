@@ -14,8 +14,8 @@ import io.github.charlietap.chasm.ast.module.StartFunction
 import io.github.charlietap.chasm.ast.module.Table
 import io.github.charlietap.chasm.ast.module.Tag
 import io.github.charlietap.chasm.ast.module.Type
-import io.github.charlietap.chasm.validator.Validator
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.ModuleValidator
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.validator.data.DataSegmentValidator
 import io.github.charlietap.chasm.validator.validator.element.ElementSegmentValidator
@@ -30,7 +30,7 @@ import io.github.charlietap.chasm.validator.validator.tag.TagValidator
 import io.github.charlietap.chasm.validator.validator.type.TypeValidator
 
 internal fun ModuleValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     module: Module,
 ): Result<Unit, ModuleValidatorError> =
     ModuleValidator(
@@ -50,19 +50,19 @@ internal fun ModuleValidator(
     )
 
 internal inline fun ModuleValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     module: Module,
-    crossinline typeValidator: Validator<Type>,
-    crossinline functionValidator: Validator<Function>,
-    crossinline importValidator: Validator<Import>,
-    crossinline exportValidator: Validator<Export>,
-    crossinline globalValidator: Validator<Global>,
-    crossinline dataSegmentValidator: Validator<DataSegment>,
-    crossinline elementSegmentValidator: Validator<ElementSegment>,
-    crossinline memoryValidator: Validator<Memory>,
-    crossinline startFunctionValidator: Validator<StartFunction>,
-    crossinline tableValidator: Validator<Table>,
-    crossinline tagValidator: Validator<Tag>,
+    crossinline typeValidator: ModuleValidator<Type>,
+    crossinline functionValidator: ModuleValidator<Function>,
+    crossinline importValidator: ModuleValidator<Import>,
+    crossinline exportValidator: ModuleValidator<Export>,
+    crossinline globalValidator: ModuleValidator<Global>,
+    crossinline dataSegmentValidator: ModuleValidator<DataSegment>,
+    crossinline elementSegmentValidator: ModuleValidator<ElementSegment>,
+    crossinline memoryValidator: ModuleValidator<Memory>,
+    crossinline startFunctionValidator: ModuleValidator<StartFunction>,
+    crossinline tableValidator: ModuleValidator<Table>,
+    crossinline tagValidator: ModuleValidator<Tag>,
 ): Result<Unit, ModuleValidatorError> = binding {
     module.apply {
         types.forEach { type ->

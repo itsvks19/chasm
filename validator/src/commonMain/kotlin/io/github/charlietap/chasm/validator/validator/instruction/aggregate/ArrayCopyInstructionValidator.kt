@@ -13,7 +13,7 @@ import io.github.charlietap.chasm.type.ValueType
 import io.github.charlietap.chasm.type.ext.arrayType
 import io.github.charlietap.chasm.type.matching.StorageTypeMatcher
 import io.github.charlietap.chasm.type.matching.TypeMatcher
-import io.github.charlietap.chasm.validator.context.ValidationContext
+import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.ModuleValidatorError
 import io.github.charlietap.chasm.validator.error.TypeValidatorError
 import io.github.charlietap.chasm.validator.ext.pop
@@ -21,7 +21,7 @@ import io.github.charlietap.chasm.validator.ext.popI32
 import io.github.charlietap.chasm.validator.ext.type
 
 internal fun ArrayCopyInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: AggregateInstruction.ArrayCopy,
 ): Result<Unit, ModuleValidatorError> =
     ArrayCopyInstructionValidator(
@@ -31,7 +31,7 @@ internal fun ArrayCopyInstructionValidator(
     )
 
 internal inline fun ArrayCopyInstructionValidator(
-    context: ValidationContext,
+    context: ModuleValidationContext,
     instruction: AggregateInstruction.ArrayCopy,
     crossinline storageTypeMatcher: TypeMatcher<StorageType>,
 ): Result<Unit, ModuleValidatorError> = binding {
