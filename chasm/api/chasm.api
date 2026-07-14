@@ -69,6 +69,7 @@ public final class io/github/charlietap/chasm/embedding/TagKt {
 }
 
 public final class io/github/charlietap/chasm/embedding/ValidateKt {
+	public static final fun validate (Lio/github/charlietap/chasm/embedding/shapes/Component;)Lio/github/charlietap/chasm/embedding/shapes/ChasmResult;
 	public static final fun validate (Lio/github/charlietap/chasm/embedding/shapes/Module;)Lio/github/charlietap/chasm/embedding/shapes/ChasmResult;
 }
 
