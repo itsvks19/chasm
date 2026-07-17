@@ -5,6 +5,10 @@
 - **Fast dev loop:** run `./gradlew test`. This executes the runtime unit
   tests and the official Wasm test suite via the JVM backend, giving quick
   signal without longer-running native targets.
+- **Corpus correctness:** run `./gradlew corpus`. This executes the configured
+  `wasm-corpus` slice against Chasm on the JVM. Run it before performance
+  benchmarks when changing compiler or runtime semantics; focused fixtures and
+  the fast test loop are not substitutes for this corpus gate.
 - **Full matrix:** invoke the usual platform tasks (e.g. `./gradlew jvmTest`,
   `./gradlew macosArm64Test`, etc.) when you need exhaustive coverage or are
   touching platform-specific code.
