@@ -188,11 +188,10 @@ internal inline fun AggregateInstructionFuser(
         index
     }
     is AggregateInstruction.ArrayGet -> {
-        var nextIndex = index
-
         val field = input.getOrNull(index - 1)?.let(operandFactory)
         val address = input.getOrNull(index - 2)?.let(operandFactory)
-        val destination = input.getOrNull(index + 1).let(destinationFactory)
+        val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+        val destination = destinationPlan.destination
 
         val instruction = if (field == null && destination == FusedDestination.ValueStack) {
             instruction
@@ -228,18 +227,13 @@ internal inline fun AggregateInstructionFuser(
 
         output.add(instruction)
 
-        if (destination != FusedDestination.ValueStack) {
-            nextIndex++
-        }
-
-        nextIndex
+        destinationPlan.complete(index, output, destination != FusedDestination.ValueStack)
     }
     is AggregateInstruction.ArrayGetSigned -> {
-        var nextIndex = index
-
         val field = input.getOrNull(index - 1)?.let(operandFactory)
         val address = input.getOrNull(index - 2)?.let(operandFactory)
-        val destination = input.getOrNull(index + 1).let(destinationFactory)
+        val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+        val destination = destinationPlan.destination
 
         val instruction = if (field == null && destination == FusedDestination.ValueStack) {
             instruction
@@ -275,18 +269,13 @@ internal inline fun AggregateInstructionFuser(
 
         output.add(instruction)
 
-        if (destination != FusedDestination.ValueStack) {
-            nextIndex++
-        }
-
-        nextIndex
+        destinationPlan.complete(index, output, destination != FusedDestination.ValueStack)
     }
     is AggregateInstruction.ArrayGetUnsigned -> {
-        var nextIndex = index
-
         val field = input.getOrNull(index - 1)?.let(operandFactory)
         val address = input.getOrNull(index - 2)?.let(operandFactory)
-        val destination = input.getOrNull(index + 1).let(destinationFactory)
+        val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+        val destination = destinationPlan.destination
 
         val instruction = if (field == null && destination == FusedDestination.ValueStack) {
             instruction
@@ -322,17 +311,12 @@ internal inline fun AggregateInstructionFuser(
 
         output.add(instruction)
 
-        if (destination != FusedDestination.ValueStack) {
-            nextIndex++
-        }
-
-        nextIndex
+        destinationPlan.complete(index, output, destination != FusedDestination.ValueStack)
     }
     is AggregateInstruction.ArrayLen -> {
-        var nextIndex = index
-
         val address = input.getOrNull(index - 1)?.let(operandFactory)
-        val destination = input.getOrNull(index + 1).let(destinationFactory)
+        val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+        val destination = destinationPlan.destination
 
         val instruction = if (address == null && destination == FusedDestination.ValueStack) {
             instruction
@@ -354,19 +338,14 @@ internal inline fun AggregateInstructionFuser(
 
         output.add(instruction)
 
-        if (destination != FusedDestination.ValueStack) {
-            nextIndex++
-        }
-
-        nextIndex
+        destinationPlan.complete(index, output, destination != FusedDestination.ValueStack)
     }
     is AggregateInstruction.ArrayNew -> {
 
-        var nextIndex = index
-
         val size = input.getOrNull(index - 1)?.let(operandFactory)
         val value = input.getOrNull(index - 2)?.let(operandFactory)
-        val destination = input.getOrNull(index + 1).let(destinationFactory)
+        val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+        val destination = destinationPlan.destination
 
         val instruction = if (size == null && destination == FusedDestination.ValueStack) {
             instruction
@@ -402,17 +381,12 @@ internal inline fun AggregateInstructionFuser(
 
         output.add(instruction)
 
-        if (destination != FusedDestination.ValueStack) {
-            nextIndex++
-        }
-
-        nextIndex
+        destinationPlan.complete(index, output, destination != FusedDestination.ValueStack)
     }
     is AggregateInstruction.ArrayNewFixed -> {
 
-        var nextIndex = index
-
-        val destination = input.getOrNull(index + 1).let(destinationFactory)
+        val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+        val destination = destinationPlan.destination
 
         val instruction = if (destination == FusedDestination.ValueStack) {
             instruction
@@ -426,11 +400,7 @@ internal inline fun AggregateInstructionFuser(
 
         output.add(instruction)
 
-        if (destination != FusedDestination.ValueStack) {
-            nextIndex++
-        }
-
-        nextIndex
+        destinationPlan.complete(index, output, destination != FusedDestination.ValueStack)
     }
     is AggregateInstruction.ArraySet -> {
 
@@ -480,10 +450,9 @@ internal inline fun AggregateInstructionFuser(
         index
     }
     is AggregateInstruction.StructGet -> {
-        var nextIndex = index
-
         val address = input.getOrNull(index - 1)?.let(operandFactory)
-        val destination = input.getOrNull(index + 1).let(destinationFactory)
+        val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+        val destination = destinationPlan.destination
 
         val instruction = if (address == null && destination == FusedDestination.ValueStack) {
             instruction
@@ -509,17 +478,12 @@ internal inline fun AggregateInstructionFuser(
 
         output.add(instruction)
 
-        if (destination != FusedDestination.ValueStack) {
-            nextIndex++
-        }
-
-        nextIndex
+        destinationPlan.complete(index, output, destination != FusedDestination.ValueStack)
     }
     is AggregateInstruction.StructGetSigned -> {
-        var nextIndex = index
-
         val address = input.getOrNull(index - 1)?.let(operandFactory)
-        val destination = input.getOrNull(index + 1).let(destinationFactory)
+        val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+        val destination = destinationPlan.destination
 
         val instruction = if (address == null && destination == FusedDestination.ValueStack) {
             instruction
@@ -545,17 +509,12 @@ internal inline fun AggregateInstructionFuser(
 
         output.add(instruction)
 
-        if (destination != FusedDestination.ValueStack) {
-            nextIndex++
-        }
-
-        nextIndex
+        destinationPlan.complete(index, output, destination != FusedDestination.ValueStack)
     }
     is AggregateInstruction.StructGetUnsigned -> {
-        var nextIndex = index
-
         val address = input.getOrNull(index - 1)?.let(operandFactory)
-        val destination = input.getOrNull(index + 1).let(destinationFactory)
+        val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+        val destination = destinationPlan.destination
 
         val instruction = if (address == null && destination == FusedDestination.ValueStack) {
             instruction
@@ -581,16 +540,11 @@ internal inline fun AggregateInstructionFuser(
 
         output.add(instruction)
 
-        if (destination != FusedDestination.ValueStack) {
-            nextIndex++
-        }
-
-        nextIndex
+        destinationPlan.complete(index, output, destination != FusedDestination.ValueStack)
     }
     is AggregateInstruction.StructNew -> {
-        var nextIndex = index
-
-        val destination = input.getOrNull(index + 1).let(destinationFactory)
+        val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+        val destination = destinationPlan.destination
 
         val instruction = if (destination == FusedDestination.ValueStack) {
             instruction
@@ -603,16 +557,11 @@ internal inline fun AggregateInstructionFuser(
 
         output.add(instruction)
 
-        if (destination != FusedDestination.ValueStack) {
-            nextIndex++
-        }
-
-        nextIndex
+        destinationPlan.complete(index, output, destination != FusedDestination.ValueStack)
     }
     is AggregateInstruction.StructNewDefault -> {
-        var nextIndex = index
-
-        val destination = input.getOrNull(index + 1).let(destinationFactory)
+        val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+        val destination = destinationPlan.destination
 
         val instruction = if (destination == FusedDestination.ValueStack) {
             instruction
@@ -625,11 +574,7 @@ internal inline fun AggregateInstructionFuser(
 
         output.add(instruction)
 
-        if (destination != FusedDestination.ValueStack) {
-            nextIndex++
-        }
-
-        nextIndex
+        destinationPlan.complete(index, output, destination != FusedDestination.ValueStack)
     }
     is AggregateInstruction.StructSet -> {
 

@@ -36,9 +36,9 @@ internal inline fun TableInstructionFuser(
 ): Int = when (instruction) {
     is TableInstruction.TableGet -> {
 
-        var nextIndex = index
         val elementIndex = input.getOrNull(index - 1)?.let(operandFactory)
-        val destination = input.getOrNull(index + 1).let(destinationFactory)
+        val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+        val destination = destinationPlan.destination
 
         val instruction = if (elementIndex == null && destination == FusedDestination.ValueStack) {
             instruction
@@ -62,11 +62,7 @@ internal inline fun TableInstructionFuser(
 
         output.add(instruction)
 
-        if (destination != FusedDestination.ValueStack) {
-            nextIndex++
-        }
-
-        nextIndex
+        destinationPlan.complete(index, output, destination != FusedDestination.ValueStack)
     }
     is TableInstruction.TableSet -> {
 
@@ -197,10 +193,10 @@ internal inline fun TableInstructionFuser(
     }
     is TableInstruction.TableGrow -> {
 
-        var nextIndex = index
         val elementsToAdd = input.getOrNull(index - 1)?.let(operandFactory)
         val referenceValue = input.getOrNull(index - 2)?.let(operandFactory)
-        val destination = input.getOrNull(index + 1).let(destinationFactory)
+        val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+        val destination = destinationPlan.destination
 
         val instruction = if (elementsToAdd == null && destination == FusedDestination.ValueStack) {
             instruction
@@ -236,11 +232,7 @@ internal inline fun TableInstructionFuser(
 
         output.add(instruction)
 
-        if (destination != FusedDestination.ValueStack) {
-            nextIndex++
-        }
-
-        nextIndex
+        destinationPlan.complete(index, output, destination != FusedDestination.ValueStack)
     }
     is TableInstruction.TableInit -> {
 
@@ -292,8 +284,8 @@ internal inline fun TableInstructionFuser(
         index
     }
     is TableInstruction.TableSize -> {
-        var nextIndex = index
-        val destination = input.getOrNull(index + 1).let(destinationFactory)
+        val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+        val destination = destinationPlan.destination
 
         val instruction = if (destination == FusedDestination.ValueStack) {
             instruction
@@ -306,11 +298,7 @@ internal inline fun TableInstructionFuser(
 
         output.add(instruction)
 
-        if (destination != FusedDestination.ValueStack) {
-            nextIndex++
-        }
-
-        nextIndex
+        destinationPlan.complete(index, output, destination != FusedDestination.ValueStack)
     }
     else -> {
         output.add(instruction)

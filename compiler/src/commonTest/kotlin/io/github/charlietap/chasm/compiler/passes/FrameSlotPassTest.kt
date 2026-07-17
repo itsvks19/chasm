@@ -42,10 +42,12 @@ import io.github.charlietap.chasm.fixture.ir.instruction.i32ConstInstruction
 import io.github.charlietap.chasm.fixture.ir.instruction.i32ConstOperand
 import io.github.charlietap.chasm.fixture.ir.instruction.i32EqzInstruction
 import io.github.charlietap.chasm.fixture.ir.instruction.i32LoadInstruction
+import io.github.charlietap.chasm.fixture.ir.instruction.i64ConstOperand
 import io.github.charlietap.chasm.fixture.ir.instruction.ifInstruction
 import io.github.charlietap.chasm.fixture.ir.instruction.localGetInstruction
 import io.github.charlietap.chasm.fixture.ir.instruction.localGetOperand
 import io.github.charlietap.chasm.fixture.ir.instruction.localSetDestination
+import io.github.charlietap.chasm.fixture.ir.instruction.localTeeInstruction
 import io.github.charlietap.chasm.fixture.ir.instruction.loopInstruction
 import io.github.charlietap.chasm.fixture.ir.instruction.memArg
 import io.github.charlietap.chasm.fixture.ir.instruction.memoryGrowInstruction
@@ -86,6 +88,7 @@ import io.github.charlietap.chasm.fixture.type.functionHeapType
 import io.github.charlietap.chasm.fixture.type.functionRecursiveType
 import io.github.charlietap.chasm.fixture.type.functionType
 import io.github.charlietap.chasm.fixture.type.i32ValueType
+import io.github.charlietap.chasm.fixture.type.i64ValueType
 import io.github.charlietap.chasm.fixture.type.immutableFieldType
 import io.github.charlietap.chasm.fixture.type.recursiveType
 import io.github.charlietap.chasm.fixture.type.refNonNullReferenceType
@@ -101,6 +104,7 @@ import io.github.charlietap.chasm.ir.instruction.ControlInstruction
 import io.github.charlietap.chasm.ir.instruction.ControlSuperInstruction
 import io.github.charlietap.chasm.ir.instruction.Instruction
 import io.github.charlietap.chasm.ir.instruction.MemorySuperInstruction
+import io.github.charlietap.chasm.ir.instruction.NumericSuperInstruction
 import io.github.charlietap.chasm.ir.instruction.ReferenceSuperInstruction
 import io.github.charlietap.chasm.ir.instruction.TableSuperInstruction
 import io.github.charlietap.chasm.type.AbstractHeapType
@@ -495,6 +499,68 @@ class FrameSlotPassTest {
                 fusedI32Eqz(
                     operand = frameSlotOperand(2),
                     destination = frameSlotDestination(2),
+                ),
+            ),
+            actual.body.instructions,
+        )
+    }
+
+    @Test
+    fun `fuses local tee producer directly into the slot read by br_if`() {
+        val recursiveType = functionRecursiveType(
+            functionType(
+                params = resultType(
+                    types = listOf(
+                        i32ValueType(),
+                        i32ValueType(),
+                        i32ValueType(),
+                    ),
+                ),
+            ),
+        )
+        val module = module(
+            types = listOf(type(recursiveType = recursiveType)),
+            definedTypes = listOf(definedType(recursiveType = recursiveType)),
+            functions = listOf(
+                function(
+                    typeIndex = typeIndex(0),
+                    body = expression(
+                        instructions = listOf(
+                            blockInstruction(
+                                instructions = listOf(
+                                    localGetInstruction(localIndex(0)),
+                                    localGetInstruction(localIndex(1)),
+                                    i32AddInstruction(),
+                                    localTeeInstruction(localIndex(2)),
+                                    brIfInstruction(labelIndex(0)),
+                                    AdminInstruction.EndBlock,
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+        val fusedModule = FusionPass(context, module)
+
+        val actual = FrameSlotPass(context, fusedModule).functions[0]
+
+        assertEquals(4, actual.frameSlots)
+        assertEquals(
+            listOf(
+                blockInstruction(
+                    instructions = listOf(
+                        fusedI32Add(
+                            left = frameSlotOperand(0),
+                            right = frameSlotOperand(1),
+                            destination = frameSlotDestination(2),
+                        ),
+                        fusedBrIf(
+                            operand = frameSlotOperand(2),
+                            labelIndex = labelIndex(0),
+                        ),
+                    ),
                 ),
             ),
             actual.body.instructions,
@@ -1618,6 +1684,687 @@ class FrameSlotPassTest {
                 fusedI32Eqz(
                     operand = frameSlotOperand(1),
                     destination = frameSlotDestination(1),
+                ),
+            ),
+            actual.body.instructions,
+        )
+    }
+
+    @Test
+    fun `elides reachable local tee writes when the source is the target local`() {
+        val recursiveType = functionRecursiveType(
+            functionType(
+                params = resultType(types = listOf(i32ValueType())),
+            ),
+        )
+        val module = module(
+            types = listOf(type(recursiveType = recursiveType)),
+            definedTypes = listOf(definedType(recursiveType = recursiveType)),
+            functions = listOf(
+                function(
+                    typeIndex = typeIndex(0),
+                    body = expression(
+                        instructions = listOf(
+                            fusedLocalTee(
+                                operand = localGetOperand(localIndex(0)),
+                                localIdx = localIndex(0),
+                            ),
+                            fusedI32Eqz(
+                                operand = valueStackOperand(),
+                                destination = valueStackDestination(),
+                            ),
+                            dropInstruction(),
+                        ),
+                    ),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+
+        val actual = FrameSlotPass(context, module).functions[0]
+
+        assertEquals(2, actual.frameSlots)
+        assertEquals(
+            listOf(
+                fusedI32Eqz(
+                    operand = frameSlotOperand(0),
+                    destination = frameSlotDestination(1),
+                ),
+            ),
+            actual.body.instructions,
+        )
+    }
+
+    @Test
+    fun `elides reachable local set writes when the source is the target local`() {
+        val recursiveType = functionRecursiveType(
+            functionType(
+                params = resultType(types = listOf(i32ValueType())),
+            ),
+        )
+        val module = module(
+            types = listOf(type(recursiveType = recursiveType)),
+            definedTypes = listOf(definedType(recursiveType = recursiveType)),
+            functions = listOf(
+                function(
+                    typeIndex = typeIndex(0),
+                    body = expression(
+                        instructions = listOf(
+                            fusedLocalSet(
+                                operand = localGetOperand(localIndex(0)),
+                                localIdx = localIndex(0),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+
+        val actual = FrameSlotPass(context, module).functions[0]
+
+        assertEquals(1, actual.frameSlots)
+        assertEquals(emptyList(), actual.body.instructions)
+    }
+
+    @Test
+    fun `keeps immediate local tee values virtual after the required local write`() {
+        val recursiveType = functionRecursiveType(functionType())
+        val module = module(
+            types = listOf(type(recursiveType = recursiveType)),
+            definedTypes = listOf(definedType(recursiveType = recursiveType)),
+            functions = listOf(
+                function(
+                    typeIndex = typeIndex(0),
+                    locals = listOf(local(type = i32ValueType())),
+                    body = expression(
+                        instructions = listOf(
+                            fusedLocalTee(
+                                operand = i32ConstOperand(7),
+                                localIdx = localIndex(0),
+                            ),
+                            fusedI32Eqz(
+                                operand = valueStackOperand(),
+                                destination = valueStackDestination(),
+                            ),
+                            dropInstruction(),
+                        ),
+                    ),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+
+        val actual = FrameSlotPass(context, module).functions[0]
+
+        assertEquals(2, actual.frameSlots)
+        assertEquals(
+            listOf(
+                fusedLocalSet(
+                    operand = i32ConstOperand(7),
+                    localIdx = localIndex(0),
+                ),
+                fusedI32Eqz(
+                    operand = i32ConstOperand(7),
+                    destination = frameSlotDestination(1),
+                ),
+            ),
+            actual.body.instructions,
+        )
+    }
+
+    @Test
+    fun `preserves live aliases before a producer writes directly to a local`() {
+        val recursiveType = functionRecursiveType(
+            functionType(
+                params = resultType(types = listOf(i32ValueType())),
+            ),
+        )
+        val module = module(
+            types = listOf(type(recursiveType = recursiveType)),
+            definedTypes = listOf(definedType(recursiveType = recursiveType)),
+            functions = listOf(
+                function(
+                    typeIndex = typeIndex(0),
+                    body = expression(
+                        instructions = listOf(
+                            localGetInstruction(localIndex(0)),
+                            fusedI32Eqz(
+                                operand = i32ConstOperand(0),
+                                destination = localSetDestination(localIndex(0)),
+                            ),
+                            fusedI32Eqz(
+                                operand = valueStackOperand(),
+                                destination = valueStackDestination(),
+                            ),
+                            dropInstruction(),
+                        ),
+                    ),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+
+        val actual = FrameSlotPass(context, module).functions[0]
+
+        assertEquals(2, actual.frameSlots)
+        assertEquals(
+            listOf(
+                *frameSlotCopyInstructions(listOf(0), listOf(1)).toTypedArray(),
+                fusedI32Eqz(
+                    operand = i32ConstOperand(0),
+                    destination = frameSlotDestination(0),
+                ),
+                fusedI32Eqz(
+                    operand = frameSlotOperand(1),
+                    destination = frameSlotDestination(1),
+                ),
+            ),
+            actual.body.instructions,
+        )
+    }
+
+    @Test
+    fun `preserves live aliases before a destination only producer writes to a local`() {
+        val recursiveType = functionRecursiveType(
+            functionType(
+                params = resultType(types = listOf(i32ValueType())),
+            ),
+        )
+        val module = module(
+            types = listOf(type(recursiveType = recursiveType)),
+            definedTypes = listOf(definedType(recursiveType = recursiveType)),
+            functions = listOf(
+                function(
+                    typeIndex = typeIndex(0),
+                    body = expression(
+                        instructions = listOf(
+                            localGetInstruction(localIndex(0)),
+                            fusedI32Const(
+                                value = 7,
+                                destination = localSetDestination(localIndex(0)),
+                            ),
+                            fusedI32Eqz(
+                                operand = valueStackOperand(),
+                                destination = valueStackDestination(),
+                            ),
+                            dropInstruction(),
+                        ),
+                    ),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+
+        val actual = FrameSlotPass(context, module).functions[0]
+
+        assertEquals(2, actual.frameSlots)
+        assertEquals(
+            listOf(
+                *frameSlotCopyInstructions(listOf(0), listOf(1)).toTypedArray(),
+                fusedI32Const(
+                    value = 7,
+                    destination = frameSlotDestination(0),
+                ),
+                fusedI32Eqz(
+                    operand = frameSlotOperand(1),
+                    destination = frameSlotDestination(1),
+                ),
+            ),
+            actual.body.instructions,
+        )
+    }
+
+    @Test
+    fun `erases a synthetic local get after a folded tee producer`() {
+        val recursiveType = functionRecursiveType(
+            functionType(
+                params = resultType(types = listOf(i32ValueType())),
+            ),
+        )
+        val module = module(
+            types = listOf(type(recursiveType = recursiveType)),
+            definedTypes = listOf(definedType(recursiveType = recursiveType)),
+            functions = listOf(
+                function(
+                    typeIndex = typeIndex(0),
+                    body = expression(
+                        instructions = listOf(
+                            fusedI32Eqz(
+                                operand = i32ConstOperand(0),
+                                destination = localSetDestination(localIndex(0)),
+                            ),
+                            localGetInstruction(localIndex(0)),
+                            fusedLocalSet(
+                                operand = i32ConstOperand(7),
+                                localIdx = localIndex(0),
+                            ),
+                            fusedI32Eqz(
+                                operand = valueStackOperand(),
+                                destination = valueStackDestination(),
+                            ),
+                            dropInstruction(),
+                        ),
+                    ),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+
+        val actual = FrameSlotPass(context, module).functions[0]
+
+        assertEquals(2, actual.frameSlots)
+        assertEquals(
+            listOf(
+                fusedI32Eqz(
+                    operand = i32ConstOperand(0),
+                    destination = frameSlotDestination(0),
+                ),
+                *frameSlotCopyInstructions(listOf(0), listOf(1)).toTypedArray(),
+                fusedLocalSet(
+                    operand = i32ConstOperand(7),
+                    localIdx = localIndex(0),
+                ),
+                fusedI32Eqz(
+                    operand = frameSlotOperand(1),
+                    destination = frameSlotDestination(1),
+                ),
+            ),
+            actual.body.instructions,
+        )
+    }
+
+    @Test
+    fun `preserves aliases around materialized operands for aggregate local destinations`() {
+        val structRecursiveType = recursiveType(
+            subTypes = listOf(
+                finalSubType(
+                    compositeType = structCompositeType(
+                        structType = structType(
+                            fields = listOf(immutableFieldType(valueStorageType(i32ValueType()))),
+                        ),
+                    ),
+                ),
+            ),
+        )
+        val functionRecursiveType = functionRecursiveType(
+            functionType(
+                params = resultType(
+                    types = listOf(
+                        referenceValueType(refNullReferenceType(AbstractHeapType.Struct)),
+                    ),
+                ),
+            ),
+        )
+        val module = module(
+            types = listOf(
+                type(idx = typeIndex(0), recursiveType = structRecursiveType),
+                type(idx = typeIndex(1), recursiveType = functionRecursiveType),
+            ),
+            definedTypes = listOf(
+                definedType(recursiveType = structRecursiveType, typeIndex = 0),
+                definedType(recursiveType = functionRecursiveType, typeIndex = 1),
+            ),
+            functions = listOf(
+                function(
+                    typeIndex = typeIndex(1),
+                    body = expression(
+                        instructions = listOf(
+                            localGetInstruction(localIndex(0)),
+                            i32ConstInstruction(7),
+                            AggregateSuperInstruction.StructNew(
+                                destination = localSetDestination(localIndex(0)),
+                                typeIndex = typeIndex(0),
+                                fieldSlots = emptyList(),
+                            ),
+                            dropInstruction(),
+                        ),
+                    ),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+
+        val actual = FrameSlotPass(context, module).functions[0]
+
+        assertEquals(3, actual.frameSlots)
+        assertEquals(
+            listOf(
+                fusedI32Const(
+                    value = 7,
+                    destination = frameSlotDestination(2),
+                ),
+                *frameSlotCopyInstructions(listOf(0), listOf(1)).toTypedArray(),
+                AggregateSuperInstruction.StructNew(
+                    destination = frameSlotDestination(0),
+                    typeIndex = typeIndex(0),
+                    fieldSlots = listOf(2),
+                ),
+            ),
+            actual.body.instructions,
+        )
+    }
+
+    @Test
+    fun `preserves only unconsumed aliases when a producer reads and writes the same local`() {
+        val recursiveType = functionRecursiveType(
+            functionType(
+                params = resultType(types = listOf(i32ValueType())),
+            ),
+        )
+        val module = module(
+            types = listOf(type(recursiveType = recursiveType)),
+            definedTypes = listOf(definedType(recursiveType = recursiveType)),
+            functions = listOf(
+                function(
+                    typeIndex = typeIndex(0),
+                    body = expression(
+                        instructions = listOf(
+                            localGetInstruction(localIndex(0)),
+                            localGetInstruction(localIndex(0)),
+                            fusedI32Eqz(
+                                operand = valueStackOperand(),
+                                destination = localSetDestination(localIndex(0)),
+                            ),
+                            fusedI32Eqz(
+                                operand = valueStackOperand(),
+                                destination = valueStackDestination(),
+                            ),
+                            dropInstruction(),
+                        ),
+                    ),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+
+        val actual = FrameSlotPass(context, module).functions[0]
+
+        assertEquals(3, actual.frameSlots)
+        assertEquals(
+            listOf(
+                *frameSlotCopyInstructions(listOf(0), listOf(1)).toTypedArray(),
+                fusedI32Eqz(
+                    operand = frameSlotOperand(0),
+                    destination = frameSlotDestination(0),
+                ),
+                fusedI32Eqz(
+                    operand = frameSlotOperand(1),
+                    destination = frameSlotDestination(1),
+                ),
+            ),
+            actual.body.instructions,
+        )
+    }
+
+    @Test
+    fun `preserves a local tee result when its target is overwritten before consumption`() {
+        val recursiveType = functionRecursiveType(
+            functionType(
+                params = resultType(types = listOf(i32ValueType(), i32ValueType())),
+            ),
+        )
+        val module = module(
+            types = listOf(type(recursiveType = recursiveType)),
+            definedTypes = listOf(definedType(recursiveType = recursiveType)),
+            functions = listOf(
+                function(
+                    typeIndex = typeIndex(0),
+                    body = expression(
+                        instructions = listOf(
+                            fusedLocalTee(
+                                operand = localGetOperand(localIndex(1)),
+                                localIdx = localIndex(0),
+                            ),
+                            fusedLocalSet(
+                                operand = i32ConstOperand(7),
+                                localIdx = localIndex(0),
+                            ),
+                            fusedI32Eqz(
+                                operand = valueStackOperand(),
+                                destination = valueStackDestination(),
+                            ),
+                            dropInstruction(),
+                        ),
+                    ),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+
+        val actual = FrameSlotPass(context, module).functions[0]
+
+        assertEquals(3, actual.frameSlots)
+        assertEquals(
+            listOf(
+                fusedLocalSet(
+                    operand = frameSlotOperand(1),
+                    localIdx = localIndex(0),
+                ),
+                *frameSlotCopyInstructions(listOf(0), listOf(2)).toTypedArray(),
+                fusedLocalSet(
+                    operand = i32ConstOperand(7),
+                    localIdx = localIndex(0),
+                ),
+                fusedI32Eqz(
+                    operand = frameSlotOperand(2),
+                    destination = frameSlotDestination(2),
+                ),
+            ),
+            actual.body.instructions,
+        )
+    }
+
+    @Test
+    fun `keeps a temporary tee source as the logical result after copying it to a local`() {
+        val recursiveType = functionRecursiveType(
+            functionType(
+                params = resultType(types = listOf(i32ValueType(), i32ValueType())),
+            ),
+        )
+        val module = module(
+            types = listOf(type(recursiveType = recursiveType)),
+            definedTypes = listOf(definedType(recursiveType = recursiveType)),
+            functions = listOf(
+                function(
+                    typeIndex = typeIndex(0),
+                    body = expression(
+                        instructions = listOf(
+                            fusedI32Add(
+                                left = localGetOperand(localIndex(0)),
+                                right = localGetOperand(localIndex(1)),
+                                destination = valueStackDestination(),
+                            ),
+                            fusedLocalTee(
+                                operand = valueStackOperand(),
+                                localIdx = localIndex(0),
+                            ),
+                            fusedI32Eqz(
+                                operand = valueStackOperand(),
+                                destination = valueStackDestination(),
+                            ),
+                            dropInstruction(),
+                        ),
+                    ),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+
+        val actual = FrameSlotPass(context, module).functions[0]
+
+        assertEquals(3, actual.frameSlots)
+        assertEquals(
+            listOf(
+                fusedI32Add(
+                    left = frameSlotOperand(0),
+                    right = frameSlotOperand(1),
+                    destination = frameSlotDestination(2),
+                ),
+                fusedLocalSet(
+                    operand = frameSlotOperand(2),
+                    localIdx = localIndex(0),
+                ),
+                fusedI32Eqz(
+                    operand = frameSlotOperand(2),
+                    destination = frameSlotDestination(2),
+                ),
+            ),
+            actual.body.instructions,
+        )
+    }
+
+    @Test
+    fun `materializes a self tee alias into a block result slot`() {
+        val recursiveType = functionRecursiveType(
+            functionType(
+                params = resultType(types = listOf(i32ValueType())),
+            ),
+        )
+        val module = module(
+            types = listOf(type(recursiveType = recursiveType)),
+            definedTypes = listOf(definedType(recursiveType = recursiveType)),
+            functions = listOf(
+                function(
+                    typeIndex = typeIndex(0),
+                    body = expression(
+                        instructions = listOf(
+                            blockInstruction(
+                                blockType = valueBlockType(i32ValueType()),
+                                instructions = listOf(
+                                    fusedLocalTee(
+                                        operand = localGetOperand(localIndex(0)),
+                                        localIdx = localIndex(0),
+                                    ),
+                                    AdminInstruction.EndBlock,
+                                ),
+                            ),
+                            fusedI32Eqz(
+                                operand = valueStackOperand(),
+                                destination = valueStackDestination(),
+                            ),
+                            dropInstruction(),
+                        ),
+                    ),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+
+        val actual = FrameSlotPass(context, module).functions[0]
+
+        assertEquals(2, actual.frameSlots)
+        assertEquals(
+            listOf(
+                blockInstruction(
+                    blockType = valueBlockType(i32ValueType()),
+                    instructions = frameSlotCopyInstructions(listOf(0), listOf(1)),
+                ),
+                fusedI32Eqz(
+                    operand = frameSlotOperand(1),
+                    destination = frameSlotDestination(1),
+                ),
+            ),
+            actual.body.instructions,
+        )
+    }
+
+    @Test
+    fun `preserves aliases for every local set in a multi destination producer`() {
+        val recursiveType = functionRecursiveType(
+            functionType(
+                params = resultType(types = listOf(i64ValueType(), i64ValueType())),
+            ),
+        )
+        val module = module(
+            types = listOf(type(recursiveType = recursiveType)),
+            definedTypes = listOf(definedType(recursiveType = recursiveType)),
+            functions = listOf(
+                function(
+                    typeIndex = typeIndex(0),
+                    body = expression(
+                        instructions = listOf(
+                            localGetInstruction(localIndex(0)),
+                            localGetInstruction(localIndex(1)),
+                            NumericSuperInstruction.I64Add128(
+                                leftLow = i64ConstOperand(1),
+                                leftHigh = i64ConstOperand(2),
+                                rightLow = i64ConstOperand(3),
+                                rightHigh = i64ConstOperand(4),
+                                destinationLow = localSetDestination(localIndex(0)),
+                                destinationHigh = localSetDestination(localIndex(1)),
+                            ),
+                            dropInstruction(),
+                            dropInstruction(),
+                        ),
+                    ),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+
+        val actual = FrameSlotPass(context, module).functions[0]
+
+        assertEquals(4, actual.frameSlots)
+        assertEquals(
+            listOf(
+                *frameSlotCopyInstructions(listOf(0), listOf(2)).toTypedArray(),
+                *frameSlotCopyInstructions(listOf(1), listOf(3)).toTypedArray(),
+                NumericSuperInstruction.I64Add128(
+                    leftLow = i64ConstOperand(1),
+                    leftHigh = i64ConstOperand(2),
+                    rightLow = i64ConstOperand(3),
+                    rightHigh = i64ConstOperand(4),
+                    destinationLow = frameSlotDestination(0),
+                    destinationHigh = frameSlotDestination(1),
+                ),
+            ),
+            actual.body.instructions,
+        )
+    }
+
+    @Test
+    fun `preserves a source local before mixed stack and local destinations overwrite it`() {
+        val recursiveType = functionRecursiveType(
+            functionType(
+                params = resultType(types = listOf(i64ValueType())),
+            ),
+        )
+        val module = module(
+            types = listOf(type(recursiveType = recursiveType)),
+            definedTypes = listOf(definedType(recursiveType = recursiveType)),
+            functions = listOf(
+                function(
+                    typeIndex = typeIndex(0),
+                    body = expression(
+                        instructions = listOf(
+                            localGetInstruction(localIndex(0)),
+                            NumericSuperInstruction.I64MulWideU(
+                                left = localGetOperand(localIndex(0)),
+                                right = i64ConstOperand(2),
+                                destinationLow = valueStackDestination(),
+                                destinationHigh = localSetDestination(localIndex(0)),
+                            ),
+                            dropInstruction(),
+                            dropInstruction(),
+                        ),
+                    ),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+
+        val actual = FrameSlotPass(context, module).functions[0]
+
+        assertEquals(3, actual.frameSlots)
+        assertEquals(
+            listOf(
+                *frameSlotCopyInstructions(listOf(0), listOf(1)).toTypedArray(),
+                NumericSuperInstruction.I64MulWideU(
+                    left = frameSlotOperand(0),
+                    right = i64ConstOperand(2),
+                    destinationLow = frameSlotDestination(2),
+                    destinationHigh = frameSlotDestination(0),
                 ),
             ),
             actual.body.instructions,

@@ -12,8 +12,16 @@ class RefCastIssueExceptionTest {
 
     @Test
     fun `can run a host function that throws an exception and return a chasm error`() {
+        assertInitializes(bytecodeFusion = false)
+    }
 
-        val config = RuntimeConfig(bytecodeFusion = false)
+    @Test
+    fun `can initialize ref cast issue corpus with bytecode fusion`() {
+        assertInitializes(bytecodeFusion = true)
+    }
+
+    private fun assertInitializes(bytecodeFusion: Boolean) {
+        val config = RuntimeConfig(bytecodeFusion = bytecodeFusion)
         val store = store()
 
         val imports = imports(store) {

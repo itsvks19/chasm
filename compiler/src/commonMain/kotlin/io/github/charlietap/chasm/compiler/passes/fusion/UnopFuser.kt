@@ -33,10 +33,9 @@ internal inline fun UnopFuser(
     destinationFactory: FusedDestinationFactory,
 ): Int {
 
-    var nextIndex = index
-
     val operand = input.getOrNull(index - 1)?.let(operandFactory)
-    val destination = input.getOrNull(index + 1).let(destinationFactory)
+    val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+    val destination = destinationPlan.destination
 
     val instruction = when {
         operand == null && destination == FusedDestination.ValueStack -> instruction
@@ -51,9 +50,9 @@ internal inline fun UnopFuser(
 
     output.add(instruction)
 
-    if (destination != FusedDestination.ValueStack) {
-        nextIndex++
-    }
-
-    return nextIndex
+    return destinationPlan.complete(
+        index = index,
+        output = output,
+        destinationConsumed = destination != FusedDestination.ValueStack,
+    )
 }

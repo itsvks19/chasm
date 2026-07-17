@@ -1,6 +1,7 @@
 package io.github.charlietap.chasm.compiler.passes
 
 import io.github.charlietap.chasm.fixture.ir.instruction.blockInstruction
+import io.github.charlietap.chasm.fixture.ir.instruction.brIfInstruction
 import io.github.charlietap.chasm.fixture.ir.instruction.callInstruction
 import io.github.charlietap.chasm.fixture.ir.instruction.expression
 import io.github.charlietap.chasm.fixture.ir.instruction.f32AbsInstruction
@@ -9,33 +10,51 @@ import io.github.charlietap.chasm.fixture.ir.instruction.fusedF32Abs
 import io.github.charlietap.chasm.fixture.ir.instruction.fusedI32Add
 import io.github.charlietap.chasm.fixture.ir.instruction.fusedIf
 import io.github.charlietap.chasm.fixture.ir.instruction.fusedLocalSet
+import io.github.charlietap.chasm.fixture.ir.instruction.fusedLocalTee
 import io.github.charlietap.chasm.fixture.ir.instruction.fusedSelect
 import io.github.charlietap.chasm.fixture.ir.instruction.globalGetInstruction
 import io.github.charlietap.chasm.fixture.ir.instruction.globalSetInstruction
 import io.github.charlietap.chasm.fixture.ir.instruction.i32AddInstruction
 import io.github.charlietap.chasm.fixture.ir.instruction.i32ConstInstruction
 import io.github.charlietap.chasm.fixture.ir.instruction.i32ConstOperand
+import io.github.charlietap.chasm.fixture.ir.instruction.i32LoadInstruction
+import io.github.charlietap.chasm.fixture.ir.instruction.i32SubInstruction
 import io.github.charlietap.chasm.fixture.ir.instruction.ifInstruction
 import io.github.charlietap.chasm.fixture.ir.instruction.localGetInstruction
 import io.github.charlietap.chasm.fixture.ir.instruction.localGetOperand
 import io.github.charlietap.chasm.fixture.ir.instruction.localSetDestination
 import io.github.charlietap.chasm.fixture.ir.instruction.localSetInstruction
+import io.github.charlietap.chasm.fixture.ir.instruction.localTeeInstruction
+import io.github.charlietap.chasm.fixture.ir.instruction.memArg
 import io.github.charlietap.chasm.fixture.ir.instruction.nopInstruction
+import io.github.charlietap.chasm.fixture.ir.instruction.refAsNonNullInstruction
+import io.github.charlietap.chasm.fixture.ir.instruction.refFuncInstruction
 import io.github.charlietap.chasm.fixture.ir.instruction.selectInstruction
 import io.github.charlietap.chasm.fixture.ir.instruction.valueStackDestination
 import io.github.charlietap.chasm.fixture.ir.instruction.valueStackOperand
 import io.github.charlietap.chasm.fixture.ir.module.function
 import io.github.charlietap.chasm.fixture.ir.module.functionIndex
 import io.github.charlietap.chasm.fixture.ir.module.globalIndex
+import io.github.charlietap.chasm.fixture.ir.module.local
 import io.github.charlietap.chasm.fixture.ir.module.localIndex
+import io.github.charlietap.chasm.fixture.ir.module.memory
+import io.github.charlietap.chasm.fixture.ir.module.memoryIndex
 import io.github.charlietap.chasm.fixture.ir.module.module
 import io.github.charlietap.chasm.fixture.ir.module.type
 import io.github.charlietap.chasm.fixture.ir.module.typeIndex
+import io.github.charlietap.chasm.fixture.type.concreteDefinedTypeHeapType
 import io.github.charlietap.chasm.fixture.type.definedType
+import io.github.charlietap.chasm.fixture.type.functionHeapType
 import io.github.charlietap.chasm.fixture.type.functionRecursiveType
 import io.github.charlietap.chasm.fixture.type.functionType
 import io.github.charlietap.chasm.fixture.type.i32ValueType
+import io.github.charlietap.chasm.fixture.type.refNonNullReferenceType
+import io.github.charlietap.chasm.fixture.type.refNullReferenceType
+import io.github.charlietap.chasm.fixture.type.referenceValueType
 import io.github.charlietap.chasm.fixture.type.resultType
+import io.github.charlietap.chasm.ir.instruction.MemorySuperInstruction
+import io.github.charlietap.chasm.ir.instruction.NumericSuperInstruction
+import io.github.charlietap.chasm.ir.instruction.ReferenceSuperInstruction
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -262,6 +281,316 @@ class FusionPassTest {
                 localIdx = localIndex(0),
             ),
         )
+        val actual = FusionPass(context, module).functions[0].body.instructions
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `can fuse a producer into local tee while retaining its stack result`() {
+        val instructions = listOf(
+            localGetInstruction(localIndex(0)),
+            localGetInstruction(localIndex(1)),
+            i32AddInstruction(),
+            localTeeInstruction(localIndex(2)),
+        )
+        val module = module(
+            functions = listOf(
+                function(
+                    body = expression(instructions),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+
+        val expected = listOf(
+            fusedI32Add(
+                left = localGetOperand(localIndex(0)),
+                right = localGetOperand(localIndex(1)),
+                destination = localSetDestination(localIndex(2)),
+            ),
+            localGetInstruction(localIndex(2)),
+        )
+
+        val actual = FusionPass(context, module).functions[0].body.instructions
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `can fuse a memory load into local tee while retaining its stack result`() {
+        val recursiveType = functionRecursiveType(
+            functionType(
+                params = resultType(types = listOf(i32ValueType())),
+            ),
+        )
+        val instructions = listOf(
+            localGetInstruction(localIndex(0)),
+            i32LoadInstruction(memoryIndex(0), memArg()),
+            localTeeInstruction(localIndex(1)),
+        )
+        val module = module(
+            types = listOf(type(recursiveType = recursiveType)),
+            definedTypes = listOf(definedType(recursiveType = recursiveType)),
+            functions = listOf(
+                function(
+                    typeIndex = typeIndex(0),
+                    locals = listOf(local(localIndex(1), i32ValueType())),
+                    body = expression(instructions),
+                ),
+            ),
+            memories = listOf(memory(memoryIndex(0))),
+        )
+        val context = passContext(module = module)
+
+        val expected = listOf(
+            MemorySuperInstruction.I32Load(
+                addressOperand = localGetOperand(localIndex(0)),
+                destination = localSetDestination(localIndex(1)),
+                memoryIndex = memoryIndex(0),
+                memArg = memArg(),
+            ),
+            localGetInstruction(localIndex(1)),
+        )
+
+        val actual = FusionPass(context, module).functions[0].body.instructions
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `can fuse a reference producer into local tee while retaining its stack result`() {
+        val recursiveType = functionRecursiveType(functionType())
+        val functionDefinedType = definedType(recursiveType = recursiveType)
+        val functionReferenceType = refNonNullReferenceType(
+            concreteDefinedTypeHeapType(functionDefinedType),
+        )
+        val instructions = listOf(
+            refFuncInstruction(functionIndex(0)),
+            localTeeInstruction(localIndex(0)),
+        )
+        val module = module(
+            types = listOf(type(recursiveType = recursiveType)),
+            definedTypes = listOf(functionDefinedType),
+            functions = listOf(
+                function(
+                    typeIndex = typeIndex(0),
+                    locals = listOf(
+                        local(
+                            localIndex(0),
+                            referenceValueType(functionReferenceType),
+                        ),
+                    ),
+                    body = expression(instructions),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+
+        val expected = listOf(
+            ReferenceSuperInstruction.RefFunc(
+                destination = localSetDestination(localIndex(0)),
+                funcIdx = functionIndex(0),
+            ),
+            localGetInstruction(localIndex(0)),
+        )
+
+        val actual = FusionPass(context, module).functions[0].body.instructions
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `can fuse ref as non null into local tee while retaining its stack result`() {
+        val heapType = functionHeapType()
+        val nullableFunctionReference = refNullReferenceType(heapType)
+        val functionReference = refNonNullReferenceType(heapType)
+        val recursiveType = functionRecursiveType(
+            functionType(
+                params = resultType(
+                    types = listOf(referenceValueType(nullableFunctionReference)),
+                ),
+            ),
+        )
+        val instructions = listOf(
+            localGetInstruction(localIndex(0)),
+            refAsNonNullInstruction(),
+            localTeeInstruction(localIndex(1)),
+        )
+        val module = module(
+            types = listOf(type(recursiveType = recursiveType)),
+            definedTypes = listOf(definedType(recursiveType = recursiveType)),
+            functions = listOf(
+                function(
+                    typeIndex = typeIndex(0),
+                    locals = listOf(
+                        local(
+                            localIndex(1),
+                            referenceValueType(functionReference),
+                        ),
+                    ),
+                    body = expression(instructions),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+
+        val expected = listOf(
+            ReferenceSuperInstruction.RefAsNonNull(
+                value = localGetOperand(localIndex(0)),
+                destination = localSetDestination(localIndex(1)),
+            ),
+            localGetInstruction(localIndex(1)),
+        )
+
+        val actual = FusionPass(context, module).functions[0].body.instructions
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `does not consume local tee when a noncommutative producer cannot fuse`() {
+        val instructions = listOf(
+            globalGetInstruction(globalIndex(0)),
+            globalGetInstruction(globalIndex(1)),
+            i32SubInstruction(),
+            localTeeInstruction(localIndex(0)),
+        )
+        val module = module(
+            functions = listOf(
+                function(
+                    body = expression(instructions),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+
+        val actual = FusionPass(context, module).functions[0].body.instructions
+
+        assertEquals(instructions, actual)
+    }
+
+    @Test
+    fun `consumes local tee when a noncommutative producer can fuse`() {
+        val instructions = listOf(
+            localGetInstruction(localIndex(0)),
+            localGetInstruction(localIndex(1)),
+            i32SubInstruction(),
+            localTeeInstruction(localIndex(2)),
+        )
+        val module = module(
+            functions = listOf(
+                function(
+                    body = expression(instructions),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+        val expected = listOf(
+            NumericSuperInstruction.I32Sub(
+                left = localGetOperand(localIndex(0)),
+                right = localGetOperand(localIndex(1)),
+                destination = localSetDestination(localIndex(2)),
+            ),
+            localGetInstruction(localIndex(2)),
+        )
+
+        val actual = FusionPass(context, module).functions[0].body.instructions
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `preserves constant and local get tee operand fusion`() {
+        val instructions = listOf(
+            i32ConstInstruction(5),
+            localTeeInstruction(localIndex(0)),
+            localGetInstruction(localIndex(1)),
+            localTeeInstruction(localIndex(2)),
+        )
+        val module = module(
+            functions = listOf(
+                function(
+                    body = expression(instructions),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+        val expected = listOf(
+            fusedLocalTee(
+                operand = i32ConstOperand(5),
+                localIdx = localIndex(0),
+            ),
+            fusedLocalTee(
+                operand = localGetOperand(localIndex(1)),
+                localIdx = localIndex(2),
+            ),
+        )
+
+        val actual = FusionPass(context, module).functions[0].body.instructions
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `retains the synthetic tee result for a following branch`() {
+        val instructions = listOf(
+            localGetInstruction(localIndex(0)),
+            localGetInstruction(localIndex(1)),
+            i32AddInstruction(),
+            localTeeInstruction(localIndex(2)),
+            brIfInstruction(),
+        )
+        val module = module(
+            functions = listOf(
+                function(
+                    body = expression(instructions),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+        val expected = listOf(
+            fusedI32Add(
+                left = localGetOperand(localIndex(0)),
+                right = localGetOperand(localIndex(1)),
+                destination = localSetDestination(localIndex(2)),
+            ),
+            localGetInstruction(localIndex(2)),
+            brIfInstruction(),
+        )
+
+        val actual = FusionPass(context, module).functions[0].body.instructions
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `retains the first tee result for a chained tee`() {
+        val instructions = listOf(
+            localGetInstruction(localIndex(0)),
+            localGetInstruction(localIndex(1)),
+            i32AddInstruction(),
+            localTeeInstruction(localIndex(2)),
+            localTeeInstruction(localIndex(3)),
+        )
+        val module = module(
+            functions = listOf(
+                function(
+                    body = expression(instructions),
+                ),
+            ),
+        )
+        val context = passContext(module = module)
+        val expected = listOf(
+            fusedI32Add(
+                left = localGetOperand(localIndex(0)),
+                right = localGetOperand(localIndex(1)),
+                destination = localSetDestination(localIndex(2)),
+            ),
+            localGetInstruction(localIndex(2)),
+            localTeeInstruction(localIndex(3)),
+        )
+
         val actual = FusionPass(context, module).functions[0].body.instructions
 
         assertEquals(expected, actual)

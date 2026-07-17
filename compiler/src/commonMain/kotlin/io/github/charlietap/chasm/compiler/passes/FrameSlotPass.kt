@@ -1682,15 +1682,21 @@ private fun FrameSlotLocalSetLowerer(
         newValue = loweredOperand.lowered,
         state = state,
     )
+    val localSlot = state.localSlot(localIdx.idx)
+    val writesBackToSameLocal = loweredOperand.lowered.let { lowered ->
+        lowered is FusedOperand.FrameSlot && lowered.offset == localSlot
+    }
 
     return buildList {
         addAll(preserveAliases)
-        add(
-            VariableSuperInstruction.LocalSet(
-                operand = loweredOperand.lowered,
-                localIdx = localIdx,
-            ),
-        )
+        if (!writesBackToSameLocal) {
+            add(
+                VariableSuperInstruction.LocalSet(
+                    operand = loweredOperand.lowered,
+                    localIdx = localIdx,
+                ),
+            )
+        }
     }
 }
 
@@ -1705,6 +1711,10 @@ private fun FrameSlotLocalTeeLowerer(
         newValue = loweredOperand.lowered,
         state = state,
     )
+    val localSlot = state.localSlot(localIdx.idx)
+    val writesBackToSameLocal = loweredOperand.lowered.let { lowered ->
+        lowered is FusedOperand.FrameSlot && lowered.offset == localSlot
+    }
     state.pushStackOperand(
         FrameSlotStackOperandForTeeResult(
             operand = operand,
@@ -1716,12 +1726,14 @@ private fun FrameSlotLocalTeeLowerer(
 
     return buildList {
         addAll(preserveAliases)
-        add(
-            VariableSuperInstruction.LocalSet(
-                operand = loweredOperand.lowered,
-                localIdx = localIdx,
-            ),
-        )
+        if (!writesBackToSameLocal) {
+            add(
+                VariableSuperInstruction.LocalSet(
+                    operand = loweredOperand.lowered,
+                    localIdx = localIdx,
+                ),
+            )
+        }
     }
 }
 
@@ -1734,13 +1746,11 @@ private fun FrameSlotSelectLowerer(
     val val1 = FrameSlotOperandLowerer(instruction.val1, state) ?: return null
     val destination = FrameSlotDestinationLowerer(instruction.destination, state) ?: return null
 
-    return listOf(
-        instruction.copy(
-            const = const.lowered,
-            val1 = val1.lowered,
-            val2 = val2.lowered,
-            destination = destination.lowered(val1.consumed + val2.consumed),
-        ),
+    return destination.prelude + instruction.copy(
+        const = const.lowered,
+        val1 = val1.lowered,
+        val2 = val2.lowered,
+        destination = destination.lowered(val1.consumed + val2.consumed),
     )
 }
 
@@ -1803,7 +1813,7 @@ private inline fun <T : Instruction> FrameSlotDestinationOnlyLowerer(
     rewrite: (FusedDestination) -> T,
 ): List<Instruction>? {
     val loweredDestination = FrameSlotDestinationLowerer(destination, state) ?: return null
-    return listOf(rewrite(loweredDestination.lowered(emptyList())))
+    return loweredDestination.prelude + rewrite(loweredDestination.lowered(emptyList()))
 }
 
 private inline fun <T : Instruction> FrameSlotOperandListLowerer(
@@ -1824,11 +1834,9 @@ private inline fun <T : Instruction> FrameSlotUnaryLowerer(
     val loweredOperand = FrameSlotOperandLowerer(operand, state) ?: return null
     val loweredDestination = FrameSlotDestinationLowerer(destination, state) ?: return null
 
-    return listOf(
-        rewrite(
-            loweredOperand.lowered,
-            loweredDestination.lowered(loweredOperand.consumed),
-        ),
+    return loweredDestination.prelude + rewrite(
+        loweredOperand.lowered,
+        loweredDestination.lowered(loweredOperand.consumed),
     )
 }
 
@@ -1843,11 +1851,12 @@ private fun FrameSlotBitcastLowerer(
         destination = destination,
         state = state,
         valueType = resultType,
+        preservedValue = loweredOperand.lowered,
     ) ?: return null
     val loweredBitcastDestination = loweredDestination.lowered(loweredOperand.consumed)
     val destinationSlot = (loweredBitcastDestination as? FusedDestination.FrameSlot)?.offset ?: return null
 
-    return when (val lowered = loweredOperand.lowered) {
+    val loweredInstruction = when (val lowered = loweredOperand.lowered) {
         is FusedOperand.FrameSlot -> {
             if (lowered.offset == destinationSlot) {
                 emptyList()
@@ -1867,6 +1876,7 @@ private fun FrameSlotBitcastLowerer(
         FusedOperand.ValueStack,
         -> error("unexpected lowered bitcast operand: $lowered")
     }
+    return loweredDestination.prelude + loweredInstruction
 }
 
 private inline fun <T : Instruction> FrameSlotBinaryLowerer(
@@ -1880,12 +1890,10 @@ private inline fun <T : Instruction> FrameSlotBinaryLowerer(
     val loweredRight = FrameSlotOperandLowerer(right, state) ?: return null
     val loweredDestination = FrameSlotDestinationLowerer(destination, state) ?: return null
 
-    return listOf(
-        rewrite(
-            loweredLeft.lowered,
-            loweredRight.lowered,
-            loweredDestination.lowered(loweredLeft.consumed + loweredRight.consumed),
-        ),
+    return loweredDestination.prelude + rewrite(
+        loweredLeft.lowered,
+        loweredRight.lowered,
+        loweredDestination.lowered(loweredLeft.consumed + loweredRight.consumed),
     )
 }
 
@@ -1898,12 +1906,10 @@ private inline fun <T : Instruction> FrameSlotStackBinaryLowerer(
     val loweredLeft = FrameSlotOperandLowerer(FusedOperand.ValueStack, state) ?: return null
     val loweredDestination = FrameSlotDestinationLowerer(destination, state) ?: return null
 
-    return listOf(
-        rewrite(
-            loweredLeft.lowered,
-            loweredRight.lowered,
-            loweredDestination.lowered(loweredLeft.consumed + loweredRight.consumed),
-        ),
+    return loweredDestination.prelude + rewrite(
+        loweredLeft.lowered,
+        loweredRight.lowered,
+        loweredDestination.lowered(loweredLeft.consumed + loweredRight.consumed),
     )
 }
 
@@ -1951,13 +1957,11 @@ private inline fun <T : Instruction> FrameSlotBinaryDualDestinationLowerer(
         state = state,
     ) ?: return null
 
-    return listOf(
-        rewrite(
-            loweredLeft.lowered,
-            loweredRight.lowered,
-            loweredDestinations[0],
-            loweredDestinations[1],
-        ),
+    return loweredDestinations.prelude + rewrite(
+        loweredLeft.lowered,
+        loweredRight.lowered,
+        loweredDestinations.destinations[0],
+        loweredDestinations.destinations[1],
     )
 }
 
@@ -1987,37 +1991,32 @@ private inline fun <T : Instruction> FrameSlotQuadOperandDualDestinationLowerer(
         state = state,
     ) ?: return null
 
-    return listOf(
-        rewrite(
-            loweredOperand1.lowered,
-            loweredOperand2.lowered,
-            loweredOperand3.lowered,
-            loweredOperand4.lowered,
-            loweredDestinations[0],
-            loweredDestinations[1],
-        ),
+    return loweredDestinations.prelude + rewrite(
+        loweredOperand1.lowered,
+        loweredOperand2.lowered,
+        loweredOperand3.lowered,
+        loweredOperand4.lowered,
+        loweredDestinations.destinations[0],
+        loweredDestinations.destinations[1],
     )
 }
+
+private data class LoweredDestinations(
+    val prelude: List<Instruction>,
+    val destinations: List<FusedDestination>,
+)
 
 private fun FrameSlotMultiDestinationLowerer(
     destinations: List<FusedDestination>,
     state: FrameSlotState,
-): List<FusedDestination>? = destinations.map { destination ->
-    when (destination) {
-        is FusedDestination.FrameSlot,
-        -> destination
-        is FusedDestination.LocalSet -> FusedDestination.FrameSlot(state.localSlot(destination.index.idx))
-        FusedDestination.ValueStack -> {
-            val slot = state.allocator.allocateTemporarySlot()
-            state.pushStackOperand(
-                FrameSlotStackOperand(
-                    type = null,
-                    reservedSlot = slot,
-                ),
-            )
-            FusedDestination.FrameSlot(slot)
-        }
+): LoweredDestinations? {
+    val loweredDestinations = destinations.map { destination ->
+        FrameSlotDestinationLowerer(destination, state) ?: return null
     }
+    return LoweredDestinations(
+        prelude = loweredDestinations.flatMap(LoweredDestination::prelude),
+        destinations = loweredDestinations.map { destination -> destination.lowered(emptyList()) },
+    )
 }
 
 private fun FrameSlotReferenceInstructionLowerer(
@@ -2163,7 +2162,7 @@ private fun FrameSlotAggregateInstructionLowerer(
         val destination = FrameSlotDestinationLowerer(instruction.destination, state) ?: return null
         val (materializeValues, valueSlots) = FrameSlotOperandSlots(values.lowered, values.sources, state) ?: return null
 
-        materializeValues + listOf(
+        materializeValues + destination.prelude + listOf(
             instruction.copy(
                 destination = destination.lowered(values.consumed),
                 valueSlots = valueSlots,
@@ -2242,7 +2241,7 @@ private fun FrameSlotAggregateInstructionLowerer(
         val destination = FrameSlotDestinationLowerer(instruction.destination, state) ?: return null
         val (materializeFields, fieldSlots) = FrameSlotOperandSlots(fields.lowered, fields.sources, state) ?: return null
 
-        materializeFields + listOf(
+        materializeFields + destination.prelude + listOf(
             instruction.copy(
                 destination = destination.lowered(fields.consumed),
                 fieldSlots = fieldSlots,
@@ -3110,13 +3109,11 @@ private inline fun <T : Instruction> FrameSlotRawNumericBinaryDualDestinationLow
         state = state,
     ) ?: return null
 
-    return listOf(
-        rewrite(
-            loweredLeft.lowered,
-            loweredRight.lowered,
-            loweredDestinations[0],
-            loweredDestinations[1],
-        ),
+    return loweredDestinations.prelude + rewrite(
+        loweredLeft.lowered,
+        loweredRight.lowered,
+        loweredDestinations.destinations[0],
+        loweredDestinations.destinations[1],
     )
 }
 
@@ -3140,15 +3137,13 @@ private inline fun <T : Instruction> FrameSlotRawNumericQuadDualDestinationLower
         state = state,
     ) ?: return null
 
-    return listOf(
-        rewrite(
-            loweredLeftLow.lowered,
-            loweredLeftHigh.lowered,
-            loweredRightLow.lowered,
-            loweredRightHigh.lowered,
-            loweredDestinations[0],
-            loweredDestinations[1],
-        ),
+    return loweredDestinations.prelude + rewrite(
+        loweredLeftLow.lowered,
+        loweredLeftHigh.lowered,
+        loweredRightLow.lowered,
+        loweredRightHigh.lowered,
+        loweredDestinations.destinations[0],
+        loweredDestinations.destinations[1],
     )
 }
 
@@ -3483,7 +3478,7 @@ private fun FrameSlotCopyInstructions(
 
 private fun FrameSlotPreserveOverwrittenLocalSlot(
     localIndex: Int,
-    newValue: FusedOperand,
+    newValue: FusedOperand?,
     state: FrameSlotState,
 ): List<Instruction> {
     val localSlot = state.localSlot(localIndex)
@@ -3726,6 +3721,7 @@ private fun FrameSlotPushResultOperands(
 }
 
 private data class LoweredDestination(
+    val prelude: List<Instruction> = emptyList(),
     val lowered: (List<Int>) -> FusedDestination,
 )
 
@@ -3733,12 +3729,20 @@ private fun FrameSlotDestinationLowerer(
     destination: FusedDestination,
     state: FrameSlotState,
     valueType: ValueType? = null,
+    preservedValue: FusedOperand? = null,
 ): LoweredDestination? = when (destination) {
     is FusedDestination.FrameSlot,
     -> LoweredDestination { destination }
-    is FusedDestination.LocalSet -> LoweredDestination {
-        FusedDestination.FrameSlot(state.localSlot(destination.index.idx))
-    }
+    is FusedDestination.LocalSet -> LoweredDestination(
+        prelude = FrameSlotPreserveOverwrittenLocalSlot(
+            localIndex = destination.index.idx,
+            newValue = preservedValue,
+            state = state,
+        ),
+        lowered = {
+            FusedDestination.FrameSlot(state.localSlot(destination.index.idx))
+        },
+    )
     FusedDestination.ValueStack -> LoweredDestination { consumedSlots ->
         val slot = consumedSlots.lastOrNull()
             ?.takeIf(state::canReuseValueStackDestinationSlot)

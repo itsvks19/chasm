@@ -23,6 +23,7 @@ internal fun ReferenceInstructionFuser(
     output = output,
     operandFactory = ::FusedOperandFactory,
     destinationFactory = ::FusedDestinationFactory,
+    unop = ::UnopFuser,
 )
 
 internal inline fun ReferenceInstructionFuser(
@@ -33,12 +34,12 @@ internal inline fun ReferenceInstructionFuser(
     output: MutableList<Instruction>,
     operandFactory: FusedOperandFactory,
     destinationFactory: FusedDestinationFactory,
+    unop: UnopFuser,
 ): Int = when (instruction) {
     is ReferenceInstruction.RefCast -> {
-        var nextIndex = index
-
         val reference = input.getOrNull(index - 1)?.let(operandFactory)
-        val destination = input.getOrNull(index + 1).let(destinationFactory)
+        val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+        val destination = destinationPlan.destination
 
         val instruction = if (reference == null && destination == FusedDestination.ValueStack) {
             instruction
@@ -62,18 +63,13 @@ internal inline fun ReferenceInstructionFuser(
 
         output.add(instruction)
 
-        if (destination != FusedDestination.ValueStack) {
-            nextIndex++
-        }
-
-        nextIndex
+        destinationPlan.complete(index, output, destination != FusedDestination.ValueStack)
     }
     is ReferenceInstruction.RefEq -> {
-        var nextIndex = index
-
         val reference1 = input.getOrNull(index - 1)?.let(operandFactory)
         val reference2 = input.getOrNull(index - 2)?.let(operandFactory)
-        val destination = input.getOrNull(index + 1).let(destinationFactory)
+        val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+        val destination = destinationPlan.destination
 
         val instruction = if (reference1 == null && destination == FusedDestination.ValueStack) {
             instruction
@@ -106,17 +102,12 @@ internal inline fun ReferenceInstructionFuser(
 
         output.add(instruction)
 
-        if (destination != FusedDestination.ValueStack) {
-            nextIndex++
-        }
-
-        nextIndex
+        destinationPlan.complete(index, output, destination != FusedDestination.ValueStack)
     }
     is ReferenceInstruction.RefIsNull -> {
-        var nextIndex = index
-
         val value = input.getOrNull(index - 1)?.let(operandFactory)
-        val destination = input.getOrNull(index + 1).let(destinationFactory)
+        val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+        val destination = destinationPlan.destination
 
         val instruction = if (value == null && destination == FusedDestination.ValueStack) {
             instruction
@@ -138,16 +129,11 @@ internal inline fun ReferenceInstructionFuser(
 
         output.add(instruction)
 
-        if (destination != FusedDestination.ValueStack) {
-            nextIndex++
-        }
-
-        nextIndex
+        destinationPlan.complete(index, output, destination != FusedDestination.ValueStack)
     }
     is ReferenceInstruction.RefNull -> {
-        var nextIndex = index
-
-        val destination = input.getOrNull(index + 1).let(destinationFactory)
+        val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+        val destination = destinationPlan.destination
 
         val instruction = if (destination == FusedDestination.ValueStack) {
             instruction
@@ -160,17 +146,41 @@ internal inline fun ReferenceInstructionFuser(
 
         output.add(instruction)
 
-        if (destination != FusedDestination.ValueStack) {
-            nextIndex++
+        destinationPlan.complete(index, output, destination != FusedDestination.ValueStack)
+    }
+    is ReferenceInstruction.RefFunc -> {
+        val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+        val destination = destinationPlan.destination
+
+        val instruction = if (destination == FusedDestination.ValueStack) {
+            instruction
+        } else {
+            ReferenceSuperInstruction.RefFunc(
+                destination = destination,
+                funcIdx = instruction.funcIdx,
+            )
         }
 
-        nextIndex
-    }
-    is ReferenceInstruction.RefTest -> {
-        var nextIndex = index
+        output.add(instruction)
 
+        destinationPlan.complete(index, output, destination != FusedDestination.ValueStack)
+    }
+    is ReferenceInstruction.RefAsNonNull -> unop(
+        index,
+        instruction,
+        input,
+        output,
+        { value, destination ->
+            ReferenceSuperInstruction.RefAsNonNull(
+                value = value,
+                destination = destination,
+            )
+        },
+    )
+    is ReferenceInstruction.RefTest -> {
         val reference = input.getOrNull(index - 1)?.let(operandFactory)
-        val destination = input.getOrNull(index + 1).let(destinationFactory)
+        val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+        val destination = destinationPlan.destination
 
         val instruction = if (reference == null && destination == FusedDestination.ValueStack) {
             instruction
@@ -194,14 +204,6 @@ internal inline fun ReferenceInstructionFuser(
 
         output.add(instruction)
 
-        if (destination != FusedDestination.ValueStack) {
-            nextIndex++
-        }
-
-        nextIndex
-    }
-    else -> {
-        output.add(instruction)
-        index
+        destinationPlan.complete(index, output, destination != FusedDestination.ValueStack)
     }
 }

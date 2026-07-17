@@ -30,11 +30,10 @@ internal inline fun CommutativeBinopFuser(
     destinationFactory: FusedDestinationFactory,
 ): Int {
 
-    var nextIndex = index
-
     val right = input.getOrNull(index - 1)?.let(operandFactory)
     val left = input.getOrNull(index - 2)?.let(operandFactory)
-    val destination = input.getOrNull(index + 1).let(destinationFactory)
+    val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+    val destination = destinationPlan.destination
 
     val instruction = when {
         right == null && destination == FusedDestination.ValueStack -> instruction
@@ -60,9 +59,9 @@ internal inline fun CommutativeBinopFuser(
 
     output.add(instruction)
 
-    if (destination != FusedDestination.ValueStack) {
-        nextIndex++
-    }
-
-    return nextIndex
+    return destinationPlan.complete(
+        index = index,
+        output = output,
+        destinationConsumed = destination != FusedDestination.ValueStack,
+    )
 }

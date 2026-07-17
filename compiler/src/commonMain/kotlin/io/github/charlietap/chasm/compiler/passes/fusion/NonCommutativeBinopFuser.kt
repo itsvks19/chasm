@@ -45,11 +45,10 @@ internal inline fun NonCommutativeBinopFuser(
     destinationFactory: FusedDestinationFactory,
 ): Int {
 
-    var nextIndex = index
-
     val right = input.getOrNull(index - 1)?.let(operandFactory)
     val left = input.getOrNull(index - 2)?.let(operandFactory)
-    val destination = input.getOrNull(index + 1).let(destinationFactory)
+    val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+    val destination = destinationPlan.destination
 
     val instruction = when {
         right == null -> instruction
@@ -66,9 +65,9 @@ internal inline fun NonCommutativeBinopFuser(
 
     output.add(instruction)
 
-    if (right != null && destination != FusedDestination.ValueStack) {
-        nextIndex++
-    }
-
-    return nextIndex
+    return destinationPlan.complete(
+        index = index,
+        output = output,
+        destinationConsumed = right != null && destination != FusedDestination.ValueStack,
+    )
 }

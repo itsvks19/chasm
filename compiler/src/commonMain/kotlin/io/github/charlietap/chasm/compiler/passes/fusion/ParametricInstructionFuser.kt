@@ -37,12 +37,11 @@ internal inline fun ParametricInstructionFuser(
     is ParametricInstruction.Select,
     is ParametricInstruction.SelectWithType,
     -> {
-        var nextIndex = index
-
         val const = input.getOrNull(index - 1)?.let(operandFactory)
         val val2 = input.getOrNull(index - 2)?.let(operandFactory)
         val val1 = input.getOrNull(index - 3)?.let(operandFactory)
-        val destination = input.getOrNull(index + 1).let(destinationFactory)
+        val destinationPlan = input.getOrNull(index + 1).let(destinationFactory)
+        val destination = destinationPlan.destination
 
         val instruction = if (const == null && destination == FusedDestination.ValueStack) {
             instruction
@@ -89,11 +88,11 @@ internal inline fun ParametricInstructionFuser(
 
         output.add(instruction)
 
-        if (destination != FusedDestination.ValueStack) {
-            nextIndex++
-        }
-
-        nextIndex
+        destinationPlan.complete(
+            index = index,
+            output = output,
+            destinationConsumed = destination != FusedDestination.ValueStack,
+        )
     }
     else -> {
         output.add(instruction)
