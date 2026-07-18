@@ -6,7 +6,9 @@ import com.github.michaelbull.result.binding
 import io.github.charlietap.chasm.ast.instruction.ControlInstruction
 import io.github.charlietap.chasm.type.AbstractHeapType
 import io.github.charlietap.chasm.type.HeapType
+import io.github.charlietap.chasm.type.ResultType
 import io.github.charlietap.chasm.type.matching.HeapTypeMatcher
+import io.github.charlietap.chasm.type.matching.ResultTypeMatcher
 import io.github.charlietap.chasm.type.matching.TypeMatcher
 import io.github.charlietap.chasm.validator.context.ModuleValidationContext
 import io.github.charlietap.chasm.validator.error.InstructionValidatorError
@@ -16,6 +18,7 @@ import io.github.charlietap.chasm.validator.ext.functionType
 import io.github.charlietap.chasm.validator.ext.popTableAddress
 import io.github.charlietap.chasm.validator.ext.popValues
 import io.github.charlietap.chasm.validator.ext.pushValues
+import io.github.charlietap.chasm.validator.ext.resultType
 import io.github.charlietap.chasm.validator.ext.tableType
 import io.github.charlietap.chasm.validator.ext.unreachable
 
@@ -26,22 +29,26 @@ internal fun ReturnCallIndirectInstructionValidator(
     ReturnCallIndirectInstructionValidator(
         context = context,
         instruction = instruction,
-        typeMatcher = ::HeapTypeMatcher,
+        heapTypeMatcher = ::HeapTypeMatcher,
+        resultTypeMatcher = ::ResultTypeMatcher,
     )
 
 internal inline fun ReturnCallIndirectInstructionValidator(
     context: ModuleValidationContext,
     instruction: ControlInstruction.ReturnCallIndirect,
-    crossinline typeMatcher: TypeMatcher<HeapType>,
+    crossinline heapTypeMatcher: TypeMatcher<HeapType>,
+    crossinline resultTypeMatcher: TypeMatcher<ResultType>,
 ): Result<Unit, ModuleValidatorError> = binding {
 
     val tableType = context.tableType(instruction.tableIndex).bind()
-    if (!typeMatcher(AbstractHeapType.Func, tableType.referenceType.heapType, context)) {
+    if (!heapTypeMatcher(AbstractHeapType.Func, tableType.referenceType.heapType, context)) {
         Err(InstructionValidatorError.CallIndirectOnNonFunction).bind()
     }
 
     val functionType = context.functionType(instruction.typeIndex).bind()
-    if (functionType.results != context.result) {
+    val resultType = context.resultType().bind()
+
+    if (!resultTypeMatcher(functionType.results, resultType, context)) {
         Err(TypeValidatorError.TypeMismatch).bind<Unit>()
     }
 
