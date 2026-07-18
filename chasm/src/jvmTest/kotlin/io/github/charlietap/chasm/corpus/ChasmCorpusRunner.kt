@@ -159,6 +159,7 @@ class ChasmCorpusRunner(
                         hosts = importResolution.hosts,
                         stdout = importResolution.stdout,
                         stderr = importResolution.stderr,
+                        importCaptures = importResolution.importCaptures,
                     ),
                 )
             },
@@ -181,6 +182,7 @@ class ChasmCorpusRunner(
         val hosts = mutableListOf<EmbedderHost>()
         val stdout = mutableListOf<Byte>()
         val stderr = mutableListOf<Byte>()
+        val importCaptures = mutableMapOf<String, ImportCapture>()
         val emscriptenFinalizers = mutableListOf<ChasmEmscriptenHostBuilder.ChasmEmscriptenSetupFinalizer>()
         val wasiImportModules = setOf(WASI_SNAPSHOT_PREVIEW_1, WASI_UNSTABLE)
         val hasWasiImports = module.imports.any { it.moduleName in wasiImportModules }
@@ -228,10 +230,22 @@ class ChasmCorpusRunner(
             when (val type = definition.type) {
                 is ExternalType.Function -> {
                     val fixtureImport = fixture.findImport(definition.moduleName, definition.entityName)
+                    fixtureImport?.stub?.capture?.let { capture ->
+                        val existing = importCaptures[capture.name]
+                        val maxCalls = capture.maxCalls ?: Int.MAX_VALUE
+                        if (existing == null) {
+                            importCaptures[capture.name] = ImportCapture(maxCalls = maxCalls)
+                        } else {
+                            existing.maxCalls = maxOf(existing.maxCalls, maxCalls)
+                        }
+                    }
                     imports += Import(
                         definition.moduleName,
                         definition.entityName,
-                        function(store, type.functionType) { _ ->
+                        function(store, type.functionType) { params ->
+                            fixtureImport?.stub?.capture?.let { capture ->
+                                importCaptures.getValue(capture.name).append(capture, params)
+                            }
                             fixtureImport?.stub?.trap?.let(::error)
                             defaultResults(type.functionType, fixtureImport)
                         },
@@ -260,7 +274,7 @@ class ChasmCorpusRunner(
         }
 
         return RunnerResult.Success(
-            ImportResolution(imports, memories, globals, hosts, stdout, stderr, emscriptenFinalizers),
+            ImportResolution(imports, memories, globals, hosts, stdout, stderr, importCaptures, emscriptenFinalizers),
         )
     }
 
@@ -430,6 +444,27 @@ class ChasmCorpusRunner(
             val actual = setup.stderr.toByteArray()
             if (!expectedBytes.contentEquals(actual)) {
                 return failure(fixture, context, "stderr mismatch", expected = expectedBytes.toHex(), actual = actual.toHex())
+            }
+        }
+
+        hostEffects["import_captures"]?.jsonArray?.forEach { element ->
+            val assertion = element.jsonObject
+            val name = assertion.string("name")
+            val capture = setup.importCaptures[name]
+                ?: return failure(fixture, context, "missing import capture", expected = name)
+            val expected = assertion["text"]?.jsonPrimitive?.contentOrNull?.encodeToByteArray()
+                ?: assertion["bytes"]?.let(::decodeBytes)
+                ?: return failure(fixture, context, "import capture requires text or bytes", name)
+            val actual = capture.text.toString().encodeToByteArray()
+            if (!expected.contentEquals(actual)) {
+                return failure(
+                    fixture,
+                    context,
+                    "import capture mismatch",
+                    detail = name,
+                    expected = expected.toHex(),
+                    actual = actual.toHex(),
+                )
             }
         }
 
@@ -790,6 +825,7 @@ class ChasmCorpusRunner(
         val hosts: List<EmbedderHost>,
         val stdout: MutableList<Byte>,
         val stderr: MutableList<Byte>,
+        val importCaptures: MutableMap<String, ImportCapture>,
         val emscriptenFinalizers: List<ChasmEmscriptenHostBuilder.ChasmEmscriptenSetupFinalizer>,
     )
 
@@ -804,6 +840,7 @@ class ChasmCorpusRunner(
         val hosts: List<EmbedderHost>,
         val stdout: MutableList<Byte>,
         val stderr: MutableList<Byte>,
+        val importCaptures: Map<String, ImportCapture>,
     ) {
         fun functionType(
             store: Store,
@@ -827,6 +864,30 @@ class ChasmCorpusRunner(
         data class Success<T>(val value: T) : RunnerResult<T>
 
         data class Error(val error: CorpusResult) : RunnerResult<Nothing>
+    }
+
+    private data class ImportCapture(
+        val text: StringBuilder = StringBuilder(),
+        var calls: Int = 0,
+        var maxCalls: Int,
+    ) {
+        fun append(
+            capture: io.github.charlietap.corpus.lib.fixture.FixtureImportCapture,
+            params: List<ExecutionValue>,
+        ) {
+            if (calls < maxCalls) {
+                val value = params.getOrNull(capture.param)
+                    ?: error("Import capture ${capture.name} param ${capture.param} is missing")
+                val bits = value.toLongFromBoxed()
+                when (capture.format ?: capture.encoding ?: "utf16_code_unit") {
+                    "utf16_code_unit" -> text.append((bits.toInt() and 0xffff).toChar())
+                    "unicode_code_point" -> text.appendCodePoint(bits.toInt())
+                    "decimal_i32" -> text.append(bits.toInt())
+                    else -> error("Unsupported import capture format: ${capture.format ?: capture.encoding}")
+                }
+            }
+            calls++
+        }
     }
 
     private inline fun <T, R> RunnerResult<T>.fold(

@@ -6,6 +6,7 @@ pluginManagement {
     }
 
     includeBuild("../gradle/plugins/kotlin-conventions")
+    includeBuild("../gradle/plugins/linting-conventions")
 }
 
 plugins {

@@ -80,6 +80,7 @@ corpus {
     phase = io.github.charlietap.corpus.lib.CorpusPhase.INVOCATION
     versions = listOf("1.0", "2.0", "3.0")
     excludedFeatures = listOf("memory64", "simd", "relaxed-simd")
+    excludedTags = listOf("stress-test", "benchmark")
     excludedTargets = listOf(
         // Huge finite loop; valid corpus case, but too slow for the current JVM interpreter path.
         "learning_rate_scheduling",

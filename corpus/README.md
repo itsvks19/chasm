@@ -14,10 +14,11 @@ rather than a published artifact.
 ./gradlew corpus
 ```
 
-The default Chasm slice is intentionally small: Wasm 1.0 invocation fixtures for
-`forward_propagation`, `fibonacci`, `binary_search`, and `quick_sort`, excluding
-`memory64`, `simd`, and `relaxed-simd`. Broader corpus coverage can be enabled by
-changing the `corpus {}` block in `chasm/build.gradle.kts`.
+Chasm runs invocation fixtures for its configured core Wasm versions while
+excluding unsupported features and explicitly excluded targets. The `corpus {}`
+block in `chasm/build.gradle.kts` can filter by versions, source languages,
+required or excluded features, included or excluded canonical tags, maximum
+binary size, maximum test duration, and target names.
 
 `cleanCorpusTests` removes the generated fixture index and test sources. The
 synced corpus checkout is left in place so repeated runs do not need to reclone.
@@ -27,7 +28,7 @@ synced corpus checkout is left in place so repeated runs do not need to reclone.
 The plugin registers:
 
 - `syncWasmCorpus` to clone/fetch and checkout the pinned corpus ref.
-- `resolveCorpusFixtures` to invoke the corpus repository's Node script.
+- `resolveCorpusFixtures` to invoke the corpus repository's Node CLI.
 - `generateCorpusTests` to emit generated Kotlin tests.
 - `corpusMatrix` to print fixture counts by version.
 - `cleanCorpusTests` to remove generated fixture metadata and tests.

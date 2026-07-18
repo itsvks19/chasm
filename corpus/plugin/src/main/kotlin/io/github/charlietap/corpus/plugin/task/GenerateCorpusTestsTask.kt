@@ -1,7 +1,6 @@
 package io.github.charlietap.corpus.plugin.task
 
 import io.github.charlietap.corpus.lib.CorpusPhase
-import java.io.File
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
@@ -20,6 +19,7 @@ import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
+import java.io.File
 
 @CacheableTask
 abstract class GenerateCorpusTestsTask : DefaultTask() {

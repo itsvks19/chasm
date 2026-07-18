@@ -32,6 +32,17 @@ data class FixtureImportStub(
     val returns: List<FixtureValue> = [],
     val trap: String? = null,
     val value: FixtureValue? = null,
+    val capture: FixtureImportCapture? = null,
+)
+
+@Serializable
+data class FixtureImportCapture(
+    val name: String,
+    val param: Int = 0,
+    val format: String? = null,
+    val encoding: String? = null,
+    @SerialName("max_calls")
+    val maxCalls: Int? = null,
 )
 
 @Serializable

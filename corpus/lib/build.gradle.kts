@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 
     alias(libs.plugins.conventions.kotlin)
+    alias(libs.plugins.conventions.linting)
 }
 
 group = "io.github.charlietap.corpus"

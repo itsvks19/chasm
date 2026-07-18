@@ -23,8 +23,9 @@ tasks.register("fmt") {
     description = "Format sources"
 
     val lintingTasks = subprojects.mapNotNull { it.tasks.findByName("formatKotlin") }
+    val corpusLintingTask = gradle.includedBuild("corpus").task(":fmt")
 
-    dependsOn(lintingTasks)
+    dependsOn(lintingTasks, corpusLintingTask)
 }
 
 tasks.register("test") {

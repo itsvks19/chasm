@@ -1,7 +1,5 @@
 package io.github.charlietap.corpus.plugin.task
 
-import java.io.ByteArrayOutputStream
-import javax.inject.Inject
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
@@ -13,14 +11,18 @@ import org.gradle.api.GradleException
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.ListProperty
+import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputDirectory
+import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 import org.gradle.process.ExecOperations
+import java.io.ByteArrayOutputStream
+import javax.inject.Inject
 
 @CacheableTask
 abstract class ResolveCorpusFixturesTask : DefaultTask() {
@@ -33,6 +35,9 @@ abstract class ResolveCorpusFixturesTask : DefaultTask() {
     abstract val versions: ListProperty<String>
 
     @get:Input
+    abstract val languages: ListProperty<String>
+
+    @get:Input
     abstract val requiredFeatures: ListProperty<String>
 
     @get:Input
@@ -40,6 +45,17 @@ abstract class ResolveCorpusFixturesTask : DefaultTask() {
 
     @get:Input
     abstract val tags: ListProperty<String>
+
+    @get:Input
+    abstract val excludedTags: ListProperty<String>
+
+    @get:Input
+    @get:Optional
+    abstract val size: Property<String>
+
+    @get:Input
+    @get:Optional
+    abstract val duration: Property<String>
 
     @get:OutputFile
     abstract val outputFile: RegularFileProperty
@@ -76,6 +92,10 @@ abstract class ResolveCorpusFixturesTask : DefaultTask() {
             add(corpusScript)
             add("--version")
             add(version)
+            languages.get().forEach { language ->
+                add("--language")
+                add(language)
+            }
             requiredFeatures.get().forEach { feature ->
                 add("--feature")
                 add(feature)
@@ -87,6 +107,18 @@ abstract class ResolveCorpusFixturesTask : DefaultTask() {
             tags.get().forEach { tag ->
                 add("--tag")
                 add(tag)
+            }
+            excludedTags.get().forEach { tag ->
+                add("--exclude-tag")
+                add(tag)
+            }
+            if (this@ResolveCorpusFixturesTask.size.isPresent) {
+                add("--size")
+                add(this@ResolveCorpusFixturesTask.size.get())
+            }
+            if (this@ResolveCorpusFixturesTask.duration.isPresent) {
+                add("--duration")
+                add(this@ResolveCorpusFixturesTask.duration.get())
             }
             add("--compact")
         }

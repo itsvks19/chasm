@@ -1,7 +1,7 @@
 package io.github.charlietap.corpus.plugin
 
-import io.github.charlietap.corpus.plugin.task.CorpusMatrixTask
 import io.github.charlietap.corpus.plugin.task.CleanCorpusTestsTask
+import io.github.charlietap.corpus.plugin.task.CorpusMatrixTask
 import io.github.charlietap.corpus.plugin.task.GenerateCorpusTestsTask
 import io.github.charlietap.corpus.plugin.task.ResolveCorpusFixturesTask
 import io.github.charlietap.corpus.plugin.task.SyncCorpusRepositoryTask
@@ -38,9 +38,13 @@ class WasmCorpusPlugin : Plugin<Project> {
 
             corpusDirectory.set(syncCorpus.flatMap { it.outputDirectory })
             versions.set(extension.versions)
+            languages.set(extension.languages)
             requiredFeatures.set(extension.requiredFeatures)
             excludedFeatures.set(extension.excludedFeatures)
             tags.set(extension.tags)
+            excludedTags.set(extension.excludedTags)
+            size.set(extension.size)
+            duration.set(extension.duration)
             outputFile.set(extension.corpusFixtureDirectory.file("fixtures.json"))
         }
 
